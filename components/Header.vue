@@ -28,4 +28,9 @@ export default {
         background-color: white; 
     }
 
+    .navigation a:hover {
+        background-color: #979797; 
+        color: white;
+    }
+
 </style>
