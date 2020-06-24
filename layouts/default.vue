@@ -38,3 +38,13 @@ export default {
   }
 }
 </script>
+
+<style>
+  html, body, #__nuxt, #__layout, #app{
+    margin: O;
+    color: black;
+    background-color: #F0F2F6;
+    width: 100%;
+    height: 100%;
+  }
+</style>
