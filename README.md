@@ -1,4 +1,4 @@
-# nuxt-app-beginner
+# pizzaFast
 
 > My spectacular Nuxt.js project
 
