@@ -29,6 +29,9 @@ export default {
     components: {
         TableCart
     },
+    props: {
+        boolStorage: Boolean
+    },
     data() {
         return {
             tablePizza : ['Pizza', 'Taille', 'Quantité', 'Prix'], 
