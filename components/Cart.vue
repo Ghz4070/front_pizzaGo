@@ -1,45 +1,26 @@
 <template>
-  <div class="d-flex flex-column flex-wrap justify-end test .rounded-xl">
-      <h1>Panier</h1>
-      <div>
-          <form>
-            <label for="promo">Code promo</label>
-            <input type="text">
-            <button>Valider</button>
-          </form>
-      </div>
-      <div>
-          <table>
-            <thead>
-                <tr>
-                    <th>Pizza</th>
-                    <th>Taille</th>
-                    <th>Quantité</th>
-                    <th>Prix</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>name</td>
-                    <td>taille</td>
-                    <td>Quantité</td>
-                    <td>prix</td>
-                </tr>
-            </tbody>
-          </table>
-      </div>
-      <div>
-         <TableCart :thead="tableBoisson" />
-      </div>
-      <div>
-         
-      </div>
-      <div>
-          <p>Total :</p>
-          <p>le montant</p>
-      </div>
-      <a href="">Commander</a>
-  </div>
+  <div class="d-flex flex-column flex-wrap test .rounded-xl">
+        <div class="d-flex flex-column flex-wrap justify-space-around align-center max-width">
+            <h1>Panier</h1>
+            <div>
+                <form>
+                    <label for="promo">Code promo</label>
+                    <div class="d-flex flex-row flex-wrap">
+                        <input type="text">
+                        <button>Valider</button>
+                    </div>
+                </form>
+            </div>
+                <TableCart :thead="tablePizza" className=" d-flex flex-row flex-wrap justify-space-around max-width"/>
+                <TableCart :thead="tableBoisson" className="d-flex flex-row flex-wrap justify-space-around max-width"/>
+                <TableCart :thead="tableDessert" className="d-flex flex-row flex-wrap justify-space-around max-width"/>
+            <div class="d-flex flex-row flex-wrap justify-space-around max-width">
+                <p>Total :</p>
+                <p>le montant</p>
+            </div>
+            <a href="">Commander</a>
+        </div>
+    </div>  
 </template>
 
 <script>
@@ -51,6 +32,7 @@ export default {
     },
     data() {
         return {
+            tablePizza : ['Pizza', 'Taille', 'Quantité', 'Prix'], 
             tableBoisson : ['Boissons', 'Quantité', 'Prix'],
             tableDessert : ['Desserts', 'Quantité', 'Prix']
         }
@@ -63,5 +45,9 @@ export default {
         height: 100%;
         width: 23%;
         border: 3px solid black
+    }
+
+    .max-width {
+        width: 100%;
     }
 </style>
