@@ -1,10 +1,9 @@
 <template>
-  <v-row no-gutters>
-          <!-- <v-col cols="12" sm="12" v-for="category in categories" :key="category.id">
-            <div class="category">Catégorie : {{ category.name }}</div>
-            <v-col v-for="(pizza, index) in pizzas" :key="pizza.id" cols="12" sm="4">
+  <v-row  no-gutters>
+          <v-col cols="12" sm="12" >
+            <div class="category">Boissons</div>
+            <v-col v-for="(drink, index) in drinks" :key="drink.id" cols="12" sm="4">
               <v-card
-                v-if="category.name == pizza.category.name"
                 outlined
                 class="ma-3 pa-3 card_pizza"
                 max-width="400"
@@ -12,13 +11,13 @@
                 <v-img
                   height="200px"
                   class="white--text align-end"
-                  src="https://camionapizzaangouleme.files.wordpress.com/2018/02/pizza-free-png-image.png?w=1200"
+                  src="https://img2.freepng.fr/20180927/ju/kisspng-coca-cola-car-product-design-5baca128a41f25.6167852015380401046723.jpg"
                 ></v-img>
 
-                <v-card-subtitle class="pb-0 pizza_name">{{ pizza.name }}</v-card-subtitle>
+                <v-card-subtitle class="pb-0 pizza_name">{{ drink.name }}</v-card-subtitle>
 
                 <v-card-text class="text--primary center">
-                  <v-select
+                  <!-- <v-select
                     :change="updatePrice(index,pizza.quantity, pizza.price, pizza.size)"
                     v-model="pizza.size"
                     :items="size"
@@ -27,7 +26,7 @@
                   <v-row>
                     <v-col cols="12" sm="6" md="6">
                       <v-text-field
-                        v-model="pizza.quantity"
+                        v-model="drink.quantity"
                         type="number"
                         label="x1"
                         value="1"
@@ -35,14 +34,14 @@
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="6">
-                      <v-text-field disabled label :value="pizza.price+ ' €'" solo></v-text-field>
+                      <v-text-field disabled label :value="drink.price+ ' €'" solo></v-text-field>
                     </v-col>
-                  </v-row>
+                  </v-row> -->
                 </v-card-text>
 
                 <v-card-actions class="center">
                   <v-btn
-                    v-on:click="addToCart(pizza)"
+                    v-on:click="addToCart(drink)"
                     small
                     class="ma-2"
                     outlined
@@ -51,7 +50,7 @@
                 </v-card-actions>
               </v-card>
             </v-col>
-          </v-col> -->
+          </v-col>
         </v-row>
 </template>
 
@@ -61,8 +60,7 @@ import axios from "axios";
 export default {
   data: function() {
     return {
-      drink: [],
-      add: { quantity: 1, size: "M", price: "10" },
+      drinks: [],
       model: {
         promo: null,
         total_price:null,
@@ -75,16 +73,15 @@ export default {
     };
   },
   async mounted() {
-    await this.getDrink();
-    await this.getPizzas();
-    this.formatDatas(this.pizzas);
+    await this.getDrinks();
+    this.formatDatas(this.drinks);
   },
   methods: {
-    getPizzas() {
+    getDrinks() {
       return axios
-        .get(`http://localhost:4000/api/v1/pizza`)
+        .get(`http://localhost:4000/api/v1/drink`)
         .then(res => {
-          this.pizzas = res.data.result;
+          this.drinks = res.data.result;
         })
         .catch(e => {
           console.log("catch");
@@ -108,28 +105,14 @@ export default {
         default:
           break;
       }
-      this.pizzas[i].price = new_price;
+      this.drink[i].price = new_price;
     },
-    formatDatas: function(pizzas) {
-      this.pizzas = [];
-      pizzas.forEach(element => {
+    formatDatas: function(drinks) {
+      this.drinks = [];
+      drinks.forEach(element => {
         let el = Object.assign(element, this.add);
-        this.pizzas = [...this.pizzas, el];
+        this.drinks = [...this.drinks, el];
       });
-    },
-    getCategories() {
-      return axios
-        .get(`http://localhost:4000/api/v1/category`)
-        .then(res => {
-          this.categories = res.data.result;
-        })
-        .catch(e => {
-          console.log("catch");
-        });
-    },
-    changeTab(val) {
-      this.currentTab = val;
-      console.log(val);
     },
     addToCart(pizza) {
       let cart = this.getUserCart();
