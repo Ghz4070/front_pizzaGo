@@ -5,36 +5,29 @@
         <v-row no-gutters>
           <v-col cols="12" sm="12" v-for="category in categories" :key="category.id">
             <div class="category">Catégorie : {{ category.name }}</div>
-            <v-col v-for="pizza in pizzas" :key="pizza.id" cols="12" sm="4">
-              <v-card
-                v-if="category.name == pizza.category.name"
-                outlined=""
-                class="ma-3 pa-3 card_pizza"
-                max-width="400"
-              >
-                <v-img
-                  height="200px"
-                  class="white--text align-end"
+            <v-col v-for="(pizza, index) in pizzas" :key="pizza.id" cols="12" sm="4">
+              <v-card v-if="category.name == pizza.category.name"
+                outlined class="ma-3 pa-3 card_pizza" max-width="400">
+                <v-img height="200px" class="white--text align-end"
                   src="https://camionapizzaangouleme.files.wordpress.com/2018/02/pizza-free-png-image.png?w=1200"
                 ></v-img>
 
                 <v-card-subtitle class="pb-0 pizza_name">{{ pizza.name }}</v-card-subtitle>
 
                 <v-card-text class="text--primary center">
-                  <v-select v-model="size[1]" :items="size" label="Taille"></v-select>
-
+                  <v-select :change="updatePrice(index,pizza.quantity, pizza.price, pizza.size)" v-model="pizza.size" :items="size" label="Taille"></v-select>
                   <v-row>
                     <v-col cols="12" sm="6" md="6">
-                      <v-text-field type="number" label="x1" value="1" solo></v-text-field>
+                      <v-text-field @change="updatePrice(index,pizza.quantity, pizza.price, pizza.size)" v-model="pizza.quantity" type="number" label="x1" value="1" solo></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="6">
-                      <v-text-field disabled label="" value="20 €" solo></v-text-field>
+                      <v-text-field disabled label="" :value="pizza.price+ ' €'" solo></v-text-field>
                     </v-col>
                   </v-row>
                 </v-card-text>
 
                 <v-card-actions class="center">
-                  <v-btn small class="ma-2" outlined color="indigo">Ajouter</v-btn>
+                  <v-btn v-on:click="addToCart(pizza)" small class="ma-2" outlined color="indigo">Ajouter</v-btn>
                 </v-card-actions>
               </v-card>
             </v-col>
@@ -50,39 +43,67 @@ import axios from "axios";
 export default {
   data: function() {
     return {
-      pizzas: null,
+      pizzas: [],
       categories: null,
-      size: ["S", "M", "L", "XL"]
+      size: ["S", "M", "L", "XL"],
+      add: {quantity: 1, size: 'M', price:'10'}
     };
   },
-  mounted() {
-    this.getCategories();
-    this.getPizzas();
+  async mounted() {
+    await this.getCategories();
+    await this.getPizzas();
+    this.formatDatas(this.pizzas);
   },
   methods: {
     getPizzas() {
       return axios
         .get(`http://localhost:4000/api/v1/pizza`)
-        .then(res => {
+        .then((res) => {
           this.pizzas = res.data.result;
-          console.log(this.pizzas);
         })
         .catch(e => {
           console.log("catch");
-          error({ statusCode: 404, message: "Pizza non trouvé" });
         });
+    },
+    updatePrice(i,nb,price,size) {
+      let new_price;
+      switch (size) {
+        case 'S':
+          new_price = nb * 8;
+          break;
+        case 'M':
+          new_price = nb * 10;
+          break;
+        case 'L':
+          new_price = nb * 12;
+          break;
+        case 'XL':
+          new_price = nb * 15;
+          break;
+        default:
+          break;
+      }
+      this.pizzas[i].price = new_price;
+    },
+    formatDatas: function(pizzas) {
+      this.pizzas = [];
+      pizzas.forEach(element => {
+        let el = Object.assign(element, this.add);
+        this.pizzas = [...this.pizzas, el]
+      });
     },
     getCategories() {
       return axios
         .get(`http://localhost:4000/api/v1/category`)
         .then(res => {
           this.categories = res.data.result;
-          console.log(this.categories);
         })
         .catch(e => {
           console.log("catch");
-          error({ statusCode: 404, message: "Catégorie non trouvé" });
         });
+    },
+    addToCart(pizza) {
+      console.log(pizza);
     }
   }
 };
