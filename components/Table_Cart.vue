@@ -1,8 +1,8 @@
 <template>
   <table>
       <thead>
-          <tr v-for="(title, index) in THead" :key="index">
-              <td>{{title}}</td>
+          <tr>
+              <td v-for="(title, index) in Thead" :key="index">{{title}}</td>
           </tr>
       </thead>
       <tbody>
