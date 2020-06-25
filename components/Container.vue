@@ -4,9 +4,14 @@
       <v-container>
         <v-row no-gutters>
           <v-col cols="12" sm="12" v-for="category in categories" :key="category.id">
-            <div class="category"> Catégorie : {{ category.name }} </div>
+            <div class="category">Catégorie : {{ category.name }}</div>
             <v-col v-for="pizza in pizzas" :key="pizza.id" cols="12" sm="4">
-              <v-card v-if="category.name == pizza.category.name" outlined class="ma-3 pa-3" max-width="400">
+              <v-card
+                v-if="category.name == pizza.category.name"
+                outlined=""
+                class="ma-3 pa-3 card_pizza"
+                max-width="400"
+              >
                 <v-img
                   height="200px"
                   class="white--text align-end"
@@ -15,16 +20,21 @@
 
                 <v-card-subtitle class="pb-0 pizza_name">{{ pizza.name }}</v-card-subtitle>
 
-                <v-card-text class="text--primary">
-                  <div>Whitehaven Beach</div>
+                <v-card-text class="text--primary center">
+                  <v-select v-model="size[1]" :items="size" label="Taille"></v-select>
 
-                  <div>Whitsunday Island, Whitsunday Islands</div>
+                  <v-row>
+                    <v-col cols="12" sm="6" md="6">
+                      <v-text-field type="number" label="x1" value="1" solo></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="6">
+                      <v-text-field disabled label="" value="20 €" solo></v-text-field>
+                    </v-col>
+                  </v-row>
                 </v-card-text>
 
-                <v-card-actions>
-                  <v-btn color="orange" text>Share</v-btn>
-
-                  <v-btn color="orange" text>Explore</v-btn>
+                <v-card-actions class="center">
+                  <v-btn small class="ma-2" outlined color="indigo">Ajouter</v-btn>
                 </v-card-actions>
               </v-card>
             </v-col>
@@ -41,7 +51,8 @@ export default {
   data: function() {
     return {
       pizzas: null,
-      categories: null
+      categories: null,
+      size: ["S", "M", "L", "XL"]
     };
   },
   mounted() {
@@ -78,18 +89,31 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
 div {
-  font-family: 'Pacifico', cursive;
+  font-family: "Pacifico", cursive;
+}
+.center {
+  text-align: center;
+  display: block !important;
 }
 .category {
   font-size: 2em;
 }
 .v-image__image--cover {
-    background-size: contain;
+  background-size: contain;
 }
 .pizza_name {
   text-align: center;
   font-size: 20px;
+}
+.v-card__text{
+  padding: 0 16px;
+}
+.v-card__actions {
+    padding: 0;
+}
+.card_pizza {
+  border: 0 !important;
 }
 </style>
