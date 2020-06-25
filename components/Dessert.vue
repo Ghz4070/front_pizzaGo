@@ -1,47 +1,44 @@
 <template>
   <v-row no-gutters>
-            <v-col v-for="(dessert) in desserts" :key="dessert.id" cols="12" sm="4" md="4" lg="4">
-              <v-card
-                outlined
-                class="ma-3 pa-3 card_pizza"
-                max-width="400"
-              >
-                <v-img
-                  height="200px"
-                  class="white--text align-end"
-                  src="https://www.lacuisinedebernard.com/wp-content/uploads/2014/02/Capture-d%E2%80%99e%CC%81cran-2014-02-01-a%CC%80-14.04.22.png"
-                ></v-img>
+    <v-col v-for="(dessert) in desserts" :key="dessert.id" cols="12" sm="4" md="4" lg="4">
+      <v-card outlined class="ma-3 pa-3 card_pizza" max-width="400">
+        <v-img
+          height="200px"
+          class="white--text align-end"
+          src="https://www.lacuisinedebernard.com/wp-content/uploads/2014/02/Capture-d%E2%80%99e%CC%81cran-2014-02-01-a%CC%80-14.04.22.png"
+        ></v-img>
 
-                <v-card-subtitle class="pb-0 pizza_name">{{ dessert.name }}</v-card-subtitle>
-                <v-card-text class="text--primary center">
-                  <v-row>
-                    <v-col cols="12" sm="6" md="6">
-                      <v-text-field
-                        v-model="dessert.quantity"
-                        type="number"
-                        label="x1"
-                        value="1"
-                        solo
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6" md="6">
-                      <v-text-field disabled label :value="dessert.price+ ' €'" solo></v-text-field>
-                    </v-col>
-                  </v-row>
-                </v-card-text>
-
-                <v-card-actions class="center">
-                  <v-btn
-                    v-on:click="addToCart(dessert)"
-                    small
-                    class="ma-2"
-                    outlined
-                    color="indigo"
-                  >Ajouter</v-btn>
-                </v-card-actions>
-              </v-card>
+        <v-card-subtitle class="pb-0 pizza_name">{{ dessert.name }}</v-card-subtitle>
+        <v-card-text class="text--primary center">
+          <v-row>
+            <v-col cols="12" sm="6" md="6">
+              <v-text-field v-model="dessert.quantity" type="number" label="x1" value="1" solo></v-text-field>
             </v-col>
-        </v-row>
+            <v-col cols="12" sm="6" md="6">
+              <v-text-field disabled label :value="dessert.price+ ' €'" solo></v-text-field>
+            </v-col>
+          </v-row>
+        </v-card-text>
+
+        <v-card-actions class="center">
+          <v-btn
+            v-on:click="addToCart(dessert)"
+            @click="dessert_toast.snackbar = true"
+            small
+            class="ma-2"
+            outlined
+            color="indigo"
+          >Ajouter</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-col>
+    <v-snackbar v-model="dessert_toast.snackbar">
+      {{ dessert_toast.text }}
+      <template v-slot:action="{ attrs }">
+        <v-btn color="pink" text v-bind="attrs" @click="dessert_toast.snackbar = false">X</v-btn>
+      </template>
+    </v-snackbar>
+  </v-row>
 </template>
 
 <script>
@@ -50,11 +47,12 @@ import axios from "axios";
 export default {
   data: function() {
     return {
+      dessert_toast: { snackbar: false, text: "Dessert ajouté au panier" },
       desserts: [],
       add: { quantity: 1 },
       model: {
         promo: null,
-        total_price:0,
+        total_price: 0,
         contents: {
           pizzas: [],
           desserts: [],
@@ -108,24 +106,25 @@ export default {
     addToCart(dessert) {
       let cart = this.getUserCart();
       // adding as much desserts as the quantity sent
-      for(let i = 0; i<dessert.quantity; i++) {
+      for (let i = 0; i < dessert.quantity; i++) {
         cart.contents.desserts = [...cart.contents.desserts, dessert];
-      };
+      }
       this.setTotalPrice(cart);
     },
     setTotalPrice(cart) {
       let price = 0;
       cart.contents.desserts.forEach(element => {
-        price += element.price
+        price += element.price;
       });
       cart.total_price = price;
-      localStorage.setItem('datas',JSON.stringify(cart));
+      localStorage.setItem("datas", JSON.stringify(cart));
     },
     getUserCart() {
       // check if data existing or not in current local storage
-      return  JSON.parse(localStorage.getItem('datas')) ? JSON.parse(localStorage.getItem('datas')) : this.model;
+      return JSON.parse(localStorage.getItem("datas"))
+        ? JSON.parse(localStorage.getItem("datas"))
+        : this.model;
     }
-
   }
 };
 </script>
