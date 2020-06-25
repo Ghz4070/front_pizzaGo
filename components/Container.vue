@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <v-row>
+    <v-col cols="12" sm="12" md="10">
     <v-card class="mx-auto" outlined>
-      <v-container>
 
         <v-tabs class="tabs" @change="changeTab(currentTab)" centered v-model="currentTab" background-color="white" color="black">
           <v-tab  v-for="item in items" :key="item.tab">{{ item.tab }}</v-tab>
@@ -20,10 +20,12 @@
         <div v-if="currentTab == 2">
           <Dessert />
         </div>
-      </v-container>
     </v-card>
+    </v-col>
+    <v-col cols="12" sm="12" md="2">
     <Cart :boolStorage="boolCart"/>
-  </div>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
