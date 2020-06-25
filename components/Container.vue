@@ -9,7 +9,7 @@
 
         <!-- PIZZA -->
         <div v-if="currentTab == 0">
-          <Pizza />
+          <Pizza @changeLocalStorage="changeLocalStorage"/>
         </div>
         <!-- Boisson -->
         <div v-if="currentTab == 1">
@@ -22,6 +22,7 @@
         </div>
       </v-container>
     </v-card>
+    <Cart :boolStorage="boolCart"/>
   </div>
 </template>
 
@@ -30,12 +31,14 @@ import axios from "axios";
 import Pizza from './Pizza';
 import Drink from './Drink';
 import Dessert from './Dessert';
+import Cart from './Cart';
 
 export default {
   components : {
     Pizza,
     Dessert,
-    Drink
+    Drink,
+    Cart
   },
   data: function() {
     return {
@@ -44,13 +47,18 @@ export default {
         { tab: "Pizza" },
         { tab: "Boisson" },
         { tab: "Dessert" }
-      ]
+      ],
+      boolCart : false,
     };
   },
   methods: {
     changeTab(val) {
       this.currentTab = val;
     },
+    changeLocalStorage() {
+      this.boolCart = true;
+      setTimeout(() => this.boolCart = false, 1000);
+    }
   }
 };
 </script>
