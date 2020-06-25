@@ -1,5 +1,5 @@
 <template>
-  <v-row v-if="currentTab == 0" no-gutters>
+  <v-row no-gutters>
           <v-col cols="12" sm="12" v-for="category in categories" :key="category.id">
             <div class="category">Catégorie : {{ category.name }}</div>
             <v-col v-for="(pizza, index) in pizzas" :key="pizza.id" cols="12" sm="4">
@@ -61,19 +61,13 @@ import axios from "axios";
 export default {
   data: function() {
     return {
-      currentTab: 0,
       pizzas: [],
       categories: null,
       size: ["S", "M", "L", "XL"],
       add: { quantity: 1, size: "M", price: "10" },
-      items: [
-        { tab: "Pizza" },
-        { tab: "Boisson" },
-        { tab: "Dessert" }
-      ],
       model: {
         promo: null,
-        total_price:null,
+        total_price:0,
         contents: {
           pizzas: [],
           drinks: [],
@@ -134,10 +128,6 @@ export default {
         .catch(e => {
           console.log("catch");
         });
-    },
-    changeTab(val) {
-      this.currentTab = val;
-      console.log(val);
     },
     addToCart(pizza) {
       let cart = this.getUserCart();

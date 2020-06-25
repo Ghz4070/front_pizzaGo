@@ -1,8 +1,6 @@
 <template>
-  <v-row  no-gutters>
-          <v-col cols="12" sm="12" >
-            <div class="category">Boissons</div>
-            <v-col v-for="(drink, index) in drinks" :key="drink.id" cols="12" sm="4">
+  <v-row no-gutters>
+            <v-col v-for="(drink) in drinks" :key="drink.id" cols="12" sm="4" md="4" lg="4">
               <v-card
                 outlined
                 class="ma-3 pa-3 card_pizza"
@@ -11,18 +9,11 @@
                 <v-img
                   height="200px"
                   class="white--text align-end"
-                  src="https://img2.freepng.fr/20180927/ju/kisspng-coca-cola-car-product-design-5baca128a41f25.6167852015380401046723.jpg"
+                  src="https://i.pinimg.com/originals/e0/0b/e1/e00be1d434e7dcf8637691eaf51b7f03.jpg"
                 ></v-img>
 
                 <v-card-subtitle class="pb-0 pizza_name">{{ drink.name }}</v-card-subtitle>
-
                 <v-card-text class="text--primary center">
-                  <!-- <v-select
-                    :change="updatePrice(index,pizza.quantity, pizza.price, pizza.size)"
-                    v-model="pizza.size"
-                    :items="size"
-                    label="Taille"
-                  ></v-select>
                   <v-row>
                     <v-col cols="12" sm="6" md="6">
                       <v-text-field
@@ -36,7 +27,7 @@
                     <v-col cols="12" sm="6" md="6">
                       <v-text-field disabled label :value="drink.price+ ' €'" solo></v-text-field>
                     </v-col>
-                  </v-row> -->
+                  </v-row>
                 </v-card-text>
 
                 <v-card-actions class="center">
@@ -50,7 +41,6 @@
                 </v-card-actions>
               </v-card>
             </v-col>
-          </v-col>
         </v-row>
 </template>
 
@@ -61,9 +51,10 @@ export default {
   data: function() {
     return {
       drinks: [],
+      add: { quantity: 1 },
       model: {
         promo: null,
-        total_price:null,
+        total_price:0,
         contents: {
           pizzas: [],
           drinks: [],
@@ -114,20 +105,19 @@ export default {
         this.drinks = [...this.drinks, el];
       });
     },
-    addToCart(pizza) {
+    addToCart(drink) {
       let cart = this.getUserCart();
-      // adding as much pizza as the quantity sent
-      for(let i = 0; i<pizza.quantity; i++) {
-        cart.contents.pizzas = [...cart.contents.pizzas, pizza];
+      // adding as much drinks as the quantity sent
+      for(let i = 0; i<drink.quantity; i++) {
+        cart.contents.drinks = [...cart.contents.drinks, drink];
       };
       this.setTotalPrice(cart);
     },
     setTotalPrice(cart) {
       let price = 0;
-      cart.contents.pizzas.forEach(element => {
+      cart.contents.drinks.forEach(element => {
         price += element.price
       });
-      console.log(price);
       cart.total_price = price;
       localStorage.setItem('datas',JSON.stringify(cart));
     },
