@@ -41,10 +41,12 @@ export default {
             cart: {}
         }
     },
-    watch() {
-        const local = localStorage.getItem('datas');
-        const stringToJSON = JSON.parse(local);
-        this.cart= stringToJSON;
+    watch: {
+        boolStorage() {
+            const local = localStorage.getItem('datas');
+            const stringToJSON = JSON.parse(local);
+            return this.cart = stringToJSON
+        }
     },
     methods: {
         async submitPromo(e) {
