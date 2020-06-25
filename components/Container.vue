@@ -36,7 +36,6 @@
                   <v-row>
                     <v-col cols="12" sm="6" md="6">
                       <v-text-field
-                        @change="updatePrice(index,pizza.quantity, pizza.price, pizza.size)"
                         v-model="pizza.quantity"
                         type="number"
                         label="x1"
@@ -89,10 +88,19 @@ export default {
       size: ["S", "M", "L", "XL"],
       add: { quantity: 1, size: "M", price: "10" },
       items: [
-        { tab: "Pizza", content: "1" },
-        { tab: "Boisson", content: "2" },
-        { tab: "Dessert", content: "3" }
-      ]
+        { tab: "Pizza" },
+        { tab: "Boisson" },
+        { tab: "Dessert" }
+      ],
+      model: {
+        promo: null,
+        total_price:null,
+        contents: {
+          pizzas: [],
+          drinks: [],
+          desserts: []
+        }
+      }
     };
   },
   async mounted() {
@@ -153,8 +161,27 @@ export default {
       console.log(val);
     },
     addToCart(pizza) {
-      console.log(pizza);
+      let cart = this.getUserCart();
+      // adding as much pizza as the quantity sent
+      for(let i = 0; i<pizza.quantity; i++) {
+        cart.contents.pizzas = [...cart.contents.pizzas, pizza];
+      };
+      this.setTotalPrice(cart);
+    },
+    setTotalPrice(cart) {
+      let price = 0;
+      cart.contents.pizzas.forEach(element => {
+        price += element.price
+      });
+      console.log(price);
+      cart.total_price = price;
+      localStorage.setItem('datas',JSON.stringify(cart));
+    },
+    getUserCart() {
+      // check if data existing or not in current local storage
+      return  JSON.parse(localStorage.getItem('datas')) ? JSON.parse(localStorage.getItem('datas')) : this.model;
     }
+
   }
 };
 </script>
@@ -172,7 +199,7 @@ div {
   display: block !important;
 }
 .category {
-  font-size: 2em;
+  font-size: 26px;
 }
 .v-image__image--cover {
   background-size: contain;
@@ -192,5 +219,8 @@ div {
 }
 .tabs {
   padding-bottom: 30px;
+}
+.v-card__subtitle {
+  padding: 0px;
 }
 </style>
