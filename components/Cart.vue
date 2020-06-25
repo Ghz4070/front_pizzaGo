@@ -34,8 +34,14 @@ export default {
             tablePizza : ['Pizza', 'Taille', 'Quantité', 'Prix'], 
             tableBoisson : ['Boissons', 'Quantité', 'Prix'],
             tableDessert : ['Desserts', 'Quantité', 'Prix'],
-            promo:null
+            promo:null,
+            cart: {}
         }
+    },
+    watch() {
+        const local = localStorage.getItem('datas');
+        const stringToJSON = JSON.parse(local);
+        this.cart= stringToJSON;
     },
     methods: {
         async submitPromo(e) {
