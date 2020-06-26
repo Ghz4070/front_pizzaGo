@@ -1,22 +1,22 @@
 <template>
-  <div class="d-flex flex-column flex-wrap test .rounded-xl">
-        <div class="d-flex flex-column flex-wrap justify-space-around align-center max-width">
+  <div class="d-flex flex-column flex-wrap cart-div .rounded-xl">
+        <div class="d-flex flex-column flex-wrap justify-space-around align-center align-content-space-between max-width">
             <h1>Panier</h1>
             <form @submit="submitPromo">
                 <label for="promo">Code promo</label>
-                <div class="d-flex flex-row flex-wrap">
+                <div class="d-flex flex-row flex-wrap justify-space-around form">
                     <input type="text" required>
                     <button>Valider</button>
                 </div>
             </form>
-                <TableCart :thead="tablePizza" className=" d-flex flex-row flex-wrap justify-space-around max-width"/>
-                <TableCart :thead="tableBoisson" className="d-flex flex-row flex-wrap justify-space-around max-width"/>
-                <TableCart :thead="tableDessert" className="d-flex flex-row flex-wrap justify-space-around max-width"/>
+                <TableCart :thead="tablePizza" :pizza="cart.contents" className=" d-flex flex-row flex-wrap justify-space-around max-width"/>
+                <TableCart :thead="tableBoisson" :drinks="cart.contents" className="d-flex flex-row flex-wrap justify-space-around max-width"/>
+                <TableCart :thead="tableDessert" :dessert="cart.contents" className="d-flex flex-row flex-wrap justify-space-around max-width"/>
             <div class="d-flex flex-row flex-wrap justify-space-around max-width">
                 <p>Total :</p>
                 <p>le montant</p>
             </div>
-            <a href="">Commander</a>
+            <a class="buy-button" href="">Commander</a>
         </div>
     </div>  
 </template>
@@ -65,14 +65,39 @@ export default {
 </script>
 
 <style>
-    .test {
+    .cart-div {
         height: 100%;
-        width: 23%;
-        border: 1px solid black;
+        border: 1px solid #e0e0e0;
         background-color: white;
+        border-radius: 30px;
     }
 
     .max-width {
         width: 100%;
+        margin: 10% 0;
+    }
+
+    .form input {
+        border: 1px solid #979797;
+        border-radius: 3px;
+        width: 72%
+    }
+
+    .form button {
+        padding: 2px;
+        background-color: #BA7070;
+        color:white;
+        border-radius: 3px;
+    } 
+
+    .buy-button {
+        padding: 10px 50px;
+        background-color: #BA7070;
+        border-radius: 20px;
+        text-decoration:none;
+    }
+
+    .buy-button a {
+        color:white
     }
 </style>
