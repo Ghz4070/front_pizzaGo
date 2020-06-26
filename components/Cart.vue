@@ -14,11 +14,13 @@
                 <TableCart @totalDessert="totalDessert" :thead="tableDessert" :dessert="cart.contents" className="d-flex flex-row flex-wrap justify-space-around max-width"/>
             <div class="d-flex flex-row flex-wrap justify-space-around max-width">
                 <p>Total :</p>
-                <template v-if="promo && cart.total_price">
-                    <p>{{(cart.total_price - ( cart.total_price * (promo/100) ))}}</p>
+                <template v-if="promo">
+                    <p>{{promo}}%</p>
+                    <p>{{(totalPrice.total - ( totalPrice.total * (promo/100) ))}} €</p>
+                    <p>{{totalPrice.total}} €</p>
                 </template>
                 <template v-else> 
-                    <p>{{cart.total_price}}€</p>
+                    <p>{{totalPrice.total}}€</p>
                 </template>
             </div>
             <a class="buy-button" href="">Commander</a>
@@ -44,7 +46,7 @@ export default {
             tableDessert : ['Desserts', 'Prix'],
             promo:null,
             cart: {},
-            totalPrice:{pizzza:null, drink: null, dessert: null}
+            totalPrice:{pizza:0, drink: 0, dessert: 0, total:0}
         }
     },
     watch: {
@@ -67,13 +69,16 @@ export default {
             this.promo = result.promoes[0].amount;
         },
         totalPizza(e) {
-            this.totalPrice.pizzza = e;
+            this.totalPrice.pizza = e;
+            this.totalPrice.total = this.totalPrice.pizza + this.totalPrice.drink + this.totalPrice.dessert; 
         },
         totalDrink(e) {
             this.totalPrice.drink = e;
+            this.totalPrice.total = this.totalPrice.pizza + this.totalPrice.drink + this.totalPrice.dessert; 
         },
         totalDessert(e) {
             this.totalPrice.dessert = e;
+            this.totalPrice.total = this.totalPrice.pizza + this.totalPrice.drink + this.totalPrice.dessert; 
         }
     }
 }
