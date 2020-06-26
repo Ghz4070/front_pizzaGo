@@ -89,7 +89,9 @@ export default {
     position:fixed;
 }
 .cart-div {
-    height: auto !important;
+    height: calc(100% - 173px) !important;
+    overflow-y:auto;
+    overflow-x:hidden;
 }
 table {
   margin-left: 5px;
@@ -105,6 +107,7 @@ table {
     .max-width {
         width: 100%;
         margin: 10% 0;
+        padding: 0px 0px 30px 0px;
     }
 
     .form input {
@@ -145,4 +148,5 @@ a.buy-button {
 thead {
   line-height: 40px;
     }
+
 </style>
