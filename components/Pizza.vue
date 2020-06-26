@@ -23,7 +23,7 @@
             <v-img
               height="200px"
               class="white--text align-end"
-              src="https://camionapizzaangouleme.files.wordpress.com/2018/02/pizza-free-png-image.png?w=1200"
+              :src="pizza.img"
             ></v-img>
 
             <v-card-subtitle class="pb-0 pizza_name">{{ pizza.name }}</v-card-subtitle>

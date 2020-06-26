@@ -4,8 +4,8 @@
       <v-card outlined class="ma-3 pa-3 card_pizza" max-width="400">
         <v-img
           height="200px"
-          class="white--text align-end"
-          src="https://www.lacuisinedebernard.com/wp-content/uploads/2014/02/Capture-d%E2%80%99e%CC%81cran-2014-02-01-a%CC%80-14.04.22.png"
+          class="white--text align-end mbot15"
+          :src="dessert.img"
         ></v-img>
 
         <v-card-subtitle class="pb-0 pizza_name">{{ dessert.name }}</v-card-subtitle>
@@ -165,5 +165,8 @@ div {
 }
 .v-card__subtitle {
   padding: 0px;
+}
+.mbot15 {
+  padding-top: 15px;
 }
 </style>
