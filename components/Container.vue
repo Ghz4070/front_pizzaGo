@@ -8,7 +8,7 @@
         <b>PizzGo {{ localisation }}</b></p>
           </v-col>
           <v-col md="6">
-            <a v-on:click="getPosition()" class="localisation-info right">Changer de PizzaGo ?</a>
+            <a v-on:click="getPosition()" class="localisation-info right"><img width="20px" src="~/static/position.png">Changer de PizzaGo ?</a>
           </v-col>
       </v-row>
         <v-tabs class="tabs" @change="changeTab(currentTab)" centered v-model="currentTab" background-color="white" color="black">
@@ -114,19 +114,16 @@ div {
   font-size: 16px;
   margin-left: 25px;
 }
-
-.contt {
-  width: 100%;
-}
-.left{
-  display: block;
-  float:left;
-   width: 50%;
+.localisation-info img {
+  position: relative;
+  top: 2px;
 }
 
-.right{
+.localisation-info.right{
   display: block;
   float:right;
    width: 50%;
+   color: #895c5c;
 }
+
 </style>
