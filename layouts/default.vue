@@ -12,6 +12,7 @@
 <script>
   import Header from '../components/Header';
   import Login from '../components/Login';
+  import Inscription from '../pages/inscription';
 export default {
   components : {
     Header,
@@ -32,6 +33,11 @@ export default {
           title: 'Login',
           to: '/login'
         },
+        {
+          icon:'mdi-apps',
+          title: 'Inscription',
+          to:'/inscription'
+        }
       ],
       miniVariant: false,
       right: true,
