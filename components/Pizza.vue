@@ -91,6 +91,7 @@ export default {
   async mounted() {
     await this.getCategories();
     await this.getPizzas();
+    this.displayItemOnCart();
     this.formatDatas(this.pizzas);
   },
   methods: {
@@ -164,6 +165,17 @@ export default {
       return JSON.parse(localStorage.getItem("datas"))
         ? JSON.parse(localStorage.getItem("datas"))
         : this.model;
+    },
+    displayItemOnCart() {
+      let content = this.getUserCart();
+      let pizzas = content.contents.pizzas.length;
+      let drinks = content.contents.drinks.length;
+      let desserts = content.contents.desserts.length;
+      if(pizzas > 0 || desserts > 0 || drinks > 0)
+      this.$emit("changeLocalStorage")
+      /* content.contents.pizzas.length > 0 ? this.$emit("changeLocalStorage") : '';
+      content.contents.drinks.length > 0 ? this.$emit("changeLocalStorage") : '';
+      content.contents.desserts.length > 0 ? this.$emit("changeLocalStorage") : ''; */
     }
   }
 };
