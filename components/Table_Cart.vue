@@ -7,19 +7,31 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>test</td>
-                </tr>
+                <template v-if="pizza && Thead[0]">
+                    <template v-for="(element, key) in pizza.pizzas">
+                        <tr>
+                            <td :key="key">{{element.name}}</td>
+                            <td :key="key">{{element.size}}</td>
+                            <td :key="key">{{element.quantity}}</td>
+                            <td :key="key">{{element.price}}</td>
+                        </tr>
+                    </template>
+                </template>
+             
             </tbody>
         </table>
     </div>
 </template>
 
 <script>
+
 export default {
     props: {
         Thead: Array,
-        className: String
+        className: String,
+        pizza: Object,
+        drinks: Object,
+        dessert: Object,
     },
 }
 </script>
