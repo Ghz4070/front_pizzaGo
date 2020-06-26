@@ -8,10 +8,12 @@
       v-for="category in categories"
       :key="category.id"
     >
-      <div class="category">Catégorie : {{ category.name }}</div>
+      <div class="category">{{ category.name }}</div>
+      <v-divider style="margin:0 15px"></v-divider>
       <!-- load spinner -->
       <div v-if="pizzas.length == 0" class="center">
         <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
+        <!-- <img src="https://media1.tenor.com/images/804e49758183b561e5a882723bf5a316/tenor.gif"> -->
       </div>
       <v-row>
         <v-col
@@ -198,6 +200,7 @@ div {
 .category {
   margin-left: 10px;
   font-size: 26px;
+  font-family: cursive;
 }
 .v-image__image--cover {
   background-size: contain;
