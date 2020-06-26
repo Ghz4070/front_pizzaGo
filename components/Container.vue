@@ -1,6 +1,6 @@
 <template>
   <v-row>
-    <v-col cols="12" sm="12" md="10">
+    <v-col cols="12" sm="12" md="9">
     <v-card class="mx-auto" outlined>
 
         <v-tabs class="tabs" @change="changeTab(currentTab)" centered v-model="currentTab" background-color="white" color="black">
@@ -22,7 +22,7 @@
         </div>
     </v-card>
     </v-col>
-    <v-col cols="12" sm="12" md="2">
+    <v-col cols="12" sm="12" md="3">
       <Cart :boolStorage="boolCart"/>
     </v-col>
   </v-row>

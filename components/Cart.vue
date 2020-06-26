@@ -85,6 +85,10 @@ export default {
 </script>
 
 <style>
+table {
+  margin-left: 5px;
+  width: 100%;
+}
     .cart-div {
         height: 100%;
         border: 1px solid #e0e0e0;
@@ -100,24 +104,32 @@ export default {
     .form input {
         border: 1px solid #979797;
         border-radius: 3px;
-        width: 72%
+  width: 72%;
     }
 
     .form button {
         padding: 2px;
-        background-color: #BA7070;
-        color:white;
+  background-color: #ba7070;
+  color: white;
         border-radius: 3px;
     } 
 
     .buy-button {
         padding: 10px 50px;
-        background-color: #BA7070;
+  background-color: #ba7070;
         border-radius: 20px;
-        text-decoration:none;
+  text-decoration: none;
     }
 
     .buy-button a {
-        color:white
+  color: white;
+}
+
+a.buy-button {
+  color: white;
+  text-decoration: none;
+}
+thead {
+  line-height: 40px;
     }
 </style>
