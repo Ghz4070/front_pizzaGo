@@ -1,47 +1,44 @@
 <template>
   <v-row no-gutters>
-            <v-col v-for="(drink) in drinks" :key="drink.id" cols="12" sm="4" md="4" lg="4">
-              <v-card
-                outlined
-                class="ma-3 pa-3 card_pizza"
-                max-width="400"
-              >
-                <v-img
-                  height="200px"
-                  class="white--text align-end"
-                  src="https://i.pinimg.com/originals/e0/0b/e1/e00be1d434e7dcf8637691eaf51b7f03.jpg"
-                ></v-img>
+    <v-col v-for="(drink) in drinks" :key="drink.id" cols="12" sm="4" md="4" lg="4">
+      <v-card outlined class="ma-3 pa-3 card_pizza" max-width="400">
+        <v-img
+          height="200px"
+          class="white--text align-end"
+          src="https://i.pinimg.com/originals/e0/0b/e1/e00be1d434e7dcf8637691eaf51b7f03.jpg"
+        ></v-img>
 
-                <v-card-subtitle class="pb-0 pizza_name">{{ drink.name }}</v-card-subtitle>
-                <v-card-text class="text--primary center">
-                  <v-row>
-                    <v-col cols="12" sm="6" md="6">
-                      <v-text-field
-                        v-model="drink.quantity"
-                        type="number"
-                        label="x1"
-                        value="1"
-                        solo
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6" md="6">
-                      <v-text-field disabled label :value="drink.price+ ' €'" solo></v-text-field>
-                    </v-col>
-                  </v-row>
-                </v-card-text>
-
-                <v-card-actions class="center">
-                  <v-btn
-                    v-on:click="addToCart(drink)"
-                    small
-                    class="ma-2"
-                    outlined
-                    color="indigo"
-                  >Ajouter</v-btn>
-                </v-card-actions>
-              </v-card>
+        <v-card-subtitle class="pb-0 pizza_name">{{ drink.name }}</v-card-subtitle>
+        <v-card-text class="text--primary center">
+          <v-row>
+            <v-col cols="12" sm="6" md="6">
+              <v-text-field v-model="drink.quantity" type="number" label="x1" value="1" solo></v-text-field>
             </v-col>
-        </v-row>
+            <v-col cols="12" sm="6" md="6">
+              <v-text-field disabled label :value="drink.price+ ' €'" solo></v-text-field>
+            </v-col>
+          </v-row>
+        </v-card-text>
+
+        <v-card-actions class="center">
+          <v-btn
+            v-on:click="addToCart(drink)"
+            @click="drink_toast.snackbar = true"
+            small
+            class="ma-2"
+            outlined
+            color="indigo"
+          >Ajouter</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-col>
+    <v-snackbar v-model="drink_toast.snackbar">
+      {{ drink_toast.text }}
+      <template v-slot:action="{ attrs }">
+        <v-btn color="pink" text v-bind="attrs" @click="drink_toast.snackbar = false">X</v-btn>
+      </template>
+    </v-snackbar>
+  </v-row>
 </template>
 
 <script>
@@ -50,11 +47,12 @@ import axios from "axios";
 export default {
   data: function() {
     return {
+      drink_toast: { snackbar: false, text: "Dessert ajouté au panier" },
       drinks: [],
       add: { quantity: 1 },
       model: {
         promo: null,
-        total_price:0,
+        total_price: 0,
         contents: {
           pizzas: [],
           drinks: [],
@@ -108,24 +106,25 @@ export default {
     addToCart(drink) {
       let cart = this.getUserCart();
       // adding as much drinks as the quantity sent
-      for(let i = 0; i<drink.quantity; i++) {
+      for (let i = 0; i < drink.quantity; i++) {
         cart.contents.drinks = [...cart.contents.drinks, drink];
-      };
+      }
       this.setTotalPrice(cart);
     },
     setTotalPrice(cart) {
       let price = 0;
       cart.contents.drinks.forEach(element => {
-        price += element.price
+        price += element.price;
       });
       cart.total_price = price;
-      localStorage.setItem('datas',JSON.stringify(cart));
+      localStorage.setItem("datas", JSON.stringify(cart));
     },
     getUserCart() {
       // check if data existing or not in current local storage
-      return  JSON.parse(localStorage.getItem('datas')) ? JSON.parse(localStorage.getItem('datas')) : this.model;
+      return JSON.parse(localStorage.getItem("datas"))
+        ? JSON.parse(localStorage.getItem("datas"))
+        : this.model;
     }
-
   }
 };
 </script>

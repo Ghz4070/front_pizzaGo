@@ -1,58 +1,62 @@
 <template>
-  <v-row no-gutters>
-          <v-col cols="12" sm="12" v-for="category in categories" :key="category.id">
-            <div class="category">Catégorie : {{ category.name }}</div>
-            <v-col v-for="(pizza, index) in pizzas" :key="pizza.id" cols="12" sm="4">
-              <v-card
-                v-if="category.name == pizza.category.name"
+  <v-row>
+    <v-col cols="12" sm="12" md="12" v-for="category in categories" :key="category.id">
+      <div class="category">Catégorie : {{ category.name }}</div>
+      <v-row>
+        <v-col
+          v-for="(pizza, index) in pizzas"
+          :key="pizza.id"
+          v-bind:class="{ hidden: category.name != pizza.category.name }"
+          cols="12"
+          sm="4"
+        >
+          <v-card outlined class="ma-3 pa-3 card_pizza" max-width="400">
+            <v-img
+              height="200px"
+              class="white--text align-end"
+              src="https://camionapizzaangouleme.files.wordpress.com/2018/02/pizza-free-png-image.png?w=1200"
+            ></v-img>
+
+            <v-card-subtitle class="pb-0 pizza_name">{{ pizza.name }}</v-card-subtitle>
+
+            <v-card-text class="text--primary center">
+              <v-select
+                :change="updatePrice(index,pizza.quantity, pizza.price, pizza.size)"
+                v-model="pizza.size"
+                :items="size"
+                label="Taille"
+              ></v-select>
+              <v-row>
+                <v-col cols="12" sm="6" md="6">
+                  <v-text-field v-model="pizza.quantity" type="number" label="x1" value="1" solo></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="6" md="6">
+                  <v-text-field disabled label :value="pizza.price+ ' €'" solo></v-text-field>
+                </v-col>
+              </v-row>
+            </v-card-text>
+
+            <v-card-actions class="center">
+              <v-btn
+                v-on:click="addToCart(pizza)"
+                @click="pizza_toast.snackbar = true"
+                small
+                class="ma-2"
                 outlined
-                class="ma-3 pa-3 card_pizza"
-                max-width="400"
-              >
-                <v-img
-                  height="200px"
-                  class="white--text align-end"
-                  src="https://camionapizzaangouleme.files.wordpress.com/2018/02/pizza-free-png-image.png?w=1200"
-                ></v-img>
-
-                <v-card-subtitle class="pb-0 pizza_name">{{ pizza.name }}</v-card-subtitle>
-
-                <v-card-text class="text--primary center">
-                  <v-select
-                    :change="updatePrice(index,pizza.quantity, pizza.price, pizza.size)"
-                    v-model="pizza.size"
-                    :items="size"
-                    label="Taille"
-                  ></v-select>
-                  <v-row>
-                    <v-col cols="12" sm="6" md="6">
-                      <v-text-field
-                        v-model="pizza.quantity"
-                        type="number"
-                        label="x1"
-                        value="1"
-                        solo
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6" md="6">
-                      <v-text-field disabled label :value="pizza.price+ ' €'" solo></v-text-field>
-                    </v-col>
-                  </v-row>
-                </v-card-text>
-
-                <v-card-actions class="center">
-                  <v-btn
-                    v-on:click="addToCart(pizza)"
-                    small
-                    class="ma-2"
-                    outlined
-                    color="indigo"
-                  >Ajouter</v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-col>
-          </v-col>
-        </v-row>
+                color="indigo"
+              >Ajouter</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-col>
+    <v-snackbar v-model="pizza_toast.snackbar">
+      {{ pizza_toast.text }}
+      <template v-slot:action="{ attrs }">
+        <v-btn color="pink" text v-bind="attrs" @click="pizza_toast.snackbar = false">X</v-btn>
+      </template>
+    </v-snackbar>
+  </v-row>
 </template>
 
 <script>
@@ -61,13 +65,14 @@ import axios from "axios";
 export default {
   data: function() {
     return {
+      pizza_toast: { snackbar: false, text: "Pizza ajouté au panier" },
       pizzas: [],
       categories: null,
       size: ["S", "M", "L", "XL"],
       add: { quantity: 1, size: "M", price: "10" },
       model: {
         promo: null,
-        total_price:0,
+        total_price: 0,
         contents: {
           pizzas: [],
           drinks: [],
@@ -132,26 +137,27 @@ export default {
     addToCart(pizza) {
       let cart = this.getUserCart();
       // adding as much pizza as the quantity sent
-      for(let i = 0; i<pizza.quantity; i++) {
+      for (let i = 0; i < pizza.quantity; i++) {
         cart.contents.pizzas = [...cart.contents.pizzas, pizza];
-      };
+      }
       this.setTotalPrice(cart);
     },
     setTotalPrice(cart) {
       let price = 0;
       cart.contents.pizzas.forEach(element => {
-        price += element.price
+        price += element.price;
       });
       console.log(price);
       cart.total_price = price;
-      localStorage.setItem('datas',JSON.stringify(cart));
-      this.$emit('changeLocalStorage')
+      localStorage.setItem("datas", JSON.stringify(cart));
+      this.$emit("changeLocalStorage");
     },
     getUserCart() {
       // check if data existing or not in current local storage
-      return  JSON.parse(localStorage.getItem('datas')) ? JSON.parse(localStorage.getItem('datas')) : this.model;
+      return JSON.parse(localStorage.getItem("datas"))
+        ? JSON.parse(localStorage.getItem("datas"))
+        : this.model;
     }
-
   }
 };
 </script>

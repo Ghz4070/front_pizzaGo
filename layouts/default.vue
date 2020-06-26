@@ -1,7 +1,7 @@
 <template>
   <v-app dark>
      <v-main>	
-      <v-container>	
+      <v-container fluid="true">	
         <Header />
         <nuxt />	
       </v-container>	
@@ -44,5 +44,8 @@ export default {
     background-color: #F0F2F6;
     width: 100%;
     height: 100%;
+  }
+  .container {
+    padding: 0 40px;
   }
 </style>
