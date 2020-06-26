@@ -74,6 +74,7 @@
 </template>
 
 <script>
+import { EventBus } from '../bus.js';
 export default {
   data() {
     return {
@@ -81,12 +82,22 @@ export default {
       dialog: false,
     };
   },
+  created() {
+    EventBus.$on('setHeader', data => {
+      this.checkStorage()
+    });
+  },
   mounted() {
-    console.log(localStorage.getItem('x-access-token'))
+    this.checkStorage();
+  },
+  methods: {
+    checkStorage() {
+      console.log(localStorage.getItem('x-access-token'))
         if(localStorage.getItem('x-access-token')){
       this.img = true;
     } else {
       this.img = false;
+    }
     }
   }
 };

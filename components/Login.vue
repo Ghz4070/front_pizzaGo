@@ -52,6 +52,7 @@
 
 <script>
 import axios from "axios";
+import { EventBus } from '../bus.js';
 
 export default {
   data: function() {
@@ -69,6 +70,9 @@ export default {
   },
   async mounted() {},
   methods: {
+    emitGlobalClickEvent() {
+      EventBus.$emit('setHeader', 'update_nav');
+    },
     login() {
       let params = { email : this.email, password: this.password }
       return axios
@@ -79,6 +83,7 @@ export default {
             this.login_toast.snackbar = true;
             this.setToken(res.data.result);
             setTimeout(() => {
+              this.emitGlobalClickEvent();
               this.$router.push({ name: 'index' });
             }, 1500);
           } else {
