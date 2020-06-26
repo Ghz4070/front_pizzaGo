@@ -5,7 +5,7 @@
         <v-img
           height="200px"
           class="white--text align-end"
-          src="https://i.pinimg.com/originals/e0/0b/e1/e00be1d434e7dcf8637691eaf51b7f03.jpg"
+          :src="drink.img"
         ></v-img>
 
         <v-card-subtitle class="pb-0 pizza_name">{{ drink.name }}</v-card-subtitle>

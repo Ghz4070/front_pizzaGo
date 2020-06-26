@@ -1,7 +1,18 @@
 <template>
   <v-row>
-    <v-col cols="12" sm="12" md="12" v-for="category in categories" :key="category.id">
+    <v-col
+      v-bind:class="{ hidden: pizzas.length < 0 }"
+      cols="12"
+      sm="12"
+      md="12"
+      v-for="category in categories"
+      :key="category.id"
+    >
       <div class="category">Catégorie : {{ category.name }}</div>
+      <!-- load spinner -->
+      <div v-if="pizzas.length == 0" class="center">
+        <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
+      </div>
       <v-row>
         <v-col
           v-for="(pizza, index) in pizzas"
@@ -11,11 +22,7 @@
           sm="4"
         >
           <v-card outlined class="ma-3 pa-3 card_pizza" max-width="400">
-            <v-img
-              height="200px"
-              class="white--text align-end"
-              src="https://camionapizzaangouleme.files.wordpress.com/2018/02/pizza-free-png-image.png?w=1200"
-            ></v-img>
+            <v-img height="200px" class="white--text align-end" :src="pizza.img"></v-img>
 
             <v-card-subtitle class="pb-0 pizza_name">{{ pizza.name }}</v-card-subtitle>
 
@@ -173,8 +180,11 @@ div {
 .center {
   text-align: center;
   display: block !important;
+  margin-left: auto;
+  margin-right: auto;
 }
 .category {
+  margin-left: 10px;
   font-size: 26px;
 }
 .v-image__image--cover {
@@ -198,5 +208,11 @@ div {
 }
 .v-card__subtitle {
   padding: 0px;
+}
+.v-progress-circular {
+  margin: 1rem;
+}
+.hidden {
+  display: none;
 }
 </style>
