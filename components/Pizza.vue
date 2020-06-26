@@ -8,10 +8,12 @@
       v-for="category in categories"
       :key="category.id"
     >
-      <div class="category">Catégorie : {{ category.name }}</div>
+      <div class="category">{{ category.name }}</div>
+      <v-divider style="margin:0 15px"></v-divider>
       <!-- load spinner -->
       <div v-if="pizzas.length == 0" class="center">
         <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
+        <!-- <img src="https://media1.tenor.com/images/804e49758183b561e5a882723bf5a316/tenor.gif"> -->
       </div>
       <v-row>
         <v-col
@@ -91,6 +93,7 @@ export default {
   async mounted() {
     await this.getCategories();
     await this.getPizzas();
+    this.displayItemOnCart();
     this.formatDatas(this.pizzas);
   },
   methods: {
@@ -164,6 +167,17 @@ export default {
       return JSON.parse(localStorage.getItem("datas"))
         ? JSON.parse(localStorage.getItem("datas"))
         : this.model;
+    },
+    displayItemOnCart() {
+      let content = this.getUserCart();
+      let pizzas = content.contents.pizzas.length;
+      let drinks = content.contents.drinks.length;
+      let desserts = content.contents.desserts.length;
+      if(pizzas > 0 || desserts > 0 || drinks > 0)
+      this.$emit("changeLocalStorage")
+      /* content.contents.pizzas.length > 0 ? this.$emit("changeLocalStorage") : '';
+      content.contents.drinks.length > 0 ? this.$emit("changeLocalStorage") : '';
+      content.contents.desserts.length > 0 ? this.$emit("changeLocalStorage") : ''; */
     }
   }
 };
@@ -186,6 +200,7 @@ div {
 .category {
   margin-left: 10px;
   font-size: 26px;
+  font-family: cursive;
 }
 .v-image__image--cover {
   background-size: contain;
