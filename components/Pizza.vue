@@ -1,6 +1,15 @@
 <template>
   <v-row>
-    <v-col cols="12" sm="12" md="12" v-for="category in categories" :key="category.id">
+    <!-- load spinner -->
+    <div v-if="pizzas.length == 0" class="center">
+    <v-progress-circular
+      :size="50"
+      color="primary"
+      indeterminate
+    ></v-progress-circular>
+    </div>
+    
+    <v-col v-bind:class="{ hidden: pizzas.length > 0 }"  cols="12" sm="12" md="12" v-for="category in categories" :key="category.id">
       <div class="category">Catégorie : {{ category.name }}</div>
       <v-row>
         <v-col
@@ -173,8 +182,11 @@ div {
 .center {
   text-align: center;
   display: block !important;
+  margin-left: auto;
+  margin-right: auto;
 }
 .category {
+  margin-left: 10px;
   font-size: 26px;
 }
 .v-image__image--cover {
@@ -198,5 +210,8 @@ div {
 }
 .v-card__subtitle {
   padding: 0px;
+}
+.v-progress-circular {
+  margin: 1rem;
 }
 </style>
