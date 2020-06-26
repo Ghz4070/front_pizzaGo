@@ -9,9 +9,9 @@
                     <button>Valider</button>
                 </div>
             </form>
-                <TableCart :thead="tablePizza" :pizza="cart.contents" className=" d-flex flex-row flex-wrap justify-space-around max-width"/>
-                <TableCart :thead="tableBoisson" :drinks="cart.contents" className="d-flex flex-row flex-wrap justify-space-around max-width"/>
-                <TableCart :thead="tableDessert" :dessert="cart.contents" className="d-flex flex-row flex-wrap justify-space-around max-width"/>
+                <TableCart @totalPizza="totalPizza" :thead="tablePizza" :pizza="cart.contents" className=" d-flex flex-row flex-wrap justify-space-around max-width"/>
+                <TableCart @totalDrink="totalDrink" :thead="tableBoisson" :drinks="cart.contents" className="d-flex flex-row flex-wrap justify-space-around max-width"/>
+                <TableCart @totalDessert="totalDessert" :thead="tableDessert" :dessert="cart.contents" className="d-flex flex-row flex-wrap justify-space-around max-width"/>
             <div class="d-flex flex-row flex-wrap justify-space-around max-width">
                 <p>Total :</p>
                 <template v-if="promo && cart.total_price">
@@ -43,7 +43,8 @@ export default {
             tableBoisson : ['Boissons', 'Prix'],
             tableDessert : ['Desserts', 'Prix'],
             promo:null,
-            cart: {}
+            cart: {},
+            totalPrice:{pizzza:null, drink: null, dessert: null}
         }
     },
     watch: {
@@ -64,6 +65,15 @@ export default {
             const { result } = getPromo.data;
             if(result === "No Promo found for this Name") return console.log('pas de promo');
             this.promo = result.promoes[0].amount;
+        },
+        totalPizza(e) {
+            this.totalPrice.pizzza = e;
+        },
+        totalDrink(e) {
+            this.totalPrice.drink = e;
+        },
+        totalDessert(e) {
+            this.totalPrice.dessert = e;
         }
     }
 }
