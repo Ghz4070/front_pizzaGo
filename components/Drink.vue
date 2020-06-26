@@ -118,6 +118,7 @@ export default {
       });
       cart.total_price = price;
       localStorage.setItem("datas", JSON.stringify(cart));
+      this.$emit("changeLocalStorage");
     },
     getUserCart() {
       // check if data existing or not in current local storage

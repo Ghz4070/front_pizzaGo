@@ -13,17 +13,17 @@
         </div>
         <!-- Boisson -->
         <div v-if="currentTab == 1">
-          <Drink />
+          <Drink @changeLocalStorage="changeLocalStorage"/>
         </div>
 
         <!-- Dessert -->
         <div v-if="currentTab == 2">
-          <Dessert />
+          <Dessert @changeLocalStorage="changeLocalStorage"/>
         </div>
     </v-card>
     </v-col>
     <v-col cols="12" sm="12" md="2">
-    <Cart :boolStorage="boolCart"/>
+      <Cart :boolStorage="boolCart"/>
     </v-col>
   </v-row>
 </template>
