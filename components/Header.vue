@@ -82,7 +82,8 @@ export default {
     };
   },
   mounted() {
-    if (localStorage.key("x-access-token")) {
+    console.log(localStorage.getItem('x-access-token'))
+        if(localStorage.getItem('x-access-token')){
       this.img = true;
     } else {
       this.img = false;
