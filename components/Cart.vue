@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column flex-wrap cart-div .rounded-xl">
+  <div class="d-flex flex-column flex-wrap cart-div .rounded-xl cart-container">
         <div class="d-flex flex-column flex-wrap justify-space-around align-center align-content-space-between max-width">
             <h1>Panier</h1>
             <form @submit="submitPromo">
@@ -9,9 +9,9 @@
                     <button>Valider</button>
                 </div>
             </form>
-                <TableCart @totalPizza="totalPizza" :thead="tablePizza" :pizza="cart.contents" className=" d-flex flex-row flex-wrap justify-space-around max-width"/>
-                <TableCart @totalDrink="totalDrink" :thead="tableBoisson" :drinks="cart.contents" className="d-flex flex-row flex-wrap justify-space-around max-width"/>
-                <TableCart @totalDessert="totalDessert" :thead="tableDessert" :dessert="cart.contents" className="d-flex flex-row flex-wrap justify-space-around max-width"/>
+                <TableCart @totalPizza="totalPizza" :Thead="tablePizza" :pizza="cart.contents" className=" d-flex flex-row flex-wrap justify-space-around max-width"/>
+                <TableCart @totalDrink="totalDrink" :Thead="tableBoisson" :drinks="cart.contents" className="d-flex flex-row flex-wrap justify-space-around max-width"/>
+                <TableCart @totalDessert="totalDessert" :Thead="tableDessert" :dessert="cart.contents" className="d-flex flex-row flex-wrap justify-space-around max-width"/>
             <div class="d-flex flex-row flex-wrap justify-space-around max-width">
                 <p>Total :</p>
                 <template v-if="promo">
@@ -85,6 +85,12 @@ export default {
 </script>
 
 <style>
+.cart-container {
+    position:fixed;
+}
+.cart-div {
+    height: auto !important;
+}
 table {
   margin-left: 5px;
   width: 100%;
@@ -116,9 +122,16 @@ table {
 
     .buy-button {
         padding: 10px 50px;
-  background-color: #ba7070;
+        background-color: #ba7070;
         border-radius: 20px;
-  text-decoration: none;
+        text-decoration: none;
+        border: 1px solid white;
+    }
+
+    .buy-button:hover {
+        background-color: white;
+        color: #ba7070;
+        border: 1px solid #ba7070;
     }
 
     .buy-button a {
