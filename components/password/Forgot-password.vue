@@ -3,6 +3,7 @@
     <v-container>
       <v-card class="mx-auto" max-width="444" outlined>
         <v-card-text>
+          <h3 class="center">Mot de passe oublier</h3>
           <v-row>
             <v-col cols="12" md="12">
               <v-text-field
@@ -15,28 +16,13 @@
             </v-col>
 
             <v-col cols="12" md="12">
-              <v-text-field
-                v-model="password"
-                :rules="passwordRules"
-                label="Mot de passe"
-                type="password"
-                required
-              ></v-text-field>
-            </v-col>
-
-            <v-col cols="12" md="12">
               <v-btn
                 :disabled="!valid"
                 color="success"
                 class="center"
-                @click="login"
-              >Se connecter</v-btn>
+                @click="resetMdp"
+              >Envoyer</v-btn>
             </v-col>
-
-            <v-row>
-              <v-col cols="12" md="6"><nuxt-link class="center" to="password/forgot-password">Mot de passe oublier ?</nuxt-link></v-col>
-              <v-col cols="12" md="6"><nuxt-link class="center" to="">Inscription</nuxt-link></v-col>
-            </v-row>
           </v-row>
         </v-card-text>
       </v-card>
@@ -52,7 +38,7 @@
 
 <script>
 import axios from "axios";
-import { EventBus } from '../bus.js';
+import { EventBus } from '../../bus.js';
 
 export default {
   data: function() {
@@ -64,8 +50,6 @@ export default {
         v => !!v || "Adresse mail requis.",
         v => /.+@.+/.test(v) || "Format invalide"
       ],
-      password: "",
-      passwordRules: [v => !!v || "Mot de passe requis"]
     };
   },
   async mounted() {},
@@ -73,13 +57,13 @@ export default {
     emitGlobalClickEvent() {
       EventBus.$emit('setHeader', 'update_nav');
     },
-    login() {
-      let params = { email : this.email, password: this.password }
+    resetMdp() {
+      let params = { email : this.email }
       return axios
-        .post(`http://localhost:4000/api/v1/user/connection`, params)
+        .post(`http://localhost:4000/api/v1/user/forgetPassword`, params)
         .then(res => {
           if(res.data.status == "success") {
-            this.login_toast.text = 'Connexion réaliser avec succées.'
+            this.login_toast.text = 'Un mail viens de vous être envoyer avec les instructions.'
             this.login_toast.snackbar = true;
             this.setToken(res.data.result);
             setTimeout(() => {
@@ -87,7 +71,7 @@ export default {
               this.$router.push({ name: 'index' });
             }, 1500);
           } else {
-            this.login_toast.text = 'Erreur de connexion.'
+            this.login_toast.text = 'Aucun mail correspondant.'
             this.login_toast.snackbar = true;
           }
 
@@ -115,5 +99,9 @@ div {
   display: block !important;
   margin-left: auto;
   margin-right: auto;
+}
+h3 {
+  margin: 15px;
+  font-size: 1.7em;
 }
 </style>

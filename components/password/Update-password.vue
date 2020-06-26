@@ -3,40 +3,31 @@
     <v-container>
       <v-card class="mx-auto" max-width="444" outlined>
         <v-card-text>
+          <h3 class="center">Mot de passe oublier</h3>
           <v-row>
             <v-col cols="12" md="12">
               <v-text-field
-                v-model="email"
-                :rules="emailRules"
-                label="Adresse mail"
-                type="email"
-                required
-              ></v-text-field>
-            </v-col>
-
-            <v-col cols="12" md="12">
-              <v-text-field
-                v-model="password"
+                v-model="password1"
                 :rules="passwordRules"
-                label="Mot de passe"
+                label="Nouveau mot de passe"
                 type="password"
                 required
               ></v-text-field>
             </v-col>
 
             <v-col cols="12" md="12">
-              <v-btn
-                :disabled="!valid"
-                color="success"
-                class="center"
-                @click="login"
-              >Se connecter</v-btn>
+              <v-text-field
+                v-model="password2"
+                :rules="passwordRules"
+                label="Confirmer votre mot de passe"
+                type="password"
+                required
+              ></v-text-field>
             </v-col>
 
-            <v-row>
-              <v-col cols="12" md="6"><nuxt-link class="center" to="password/forgot-password">Mot de passe oublier ?</nuxt-link></v-col>
-              <v-col cols="12" md="6"><nuxt-link class="center" to="">Inscription</nuxt-link></v-col>
-            </v-row>
+            <v-col cols="12" md="12">
+              <v-btn :disabled="!valid" color="success" class="center" @click="resetMdp">Modifier</v-btn>
+            </v-col>
           </v-row>
         </v-card-text>
       </v-card>
@@ -52,54 +43,54 @@
 
 <script>
 import axios from "axios";
-import { EventBus } from '../bus.js';
+import { EventBus } from "../../bus.js";
 
 export default {
   data: function() {
     return {
       login_toast: { snackbar: false, text: "" },
       valid: false,
-      email: "",
-      emailRules: [
-        v => !!v || "Adresse mail requis.",
-        v => /.+@.+/.test(v) || "Format invalide"
-      ],
-      password: "",
+      password1: "",
+      password2: "",
       passwordRules: [v => !!v || "Mot de passe requis"]
     };
   },
   async mounted() {},
   methods: {
     emitGlobalClickEvent() {
-      EventBus.$emit('setHeader', 'update_nav');
+      EventBus.$emit("setHeader", "update_nav");
     },
-    login() {
-      let params = { email : this.email, password: this.password }
+    resetMdp() {
+      let id = this.$route.query.id;
+      let params = {
+        firstPassword: this.password1,
+        secondPassword: this.password2
+      };
       return axios
-        .post(`http://localhost:4000/api/v1/user/connection`, params)
+        .post(`http://localhost:4000/api/v1/user/resetPassword/` + id, params)
         .then(res => {
-          if(res.data.status == "success") {
-            this.login_toast.text = 'Connexion réaliser avec succées.'
+          if (res.data.status == "success") {
+            this.login_toast.text = "Mot de passe modifier.";
             this.login_toast.snackbar = true;
             this.setToken(res.data.result);
             setTimeout(() => {
               this.emitGlobalClickEvent();
-              this.$router.push({ name: 'index' });
+              this.$router.push({ name: "index" });
             }, 1500);
           } else {
-            this.login_toast.text = 'Erreur de connexion.'
+            this.login_toast.text = "Les mots de passes ne correspondent pas.";
             this.login_toast.snackbar = true;
           }
-
         })
         .catch(e => {
           console.log("catch");
-          this.login_toast.text = 'Une erreur est survenue. Veuillez réessayer ultèrieurement.'
+          this.login_toast.text =
+            "Une erreur est survenue. Veuillez réessayer ultèrieurement.";
           this.login_toast.snackbar = true;
         });
     },
     setToken(token) {
-      localStorage.setItem('x-access-token',token);
+      localStorage.setItem("x-access-token", token);
     }
   }
 };
@@ -115,5 +106,9 @@ div {
   display: block !important;
   margin-left: auto;
   margin-right: auto;
+}
+h3 {
+  margin: 15px;
+  font-size: 1.7em;
 }
 </style>
