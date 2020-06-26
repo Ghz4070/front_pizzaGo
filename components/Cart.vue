@@ -14,7 +14,12 @@
                 <TableCart :thead="tableDessert" :dessert="cart.contents" className="d-flex flex-row flex-wrap justify-space-around max-width"/>
             <div class="d-flex flex-row flex-wrap justify-space-around max-width">
                 <p>Total :</p>
-                <p>le montant</p>
+                <template v-if="promo && cart.total_price">
+                    <p>{{(cart.total_price - ( cart.total_price * (promo/100) ))}}</p>
+                </template>
+                <template v-else> 
+                    <p>{{cart.total_price}}€</p>
+                </template>
             </div>
             <a class="buy-button" href="">Commander</a>
         </div>
@@ -34,9 +39,9 @@ export default {
     },
     data() {
         return {
-            tablePizza : ['Pizza', 'Taille', 'Quantité', 'Prix'], 
-            tableBoisson : ['Boissons', 'Quantité', 'Prix'],
-            tableDessert : ['Desserts', 'Quantité', 'Prix'],
+            tablePizza : ['Pizza', 'Taille', 'Prix'], 
+            tableBoisson : ['Boissons', 'Prix'],
+            tableDessert : ['Desserts', 'Prix'],
             promo:null,
             cart: {}
         }
