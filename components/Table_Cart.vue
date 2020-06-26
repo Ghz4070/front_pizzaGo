@@ -7,7 +7,7 @@
                 </tr>
             </thead>
             <tbody>
-                <template v-if="pizza && Thead[0]">
+                <template v-if="pizza && Thead[0] === 'Pizza' ">
                     <template v-for="(element, key) in pizza.pizzas">
                         <tr>
                             <td :key="key">{{element.name}}</td>
@@ -17,7 +17,24 @@
                         </tr>
                     </template>
                 </template>
-             
+                <template v-if="drinks && Thead[0] === 'Boissons'">
+                    <template v-for="(element, key) in drinks.drinks">
+                        <tr>
+                            <td :key="key">{{element.name}}</td>
+                            <td :key="key">{{element.quantity}}</td>
+                            <td :key="key">{{element.price}}</td>
+                        </tr>
+                    </template>
+                </template>
+                <template v-if="dessert && Thead[0] === 'Desserts'">
+                    <template v-for="(element, key) in dessert.desserts">
+                        <tr>
+                            <td :key="key">{{element.name}}</td>
+                            <td :key="key">{{element.quantity}}</td>
+                            <td :key="key">{{element.price}}</td>
+                        </tr>
+                    </template>
+                </template>
             </tbody>
         </table>
     </div>
