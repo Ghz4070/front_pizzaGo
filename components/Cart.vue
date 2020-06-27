@@ -23,7 +23,7 @@
                     <p>{{totalPrice.total}}€</p>
                 </template>
             </div>
-            <a class="buy-button" href="">Commander</a>
+            <a class="buy-button center" href="">Payer - {{ totalPrice.total }} €</a>
         </div>
     </div>  
 </template>
@@ -85,11 +85,19 @@ export default {
 </script>
 
 <style>
+h1.cursive-font {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    background-color: white;
+    width: inherit;
+    text-align: center;
+}
 .cart-container {
     position:fixed;
 }
 .cart-div {
-    height: calc(100% - 173px) !important;
+    height: calc(80% - 173px) !important;
     overflow-y:auto;
     overflow-x:hidden;
 }
@@ -124,10 +132,12 @@ table {
 
     .buy-button {
         padding: 10px 50px;
-        background-color: #ba7070;
+        background-color: #ba70709c;
         border-radius: 20px;
         text-decoration: none;
-        border: 1px solid white;
+        border: 1px solid #906767;
+        position: fixed;
+        bottom: 200px;
     }
 
     .buy-button:hover {
