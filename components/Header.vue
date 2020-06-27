@@ -68,7 +68,7 @@
                         <nuxt-link to>Commander</nuxt-link>
                         <nuxt-link to>Contact</nuxt-link>
                         <nuxt-link to>Changer ses informations</nuxt-link>
-                        <button>Déconnexion</button>
+                        <button @click="deconnection">Déconnexion</button>
                       </div>
                     </template>
                     <template v-else>
