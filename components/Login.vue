@@ -106,10 +106,6 @@ export default {
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
-div {
-  font-family: "Pacifico", cursive;
-}
 .center {
   text-align: center;
   display: block !important;
