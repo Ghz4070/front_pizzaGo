@@ -18,9 +18,8 @@
         <a href></a>
       </v-card-text>
 
-     <!--  <v-divider></v-divider> -->
       
-
+<v-divider></v-divider>
       <v-card-text class="black--text foot-text">
         {{ new Date().getFullYear() }} —
         <strong>PizzaGo</strong>
