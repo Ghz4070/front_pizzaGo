@@ -7,7 +7,27 @@
           <template v-if="img">
             <nuxt-link to>Commander</nuxt-link>
             <nuxt-link to>Contact</nuxt-link>
-            <img src="~/static/user.svg" height="30" width="30" />
+
+            <v-dialog v-model="dialogFullScreen" fullscreen hide-overlay transition="dialog-bottom-transition">
+              <template v-slot:activator="{ on, attrs }">
+                <img src="~/static/user.svg" height="30" width="30" v-bind="attrs" v-on="on"/>
+              </template>
+              <v-card>
+                <v-toolbar dark color="primary">
+                  <v-btn icon dark @click="dialogFullScreen = false">
+                    <v-icon>mdi-close</v-icon>
+                  </v-btn>
+                <v-toolbar-title>Utilisateur</v-toolbar-title>
+                </v-toolbar>
+                <v-list three-line subheader>
+                  <div class="desktop-menu">
+                    <nuxt-link to>Changer ses informations</nuxt-link>
+                    <nuxt-link to>Déconnexion</nuxt-link>
+                  </div>
+                </v-list>
+              </v-card>
+            </v-dialog>
+
           </template>
           <template v-else>
             <nuxt-link to="/">Accueil</nuxt-link>
@@ -79,6 +99,7 @@ export default {
   data() {
     return {
       img: "",
+      dialogFullScreen: false,
       dialog: false,
     };
   },
@@ -119,6 +140,7 @@ export default {
   background-color: #979797;
   color: white;
 }
+
 .hamburger-menu {
   text-align: right;
   margin-top: 28px;
@@ -126,6 +148,22 @@ export default {
 .hamburger-menu:hover {
   filter: invert(100%);
 }
+
+.desktop-menu {
+  display: grid;
+  text-align: center;
+  font-size: 30px;
+  margin: 30%; 
+}
+
+.desktop-menu a {
+
+  padding: 20px 0 0 0;
+  text-decoration: none;
+  color: #8c5b38;
+}
+
+
 .mobile-menu {
   display: grid;
   text-align: center;
