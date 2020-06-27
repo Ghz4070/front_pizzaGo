@@ -22,7 +22,7 @@
                 <v-list three-line subheader>
                   <div class="desktop-menu">
                     <nuxt-link to>Changer ses informations</nuxt-link>
-                    <nuxt-link to>Déconnexion</nuxt-link>
+                    <button @click="deconnection">Déconnexion</button>
                   </div>
                 </v-list>
               </v-card>
@@ -68,7 +68,7 @@
                         <nuxt-link to>Commander</nuxt-link>
                         <nuxt-link to>Contact</nuxt-link>
                         <nuxt-link to>Changer ses informations</nuxt-link>
-                        <nuxt-link to>Déconnexion</nuxt-link>
+                        <button>Déconnexion</button>
                       </div>
                     </template>
                     <template v-else>
@@ -134,6 +134,15 @@ export default {
       }else {
         return false
       }
+    },
+    deconnection() {
+      localStorage.removeItem('x-access-token');
+      if(this.$router.app._route !== "/"){
+        this.$router.push({ name: "index" });
+        setTimeout(() => location.reload(true),50);
+      }else {
+        location.reload(true);
+      }
     }
   }
 };
@@ -171,7 +180,7 @@ export default {
   margin: 30%; 
 }
 
-.desktop-menu a {
+.desktop-menu a, button {
 
   padding: 20px 0 0 0;
   text-decoration: none;
@@ -184,7 +193,7 @@ export default {
   text-align: center;
   font-size: 26px;
 }
-.mobile-menu a {
+.mobile-menu a, button {
   padding: 20px 0 0 0;
   text-decoration: none;
   color: #8c5b38;
