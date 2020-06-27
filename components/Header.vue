@@ -15,6 +15,9 @@
             <nuxt-link to>Inscription</nuxt-link>
             <nuxt-link to>Commander</nuxt-link>
             <nuxt-link to>Contact</nuxt-link>
+            <!-- v-if="ROLE == ADMIN" -->
+            <nuxt-link to="admin">Admin</nuxt-link>
+            <!-- ROLE == ADMIN -->
           </template>
         </nav>
       </div>
@@ -152,7 +155,7 @@ export default {
     padding: 10px 20px 0 0;
 }
 
-/** ----!!----> 
+/** ----!!---->
  MOBILE RESPONSIVE
 <----!!---- **/
 
@@ -168,7 +171,7 @@ export default {
   }
 }
 
-/** ----!!----> 
+/** ----!!---->
    MOBILE RESPONSIVE
   <----!!---- **/
 </style>
