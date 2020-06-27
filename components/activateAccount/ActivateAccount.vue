@@ -32,7 +32,7 @@ export default {
                 }, 1500);
             }
         },
-        removeSlash(route) {
+        removeSlash() {
             let rt = this.$route.query.token.toString();
             return (rt.split('/').join(''))
         }
