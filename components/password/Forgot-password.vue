@@ -16,8 +16,13 @@
             </v-col>
 
             <v-col cols="12" md="12">
+              <!-- load spinner -->
+              <div v-if="check" class="center">
+                <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
+              </div>
               <v-btn
-                :disabled="!valid"
+              v-if="!check"
+                :disabled="!valid || check"
                 color="success"
                 class="center"
                 @click="resetMdp"
@@ -43,6 +48,7 @@ import { EventBus } from '../../bus.js';
 export default {
   data: function() {
     return {
+      check: false,
       login_toast: { snackbar: false, text: "" },
       valid: false,
       email: "",
@@ -54,10 +60,8 @@ export default {
   },
   async mounted() {},
   methods: {
-    emitGlobalClickEvent() {
-      EventBus.$emit('setHeader', 'update_nav');
-    },
     resetMdp() {
+      this.check = true;
       let params = { email : this.email }
       return axios
         .post(`http://localhost:4000/api/v1/user/forgetPassword`, params)
@@ -65,12 +69,12 @@ export default {
           if(res.data.status == "success") {
             this.login_toast.text = 'Un mail viens de vous être envoyer avec les instructions.'
             this.login_toast.snackbar = true;
-            this.setToken(res.data.result);
+            this.check = false;
             setTimeout(() => {
-              this.emitGlobalClickEvent();
               this.$router.push({ name: 'index' });
             }, 1500);
           } else {
+            this.check = false;
             this.login_toast.text = 'Aucun mail correspondant.'
             this.login_toast.snackbar = true;
           }
@@ -82,9 +86,6 @@ export default {
           this.login_toast.snackbar = true;
         });
     },
-    setToken(token) {
-      localStorage.setItem('x-access-token',token);
-    }
   }
 };
 </script>
