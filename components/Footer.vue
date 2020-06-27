@@ -20,7 +20,7 @@
       
 <v-divider></v-divider>
       <v-card-text class="black--text foot-text">
-        {{ new Date().getFullYear() }} —
+        Copyright © {{ new Date().getFullYear() }} All Rights Reserved —
         <strong>PizzaGo</strong>
       </v-card-text>
     </v-card>
