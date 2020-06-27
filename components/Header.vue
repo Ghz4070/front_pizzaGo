@@ -96,6 +96,8 @@
 
 <script>
 import { EventBus } from '../bus.js';
+import KJUR from 'jsrsasign';
+
 export default {
   data() {
     return {
@@ -115,11 +117,23 @@ export default {
   methods: {
     checkStorage() {
       console.log(localStorage.getItem('x-access-token'))
-        if(localStorage.getItem('x-access-token')){
-      this.img = true;
-    } else {
-      this.img = false;
-    }
+      if(localStorage.getItem('x-access-token') && this.checkTokenSession()){
+        this.img = true;
+      } else {
+        this.img = false;
+      }
+    },
+    checkTokenSession() {
+      const getToken = localStorage.getItem('x-access-token');
+      const secret = process.env.SECRET;
+      const algo = {alg: [process.env.ALGO]};
+      const checkToken = KJUR.jws.JWS.verifyJWT(getToken, secret, algo);
+
+      if(checkToken){
+        return true
+      }else {
+        return false
+      }
     }
   }
 };
