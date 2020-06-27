@@ -35,7 +35,7 @@
 
             <v-row>
               <v-col cols="12" md="6"><nuxt-link class="center" to="password/forgot-password">Mot de passe oublier ?</nuxt-link></v-col>
-              <v-col cols="12" md="6"><nuxt-link class="center" to="">Inscription</nuxt-link></v-col>
+              <v-col cols="12" md="6"><nuxt-link class="center" to="inscription">Inscription</nuxt-link></v-col>
             </v-row>
           </v-row>
         </v-card-text>
