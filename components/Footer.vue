@@ -17,7 +17,6 @@
         <a href>PLAN DU SITE</a>
         <a href></a>
       </v-card-text>
-
       
 <v-divider></v-divider>
       <v-card-text class="black--text foot-text">
