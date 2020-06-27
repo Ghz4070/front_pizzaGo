@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex flex-column flex-wrap cart-div .rounded-xl cart-container">
-        <div class="d-flex flex-column flex-wrap justify-space-around align-center align-content-space-between max-width">
-            <h1>Panier</h1>
+        <div class="d-flex flex-column flex-wrap justify-space-around align-center align-content-space-between max-width cursive-font">
+            <h1 class="cursive-font">Panier</h1>
             <form @submit="submitPromo">
                 <label for="promo">Code promo</label>
                 <div class="d-flex flex-row flex-wrap justify-space-around form">
@@ -23,7 +23,7 @@
                     <p>{{totalPrice.total}}€</p>
                 </template>
             </div>
-            <a class="buy-button" href="">Commander</a>
+            <a class="buy-button center" href="">Payer - {{ totalPrice.total }} €</a>
         </div>
     </div>  
 </template>
@@ -85,11 +85,21 @@ export default {
 </script>
 
 <style>
+h1.cursive-font {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    background-color: white;
+    width: inherit;
+    text-align: center;
+}
 .cart-container {
     position:fixed;
 }
 .cart-div {
-    height: auto !important;
+    height: calc(80% - 173px) !important;
+    overflow-y:auto;
+    overflow-x:hidden;
 }
 table {
   margin-left: 5px;
@@ -104,7 +114,7 @@ table {
 
     .max-width {
         width: 100%;
-        margin: 10% 0;
+        padding: 0px 0px 30px 0px;
     }
 
     .form input {
@@ -122,10 +132,12 @@ table {
 
     .buy-button {
         padding: 10px 50px;
-        background-color: #ba7070;
+        background-color: #ba70709c;
         border-radius: 20px;
         text-decoration: none;
-        border: 1px solid white;
+        border: 1px solid #906767;
+        position: fixed;
+        bottom: 200px;
     }
 
     .buy-button:hover {
@@ -145,4 +157,5 @@ a.buy-button {
 thead {
   line-height: 40px;
     }
+
 </style>

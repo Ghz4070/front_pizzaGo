@@ -12,7 +12,7 @@
           <template v-else>
             <nuxt-link to="/">Accueil</nuxt-link>
             <nuxt-link to="login">Connexion</nuxt-link>
-            <nuxt-link to>Inscription</nuxt-link>
+            <nuxt-link to="inscription">Inscription</nuxt-link>
             <nuxt-link to>Commander</nuxt-link>
             <nuxt-link to>Contact</nuxt-link>
             <!-- v-if="ROLE == ADMIN" -->

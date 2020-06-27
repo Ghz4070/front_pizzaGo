@@ -8,12 +8,11 @@
       v-for="category in categories"
       :key="category.id"
     >
-      <div class="category">{{ category.name }}</div>
+      <div class="category pacifico-font">{{ category.name }}</div>
       <v-divider style="margin:0 15px"></v-divider>
       <!-- load spinner -->
       <div v-if="pizzas.length == 0" class="center">
         <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
-        <!-- <img src="https://media1.tenor.com/images/804e49758183b561e5a882723bf5a316/tenor.gif"> -->
       </div>
       <v-row>
         <v-col
@@ -26,7 +25,7 @@
           <v-card outlined class="ma-3 pa-3 card_pizza" max-width="400">
             <v-img height="200px" class="white--text align-end" :src="pizza.img"></v-img>
 
-            <v-card-subtitle class="pb-0 pizza_name">{{ pizza.name }}</v-card-subtitle>
+            <v-card-subtitle class="pb-0 pizza_name pacifico-font">{{ pizza.name }}</v-card-subtitle>
 
             <v-card-text class="text--primary center">
               <v-select
@@ -175,19 +174,12 @@ export default {
       let desserts = content.contents.desserts.length;
       if(pizzas > 0 || desserts > 0 || drinks > 0)
       this.$emit("changeLocalStorage")
-      /* content.contents.pizzas.length > 0 ? this.$emit("changeLocalStorage") : '';
-      content.contents.drinks.length > 0 ? this.$emit("changeLocalStorage") : '';
-      content.contents.desserts.length > 0 ? this.$emit("changeLocalStorage") : ''; */
     }
   }
 };
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
-div {
-  font-family: "Pacifico", cursive;
-}
 .v-sheet.v-card {
   border-radius: 30px;
 }

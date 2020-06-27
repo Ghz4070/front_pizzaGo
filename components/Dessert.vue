@@ -131,10 +131,6 @@ export default {
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
-div {
-  font-family: "Pacifico", cursive;
-}
 .v-sheet.v-card {
   border-radius: 30px;
 }

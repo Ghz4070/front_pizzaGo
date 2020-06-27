@@ -35,7 +35,7 @@
 
             <v-row>
               <v-col cols="12" md="6"><nuxt-link class="center" to="password/forgot-password">Mot de passe oublier ?</nuxt-link></v-col>
-              <v-col cols="12" md="6"><nuxt-link class="center" to="">Inscription</nuxt-link></v-col>
+              <v-col cols="12" md="6"><nuxt-link class="center" to="inscription">Inscription</nuxt-link></v-col>
             </v-row>
           </v-row>
         </v-card-text>
@@ -106,10 +106,6 @@ export default {
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
-div {
-  font-family: "Pacifico", cursive;
-}
 .center {
   text-align: center;
   display: block !important;

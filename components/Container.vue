@@ -11,7 +11,7 @@
             <a v-on:click="getPosition()" class="localisation-info right"><img width="20px" src="~/static/position.png">Changer de PizzaGo ?</a>
           </v-col>
       </v-row>
-        <v-tabs class="tabs" @change="changeTab(currentTab)" centered v-model="currentTab" background-color="white" color="black">
+        <v-tabs class="tabs pacifico-font" @change="changeTab(currentTab)" centered v-model="currentTab" background-color="white" color="black">
           <v-tab  v-for="item in items" :key="item.tab">{{ item.tab }}</v-tab>
         </v-tabs>
 
@@ -96,10 +96,6 @@ export default {
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
-div {
-  font-family: "Pacifico", cursive;
-}
 .resume {
   font-size: 18px;
   font-family: cursive;
