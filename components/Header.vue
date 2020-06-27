@@ -67,8 +67,9 @@
                       <div @click="dialog = false" class="mobile-menu">
                         <nuxt-link to>Commander</nuxt-link>
                         <nuxt-link to>Contact</nuxt-link>
+                        <nuxt-link to>Changer ses informations</nuxt-link>
+                        <nuxt-link to>Déconnexion</nuxt-link>
                       </div>
-                      <img src="~/static/user.svg" height="30" width="30" />
                     </template>
                     <template v-else>
                       <div @click="dialog = false" class="mobile-menu">
