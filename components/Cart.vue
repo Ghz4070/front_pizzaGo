@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex flex-column flex-wrap cart-div .rounded-xl cart-container">
-        <div class="d-flex flex-column flex-wrap justify-space-around align-center align-content-space-between max-width">
-            <h1>Panier</h1>
+        <div class="d-flex flex-column flex-wrap justify-space-around align-center align-content-space-between max-width cursive-font">
+            <h1 class="cursive-font">Panier</h1>
             <form @submit="submitPromo">
                 <label for="promo">Code promo</label>
                 <div class="d-flex flex-row flex-wrap justify-space-around form">
@@ -106,7 +106,6 @@ table {
 
     .max-width {
         width: 100%;
-        margin: 10% 0;
         padding: 0px 0px 30px 0px;
     }
 

@@ -42,6 +42,8 @@ export default {
 </script>
 
 <style>
+  @import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
+
   html, body, #__nuxt, #__layout, #app{
     margin: O;
     color: black;
@@ -52,4 +54,10 @@ export default {
   .container {
     padding: 0 40px;
   }
+.pacifico-font {
+  font-family: "Pacifico", cursive;
+}
+.cursive-font {
+  font-family: cursive;
+}
 </style>
