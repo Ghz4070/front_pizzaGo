@@ -1,6 +1,6 @@
 <template>
   <v-row justify="end">
-    <v-dialog v-model="dialog" persistent max-width="600px">
+    <v-dialog v-model="dialog" max-width="600px">
       <template v-slot:activator="{ on, attrs }">
         <v-btn icon dark v-bind="attrs" v-on="on">
           <v-icon>mdi-pencil</v-icon>
@@ -12,24 +12,88 @@
         </v-card-title>
         <v-card-text>
           <v-container>
-            <v-row align="center">
-              <v-col cols="12" sm="6">
-                <v-text-field
+            <v-row>
+              <v-cols cols="12" md="6">
+                <v-text-field outlined dense label="Nom de la pizza" :value="dataPizza.name"></v-text-field>
+              </v-cols>
+            </v-row>
+
+            <v-row>
+              <v-cols cols="12" md="6">
+                <h3 class="mb-3">Ingredients</h3>
+              </v-cols>
+            </v-row>
+
+            <v-row>
+              <v-cols v-for="(ingredient, index) in ingredients" :key="index" cols="12" md="6">
+                <v-autocomplete
+                  :items="ingredient.sauces.items"
                   outlined
                   dense
                   clearable
-                  label="Nom de la pizza"
-                  :value="dataPizza.name"
-                ></v-text-field>
-              </v-col>
+                  chips
+                  small-chips
+                  :label="ingredient.sauces.label"
+                  multiple
+                ></v-autocomplete>
+              </v-cols>
 
-              <v-col cols="12" sm="6">
-                <SelectionIngredients />
-              </v-col>
+              <v-cols v-for="(ingredient, index) in ingredients" :key="index" cols="12" md="6">
+                <v-autocomplete
+                  :items="ingredient.viandes.items"
+                  outlined
+                  dense
+                  clearable
+                  chips
+                  small-chips
+                  :label="ingredient.viandes.label"
+                  multiple
+                ></v-autocomplete>
+              </v-cols>
+            </v-row>
 
-              <v-col cols="12">
-                <v-select outlined dense :items="items" label="Outlined style"></v-select>
-              </v-col>
+            <v-row>
+              <v-cols v-for="(ingredient, index) in ingredients" :key="index" cols="12" md="6">
+                <v-autocomplete
+                  :items="ingredient.legumes.items"
+                  outlined
+                  dense
+                  clearable
+                  chips
+                  small-chips
+                  :label="ingredient.legumes.label"
+                  multiple
+                ></v-autocomplete>
+              </v-cols>
+
+              <v-cols v-for="(ingredient, index) in ingredients" :key="index" cols="12" md="6">
+                <v-autocomplete
+                  :items="ingredient.fromages.items"
+                  outlined
+                  dense
+                  clearable
+                  chips
+                  small-chips
+                  :label="ingredient.fromages.label"
+                  multiple
+                ></v-autocomplete>
+              </v-cols>
+            </v-row>
+
+            <v-row>
+              <v-cols v-for="(ingredient, index) in ingredients" :key="index" cols="12" md="6">
+                <v-autocomplete
+                  :items="ingredient.epices.items"
+                  outlined
+                  dense
+                  clearable
+                  chips
+                  small-chips
+                  :label="ingredient.epices.label"
+                  multiple
+                ></v-autocomplete>
+              </v-cols>
+              
             </v-row>
           </v-container>
         </v-card-text>
@@ -44,22 +108,24 @@
 </template>
 
 <script>
-import SelectionIngredients from "@/components/admin/pizza/EditPizza/SelectionIngredients";
-
 export default {
-  name: "EditPizza",
-  components: {
-    SelectionIngredients
-  },
   props: {
     dataPizza: Object,
-    size: Object,
-    category: Object
+    // sizes: Object,
+    categories: Object
   },
   data: () => ({
     dialog: false,
     items: ["Foo", "Bar", "Fizz", "Buzz"]
-  })
+  }),
+  computed: {
+    ingredients() {
+      return this.$store.state.ingredients;
+    }
+  },
+  mounted () {
+    console.log(this.categories);
+  },
 };
 </script>
 

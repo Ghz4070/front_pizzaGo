@@ -28,7 +28,7 @@
             <v-card-actions>
               <v-spacer></v-spacer>
 
-              <EditPizza :dataPizza="pizza" />
+              <EditPizza :dataPizza="pizza" :categories="categories"/>
 
               <v-btn icon class="ml-3">
                 <v-icon>mdi-trash-can</v-icon>
@@ -55,9 +55,9 @@ export default {
   data: () => {
     return {
       pizzas: [],
+      categories: null,
+      sizes: [],
       loading: true,
-      categories: undefined,
-      size: undefined
     };
   },
   async mounted() {
@@ -106,7 +106,7 @@ export default {
       return axios
         .get(`http://localhost:4000/api/v1/size`)
         .then(res => {
-          this.size = res.data.result;
+          this.sizes = res.data.result;
         })
         .catch(e => {
           console.log("catch");

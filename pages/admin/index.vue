@@ -3,14 +3,16 @@
     <v-container>
       <v-card class="mx-auto" outlined>
         <v-tabs
-          class="tabs"
+          dark
           @change="changeTab(currentTab)"
           centered
           v-model="currentTab"
-          background-color="white"
-          color="black"
+          background-color="deep-orange"
+          color="deep-orange lighten-5"
+          class="elevation-6"
+          grow
         >
-          <v-tab v-for="item in items" :key="item.tab">{{ item.tab }}</v-tab>
+          <v-tab v-for="(item, index) in items" :key="index">{{ item.tab }}</v-tab>
         </v-tabs>
         <!-- PIZZA -->
         <div v-if="currentTab == 0">
@@ -18,7 +20,7 @@
         </div>
         <!-- Boisson -->
         <div v-if="currentTab == 1">
-          <!-- <Drink /> -->
+          <Drink />
         </div>
         <!-- Dessert -->
         <div v-if="currentTab == 2">
@@ -31,10 +33,12 @@
 
 <script>
 import Pizza from "@/components/admin/pizza/Pizza";
+import Drink from "@/components/admin/drink/Drink";
 
 export default {
   components: {
-    Pizza
+    Pizza,
+    Drink
   },
   data: function() {
     return {
