@@ -151,6 +151,12 @@
                                     </v-btn>
                                     </v-card-actions>
                                 </v-card>
+                                <v-snackbar v-model="errorIngrediant.snackbar">
+                                    {{ errorIngrediant.text }}
+                                    <template v-slot:action="{ attrs }">
+                                        <v-btn color="pink" text v-bind="attrs" @click="errorIngrediant.snackbar = false">X</v-btn>
+                                    </template>
+                                </v-snackbar>
                             </v-dialog>
                         </tr>
                         <p v-if="checkLengthArrayIngrediant(key)">Ingrédiant</p>
@@ -184,7 +190,7 @@ export default {
         return {
             totalPricePizza : null,
             dialog: false,
-            errorIngrediant: false,
+            errorIngrediant: { snackbar: false, text: "Vous pouvez qu'ajouter 6 ingrédiant" },
             currentSelect : {
                 id: '',
                 sauce : '',
@@ -280,7 +286,7 @@ export default {
                         break;
                 }
             }else {
-                this.errorIngrediant = true;
+                this.errorIngrediant.snackbar = true;
             }
         },
         getAddIngrediant() {
