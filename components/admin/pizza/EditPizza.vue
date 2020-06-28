@@ -14,7 +14,7 @@
           <v-container>
             <v-row>
               <v-col cols="12" md="12">
-                <v-text-field dense clearable label="Nom de la pizza" :value="dataPizza.name"></v-text-field>
+                <v-text-field clearable label="Nom de la pizza" :value="dataPizza.name"></v-text-field>
               </v-col>
 
               <v-col cols="12" md="12">
