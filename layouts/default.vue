@@ -60,4 +60,7 @@ export default {
 .cursive-font {
   font-family: cursive;
 }
+.border-radius30 {
+  border-radius: 30px;
+}
 </style>

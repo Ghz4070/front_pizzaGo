@@ -1,7 +1,14 @@
 <template>
+<div>
+  <h1 class="title-subscribe">
+    Inscription
+  </h1>
+    <p class="content-subscribe">
+          En vous inscrivant vous bénéficierez d'offre promotionnelle exclusive.
+    </p>
   <v-row align="center" justify="center">
     <v-col cols="12" md="12">
-      <v-card class="mx-auto" max-width="444" outlined>
+      <v-card class="mx-auto subscribe-card" max-width="600" outlined>
         <v-card-text>
           <v-form ref="form" v-model="valid">
             <v-text-field v-model="firstname" :rules="lengthRules" label="Prénom*" required></v-text-field>
@@ -42,7 +49,7 @@
 
             <v-btn :disabled="!valid" color="success" class="mr-4" @click="inscription">Inscription</v-btn>
           </v-form>
-        </v-card-text>
+        </v-card-text><br>
       </v-card>
 
       <v-snackbar v-model="login_toast.snackbar">
@@ -53,6 +60,7 @@
       </v-snackbar>
     </v-col>
   </v-row>
+</div>
 </template>
 
 <script>
@@ -122,4 +130,16 @@ export default {
 </script>
 
 <style>
+.subscribe-card {
+  padding: 25px;
+}
+.title-subscribe {
+  font-size: 3em;
+}
+.link-subscribe {
+  color:#f6ac00;
+}
+.content-subscribe {
+  margin-bottom: 25px !important;
+}
 </style>

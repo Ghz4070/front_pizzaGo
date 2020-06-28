@@ -131,9 +131,9 @@ export default {
 </script>
 
 <style>
-.v-sheet.v-card {
+/* .v-sheet.v-card {
   border-radius: 30px;
-}
+} */
 .center {
   text-align: center;
   display: block !important;

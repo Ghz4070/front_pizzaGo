@@ -7,7 +7,27 @@
           <template v-if="img">
             <nuxt-link to>Commander</nuxt-link>
             <nuxt-link to>Contact</nuxt-link>
-            <img src="~/static/user.svg" height="30" width="30" />
+
+            <v-dialog v-model="dialogFullScreen" fullscreen hide-overlay transition="dialog-bottom-transition">
+              <template v-slot:activator="{ on, attrs }">
+                <img src="~/static/user.svg" height="30" width="30" v-bind="attrs" v-on="on"/>
+              </template>
+              <v-card>
+                <v-toolbar dark color="primary">
+                  <v-btn icon dark @click="dialogFullScreen = false">
+                    <v-icon>mdi-close</v-icon>
+                  </v-btn>
+                <v-toolbar-title>Utilisateur</v-toolbar-title>
+                </v-toolbar>
+                <v-list three-line subheader>
+                  <div class="desktop-menu">
+                    <nuxt-link to>Changer ses informations</nuxt-link>
+                    <button @click="deconnection">Déconnexion</button>
+                  </div>
+                </v-list>
+              </v-card>
+            </v-dialog>
+
           </template>
           <template v-else>
             <nuxt-link to="/">Accueil</nuxt-link>
@@ -50,8 +70,9 @@
                       <div @click="dialog = false" class="mobile-menu">
                         <nuxt-link to>Commander</nuxt-link>
                         <nuxt-link to>Contact</nuxt-link>
+                        <nuxt-link to>Changer ses informations</nuxt-link>
+                        <button @click="deconnection">Déconnexion</button>
                       </div>
-                      <img src="~/static/user.svg" height="30" width="30" />
                     </template>
                     <template v-else>
                       <div @click="dialog = false" class="mobile-menu">
@@ -78,10 +99,13 @@
 
 <script>
 import { EventBus } from '../bus.js';
+import KJUR from 'jsrsasign';
+
 export default {
   data() {
     return {
       img: "",
+      dialogFullScreen: false,
       dialog: false,
     };
   },
@@ -96,11 +120,32 @@ export default {
   methods: {
     checkStorage() {
       console.log(localStorage.getItem('x-access-token'))
-        if(localStorage.getItem('x-access-token')){
-      this.img = true;
-    } else {
-      this.img = false;
-    }
+      if(localStorage.getItem('x-access-token') && this.checkTokenSession()){
+        this.img = true;
+      } else {
+        this.img = false;
+      }
+    },
+    checkTokenSession() {
+      const getToken = localStorage.getItem('x-access-token');
+      const secret = process.env.SECRET;
+      const algo = {alg: [process.env.ALGO]};
+      const checkToken = KJUR.jws.JWS.verifyJWT(getToken, secret, algo);
+
+      if(checkToken){
+        return true
+      }else {
+        return false
+      }
+    },
+    deconnection() {
+      localStorage.removeItem('x-access-token');
+      if(this.$router.app._route !== "/"){
+        this.$router.push({ name: "index" });
+        setTimeout(() => location.reload(true),50);
+      }else {
+        location.reload(true);
+      }
     }
   }
 };
@@ -122,6 +167,7 @@ export default {
   background-color: #979797;
   color: white;
 }
+
 .hamburger-menu {
   text-align: right;
   margin-top: 28px;
@@ -129,12 +175,28 @@ export default {
 .hamburger-menu:hover {
   filter: invert(100%);
 }
+
+.desktop-menu {
+  display: grid;
+  text-align: center;
+  font-size: 30px;
+  margin: 30%; 
+}
+
+.desktop-menu a, button {
+
+  padding: 20px 0 0 0;
+  text-decoration: none;
+  color: #8c5b38;
+}
+
+
 .mobile-menu {
   display: grid;
   text-align: center;
   font-size: 26px;
 }
-.mobile-menu a {
+.mobile-menu a, button {
   padding: 20px 0 0 0;
   text-decoration: none;
   color: #8c5b38;
