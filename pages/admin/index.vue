@@ -33,7 +33,7 @@
 
 <script>
 import Pizza from "@/components/admin/pizza/Pizza";
-import Pizza from "@/components/admin/drink/Drink";
+import Drink from "@/components/admin/drink/Drink";
 
 export default {
   components: {
