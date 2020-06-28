@@ -28,6 +28,12 @@
                                         />
                                         <button @click="addIngrediant">Ajouter</button>
                                     </div>
+                                        <template v-if="pizza.pizzas[currentSelect.id] && pizza.pizzas[currentSelect.id].ingrediantAdded">
+                                            <p v-for="(sauce, id) in pizza.pizzas[currentSelect.id].ingrediantAdded.sauce" :key="id">
+                                                {{sauce}}
+                                            </p>
+                                        </template>
+
                                     <div class="d-flex flex-row flex-wrap" id="viande">
                                         <v-select
                                             v-model="currentSelect.viande"
@@ -75,6 +81,9 @@
                                 </v-card>
                             </v-dialog>
                         </tr>
+                        <template v-if="pizza.pizzas[key].ingrediantAdded">
+                            <p>Ingrédiant</p>
+                        </template>
                     </template>
                 </template>
                 <template v-if="drinks && Thead[0] === 'Boissons'">
