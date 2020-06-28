@@ -1,6 +1,6 @@
 <template>
   <v-row justify="end">
-    <v-dialog v-model="dialog" max-width="600px">
+    <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on, attrs }">
         <v-btn icon dark v-bind="attrs" v-on="on">
           <v-icon>mdi-pencil</v-icon>
@@ -13,87 +13,68 @@
         <v-card-text>
           <v-container>
             <v-row>
-              <v-cols cols="12" md="6">
-                <v-text-field outlined dense label="Nom de la pizza" :value="dataPizza.name"></v-text-field>
-              </v-cols>
-            </v-row>
+              <v-col cols="12" md="12">
+                <v-text-field dense clearable label="Nom de la pizza" :value="dataPizza.name"></v-text-field>
+              </v-col>
 
-            <v-row>
-              <v-cols cols="12" md="6">
+              <v-col cols="12" md="12">
                 <h3 class="mb-3">Ingredients</h3>
-              </v-cols>
-            </v-row>
+              </v-col>
 
-            <v-row>
-              <v-cols v-for="(ingredient, index) in ingredients" :key="index" cols="12" md="6">
+              <v-col v-for="(ingredient, index) in ingredients" :key="index" cols="12" md="12">
                 <v-autocomplete
                   :items="ingredient.sauces.items"
-                  outlined
                   dense
                   clearable
                   chips
-                  small-chips
                   :label="ingredient.sauces.label"
                   multiple
                 ></v-autocomplete>
-              </v-cols>
+              </v-col>
 
-              <v-cols v-for="(ingredient, index) in ingredients" :key="index" cols="12" md="6">
+              <v-col v-for="(ingredient, index) in ingredients" :key="index" cols="12" md="6">
                 <v-autocomplete
                   :items="ingredient.viandes.items"
-                  outlined
                   dense
                   clearable
                   chips
-                  small-chips
                   :label="ingredient.viandes.label"
                   multiple
                 ></v-autocomplete>
-              </v-cols>
-            </v-row>
+              </v-col>
 
-            <v-row>
-              <v-cols v-for="(ingredient, index) in ingredients" :key="index" cols="12" md="6">
+              <v-col v-for="(ingredient, index) in ingredients" :key="index" cols="12" md="6">
                 <v-autocomplete
                   :items="ingredient.legumes.items"
-                  outlined
                   dense
                   clearable
                   chips
-                  small-chips
                   :label="ingredient.legumes.label"
                   multiple
                 ></v-autocomplete>
-              </v-cols>
+              </v-col>
 
-              <v-cols v-for="(ingredient, index) in ingredients" :key="index" cols="12" md="6">
+              <v-col v-for="(ingredient, index) in ingredients" :key="index" cols="12" md="6">
                 <v-autocomplete
                   :items="ingredient.fromages.items"
-                  outlined
                   dense
                   clearable
                   chips
-                  small-chips
                   :label="ingredient.fromages.label"
                   multiple
                 ></v-autocomplete>
-              </v-cols>
-            </v-row>
+              </v-col>
 
-            <v-row>
-              <v-cols v-for="(ingredient, index) in ingredients" :key="index" cols="12" md="6">
+              <v-col v-for="(ingredient, index) in ingredients" :key="index" cols="12" md="6">
                 <v-autocomplete
                   :items="ingredient.epices.items"
-                  outlined
                   dense
                   clearable
                   chips
-                  small-chips
                   :label="ingredient.epices.label"
                   multiple
                 ></v-autocomplete>
-              </v-cols>
-              
+              </v-col>
             </v-row>
           </v-container>
         </v-card-text>
@@ -123,9 +104,9 @@ export default {
       return this.$store.state.ingredients;
     }
   },
-  mounted () {
+  mounted() {
     console.log(this.categories);
-  },
+  }
 };
 </script>
 
