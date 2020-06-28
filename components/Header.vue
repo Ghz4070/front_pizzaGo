@@ -35,7 +35,7 @@
             <nuxt-link to="login">Connexion</nuxt-link>
             <nuxt-link to="inscription">Inscription</nuxt-link>
             <nuxt-link to="order">Commander</nuxt-link>
-            <nuxt-link to>Contact</nuxt-link>
+            <nuxt-link to="contact">Contact</nuxt-link>
             <!-- v-if="ROLE == ADMIN" -->
             <nuxt-link to="admin">Admin</nuxt-link>
             <!-- ROLE == ADMIN -->
@@ -69,8 +69,8 @@
                   <v-list three-line subheader>
                     <template v-if="img">
                       <div @click="dialog = false" class="mobile-menu">
-                        <nuxt-link to>Commander</nuxt-link>
-                        <nuxt-link to>Contact</nuxt-link>
+                        <nuxt-link to="order">Commander</nuxt-link>
+                        <nuxt-link to="contact">Contact</nuxt-link>
                         <nuxt-link to>Changer ses informations</nuxt-link>
                         <button @click="deconnection">Déconnexion</button>
                       </div>
@@ -79,9 +79,9 @@
                       <div @click="dialog = false" class="mobile-menu">
                         <nuxt-link to="/">Accueil</nuxt-link>
                         <nuxt-link to="login">Connexion</nuxt-link>
-                        <nuxt-link to>Inscription</nuxt-link>
-                        <nuxt-link to>Commander</nuxt-link>
-                        <nuxt-link to>Contact</nuxt-link>
+                        <nuxt-link to="inscription">Inscription</nuxt-link>
+                        <nuxt-link to="order">Commander</nuxt-link>
+                        <nuxt-link to="contact">Contact</nuxt-link>
                       </div>
                     </template>
                   </v-list>
