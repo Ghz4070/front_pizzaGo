@@ -28,7 +28,7 @@
             <v-card-actions>
               <v-spacer></v-spacer>
 
-              <EditPizza :dataPizza="pizza" :categories="categories"/>
+              <EditPizza :dataPizza="pizza" :categories="pizza.category"/>
 
               <v-btn icon class="ml-3">
                 <v-icon>mdi-trash-can</v-icon>
@@ -55,16 +55,14 @@ export default {
   data: () => {
     return {
       pizzas: [],
-      categories: null,
+      categories: [],
       sizes: [],
       loading: true,
     };
   },
   async mounted() {
     await this.getCategories();
-    await this.getSize();
     await this.getPizzas();
-    this.formatDatas(this.pizzas);
 
     if (this.pizzas != 0) {
       setTimeout(() => {
@@ -75,13 +73,6 @@ export default {
     }
   },
   methods: {
-    formatDatas: function(pizzas) {
-      this.pizzas = [];
-      pizzas.forEach(element => {
-        let el = Object.assign(element, this.add);
-        this.pizzas = [...this.pizzas, el];
-      });
-    },
     getPizzas() {
       return axios
         .get(`http://localhost:4000/api/v1/pizza`)
@@ -102,16 +93,6 @@ export default {
           console.log("catch");
         });
     },
-    getSize() {
-      return axios
-        .get(`http://localhost:4000/api/v1/size`)
-        .then(res => {
-          this.sizes = res.data.result;
-        })
-        .catch(e => {
-          console.log("catch");
-        });
-    }
   }
 };
 </script>

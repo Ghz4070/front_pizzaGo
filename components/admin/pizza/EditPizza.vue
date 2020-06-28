@@ -21,34 +21,37 @@
                 <h3 class="mb-3">Ingredients</h3>
               </v-col>
 
-              <v-col v-for="(ingredient, index) in ingredients" :key="index" cols="12" md="12">
+              <v-col v-for="(ingredient) in ingredients" :key="ingredient.label" cols="12" md="12">
                 <v-autocomplete
                   :items="ingredient.sauces.items"
                   dense
                   clearable
                   chips
+                  :value= "dataPizza.composition.sauces.items"
                   :label="ingredient.sauces.label"
                   multiple
                 ></v-autocomplete>
               </v-col>
 
-              <v-col v-for="(ingredient, index) in ingredients" :key="index" cols="12" md="6">
+              <v-col v-for="(ingredient) in ingredients" :key="ingredient.label" cols="12" md="6">
                 <v-autocomplete
                   :items="ingredient.viandes.items"
                   dense
                   clearable
                   chips
+                  :value= "dataPizza.composition.viandes.items"
                   :label="ingredient.viandes.label"
                   multiple
                 ></v-autocomplete>
               </v-col>
 
-              <v-col v-for="(ingredient, index) in ingredients" :key="index" cols="12" md="6">
+              <v-col v-for="(ingredient) in ingredients" :key="ingredient.label" cols="12" md="6">
                 <v-autocomplete
                   :items="ingredient.legumes.items"
                   dense
                   clearable
                   chips
+                  :value= "dataPizza.composition.legumes.items"
                   :label="ingredient.legumes.label"
                   multiple
                 ></v-autocomplete>
@@ -60,17 +63,19 @@
                   dense
                   clearable
                   chips
+                  :value= "dataPizza.composition.fromages.items"
                   :label="ingredient.fromages.label"
                   multiple
                 ></v-autocomplete>
               </v-col>
 
-              <v-col v-for="(ingredient, index) in ingredients" :key="index" cols="12" md="6">
+              <v-col v-for="(ingredient) in ingredients" :key="ingredient.label" cols="12" md="6">
                 <v-autocomplete
                   :items="ingredient.epices.items"
                   dense
                   clearable
                   chips
+                  :value= "dataPizza.composition.epices.items"
                   :label="ingredient.epices.label"
                   multiple
                 ></v-autocomplete>
@@ -92,7 +97,6 @@
 export default {
   props: {
     dataPizza: Object,
-    // sizes: Object,
     categories: Object
   },
   data: () => ({
@@ -104,8 +108,8 @@ export default {
       return this.$store.state.ingredients;
     }
   },
-  mounted() {
-    console.log(this.categories);
+  updated() {
+    console.log(this.dataPizza)
   }
 };
 </script>
