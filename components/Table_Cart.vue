@@ -27,12 +27,18 @@
                                             :items="ingredients.ingredients.sauces.items"
                                         />
                                         <button @click="addIngrediant">Ajouter</button>
-                                    </div>
+                                        <br>
                                         <template v-if="pizza.pizzas[currentSelect.id] && pizza.pizzas[currentSelect.id].ingrediantAdded">
-                                            <p v-for="(sauce, id) in pizza.pizzas[currentSelect.id].ingrediantAdded.sauce" :key="id">
+                                            <p v-for="(sauce, id) in pizza.pizzas[currentSelect.id].ingrediantAdded.sauce" :key="id" @click="(e) => deleteIngrediant(e,id)">
                                                 {{sauce}}
                                             </p>
                                         </template>
+                                        <template v-else>
+                                            <p v-for="(sauce, id) in ingrediantSelected.sauce" :key="id" @click="(e) => deleteIngrediant(e,id)">
+                                                {{sauce}}
+                                            </p>
+                                        </template>
+                                    </div>
 
                                     <div class="d-flex flex-row flex-wrap" id="viande">
                                         <v-select
@@ -41,7 +47,26 @@
                                             :items="ingredients.ingredients.viandes.items"
                                         />
                                         <button @click="addIngrediant">Ajouter</button>
+                                        <br>
+                                        <template v-if="pizza.pizzas[currentSelect.id] && pizza.pizzas[currentSelect.id].ingrediantAdded">
+                                            <p v-for="(viande, id) in pizza.pizzas[currentSelect.id].ingrediantAdded.viande" :key="id">
+                                                    {{viande}}
+                                            </p>
+                                        </template>
+                                        <template v-else>
+                                            <p v-for="(viande, id) in ingrediantSelected.viande" :key="id">
+                                                    {{viande}}
+                                            </p>
+                                        </template>
                                     </div>
+
+
+
+
+
+
+
+
                                     <div class="d-flex flex-row flex-wrap" id="legume">
                                         <v-select
                                             v-model="currentSelect.legume"
@@ -49,7 +74,26 @@
                                             :items="ingredients.ingredients.legumes.items"
                                         />
                                         <button @click="addIngrediant">Ajouter</button>
+                                        <br>
+                                        <template v-if="pizza.pizzas[currentSelect.id] && pizza.pizzas[currentSelect.id].ingrediantAdded">
+                                            <p v-for="(legume, id) in pizza.pizzas[currentSelect.id].ingrediantAdded.legume" :key="id">
+                                                    {{legume}}
+                                            </p>
+                                        </template>
+                                        <template v-else>
+                                            <p v-for="(legume, id) in ingrediantSelected.legume" :key="id">
+                                                    {{legume}}
+                                            </p>
+                                        </template>
                                     </div>
+
+
+
+
+
+
+
+
                                     <div class="d-flex flex-row flex-wrap" id="fromage">
                                         <v-select
                                             v-model="currentSelect.fromage"
@@ -57,7 +101,22 @@
                                             :items="ingredients.ingredients.fromages.items"
                                         />
                                         <button @click="addIngrediant">Ajouter</button>
+                                        <br>
+                                        <template v-if="pizza.pizzas[currentSelect.id] && pizza.pizzas[currentSelect.id].ingrediantAdded">
+                                            <p v-for="(fromage, id) in pizza.pizzas[currentSelect.id].ingrediantAdded.fromage" :key="id">
+                                                    {{fromage}}
+                                            </p>
+                                        </template>
+                                        <template v-else>
+                                            <p v-for="(fromage, id) in ingrediantSelected.fromage" :key="id">
+                                                    {{fromage}}
+                                            </p>
+                                        </template>
                                     </div>
+
+
+
+
                                     <div class="d-flex flex-row flex-wrap" id="epice">
                                         <v-select
                                             v-model="currentSelect.epice"
@@ -65,7 +124,19 @@
                                             :items="ingredients.ingredients.epices.items"
                                         />
                                         <button @click="addIngrediant">Ajouter</button>
+                                        <br>
+                                        <template v-if="pizza.pizzas[currentSelect.id] && pizza.pizzas[currentSelect.id].ingrediantAdded">
+                                            <p v-for="(epice, id) in pizza.pizzas[currentSelect.id].ingrediantAdded.epice" :key="id">
+                                                    {{epice}}
+                                            </p>
+                                        </template>
+                                        <template v-else>
+                                            <p v-for="(epice, id) in ingrediantSelected.epice" :key="id">
+                                                    {{epice}}
+                                            </p>
+                                        </template>
                                     </div>
+
 
                                     <v-card-actions>
                                     <v-spacer></v-spacer>
@@ -81,9 +152,7 @@
                                 </v-card>
                             </v-dialog>
                         </tr>
-                        <template v-if="pizza.pizzas[key].ingrediantAdded">
-                            <p>Ingrédiant</p>
-                        </template>
+                        <p v-if="checkLengthArrayIngrediant(key)">Ingrédiant</p>
                     </template>
                 </template>
                 <template v-if="drinks && Thead[0] === 'Boissons'">
@@ -175,6 +244,7 @@ export default {
         },
         getId(e){
             this.currentSelect.id = e;
+            this.ingrediantSelected = this.pizza.pizzas[e].ingrediantAdded;
             this.dialog = true;
         }
         ,
@@ -183,17 +253,22 @@ export default {
             switch (e.path[1].id) {
                 case 'sauce':
                     this.ingrediantSelected.sauce.push(this.currentSelect.sauce)
+                    this.$emit("ingrediantAdded",this.ingrediantSelected);
                     break;
                 case 'viande':
+                    this.ingrediantSelected.sauce.push(this.currentSelect.sauce)
                     this.ingrediantSelected.viande.push(this.currentSelect.viande)
                     break;
                 case 'legume':
+                    this.ingrediantSelected.sauce.push(this.currentSelect.sauce)
                     this.ingrediantSelected.legume.push(this.currentSelect.legume)
                     break;
                 case 'fromage':
+                    this.ingrediantSelected.sauce.push(this.currentSelect.sauce)
                     this.ingrediantSelected.fromage.push(this.currentSelect.fromage)
                     break;
                 case 'epice':
+                    this.ingrediantSelected.sauce.push(this.currentSelect.sauce)
                     this.ingrediantSelected.epice.push(this.currentSelect.epice)
                     break;
                 default:
@@ -203,6 +278,42 @@ export default {
         getAddIngrediant() {
             this.$emit("ingrediantAdded",this.ingrediantSelected);
             this.dialog = false;
+        },
+        deleteIngrediant(event,key) {    
+            console.log(event.path[1].id)        
+            switch (event.path[1].id) {
+                case "sauce":
+                    this.ingrediantSelected.sauce.splice(key, 1);    
+                    break;
+                case "viande":
+                    this.ingrediantSelected.viande.splice(key, 1);    
+                    break;
+                case "legume":
+                    this.ingrediantSelected.legume.splice(key, 1);    
+                    break;
+                case "fromage":
+                    this.ingrediantSelected.fromage.splice(key, 1);    
+                    break;
+                case "epice":
+                    this.ingrediantSelected.epice.splice(key, 1);    
+                    break;
+            
+                default:
+                    break;
+            }
+        },
+        checkLengthArrayIngrediant(key) {
+            let check = false
+            if(this.pizza.pizzas[key].ingrediantAdded !== undefined){
+                if(this.pizza.pizzas[key].ingrediantAdded.sauce.length > 0) check = true;
+                if(this.pizza.pizzas[key].ingrediantAdded.epice.length > 0) check = true;
+                if(this.pizza.pizzas[key].ingrediantAdded.legume.length > 0) check = true;
+                if(this.pizza.pizzas[key].ingrediantAdded.fromage.length > 0) check = true;
+                if(this.pizza.pizzas[key].ingrediantAdded.viande.length > 0) check = true;
+                return check
+            }else {
+                return check
+            }
         }
     },
     computed: {
