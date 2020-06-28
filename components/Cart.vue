@@ -80,8 +80,9 @@ export default {
             this.totalPrice.dessert = e;
             this.totalPrice.total = this.totalPrice.pizza + this.totalPrice.drink + this.totalPrice.dessert; 
         },
-        ingrediantAdded(e) {
-            console.log(e)
+        ingrediantAdded(ingrediantObject) {
+            const { id } = ingrediantObject;
+            this.cart.contents.pizzas[id].ingrediantAdded = ingrediantObject; 
         }
     }
 }
