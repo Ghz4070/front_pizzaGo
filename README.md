@@ -20,3 +20,5 @@ $ yarn generate
 ```
 
 aller sur site imgbb ou autre pour generer le liens et inserer son image 
+
+Ne pas oublier d'ajouter le secret utiliser pour la génération du token + son algorithme 
