@@ -9,7 +9,7 @@
                     <button>Valider</button>
                 </div>
             </form>
-                <TableCart @totalPizza="totalPizza" :Thead="tablePizza" :pizza="cart.contents" className=" d-flex flex-row flex-wrap justify-space-around max-width"/>
+                <TableCart @totalPizza="totalPizza" @ingrediantAdded="ingrediantAdded" :Thead="tablePizza" :pizza="cart.contents" className=" d-flex flex-row flex-wrap justify-space-around max-width"/>
                 <TableCart @totalDrink="totalDrink" :Thead="tableBoisson" :drinks="cart.contents" className="d-flex flex-row flex-wrap justify-space-around max-width"/>
                 <TableCart @totalDessert="totalDessert" :Thead="tableDessert" :dessert="cart.contents" className="d-flex flex-row flex-wrap justify-space-around max-width"/>
             <div class="d-flex flex-row flex-wrap justify-space-around max-width">
@@ -23,7 +23,7 @@
                     <p>{{totalPrice.total}}€</p>
                 </template>
             </div>
-            <a class="buy-button center" href="">Payer - {{ totalPrice.total }} €</a>
+            <a class="buy-button center" href="">Payer - {{ promo ? (totalPrice.total - ( totalPrice.total * (promo/100) )) : totalPrice.total }} €</a>
         </div>
     </div>  
 </template>
@@ -79,6 +79,9 @@ export default {
         totalDessert(e) {
             this.totalPrice.dessert = e;
             this.totalPrice.total = this.totalPrice.pizza + this.totalPrice.drink + this.totalPrice.dessert; 
+        },
+        ingrediantAdded(e) {
+            console.log(e)
         }
     }
 }
