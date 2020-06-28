@@ -83,6 +83,13 @@ export default {
         ingrediantAdded(ingrediantObject) {
             const { id } = ingrediantObject;
             this.cart.contents.pizzas[id].ingrediantAdded = ingrediantObject; 
+            
+            const newJson = {
+                contents: this.cart.contents
+            }
+            
+            const JSONtostring = JSON.stringify(newJson);
+            localStorage.setItem('datas', JSONtostring);
         }
     }
 }
