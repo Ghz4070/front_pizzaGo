@@ -20,7 +20,8 @@
                             >
                                 <v-card class="pt-3 pr-3 pb-3 pl-3">
                                     <v-card-title class="headline">Ingrédiant</v-card-title>
-                                    <div class="d-flex flex-row flex-wrap" id="sauce">
+                                    
+                                    <div class="d-flex flex-row flex-wrap justify-space-around" id="sauce">
                                         <v-select
                                             v-model="currentSelect.sauce"
                                             label="Sauces" 
@@ -29,18 +30,18 @@
                                         <button @click="addIngrediant">Ajouter</button>
                                         <br>
                                         <template v-if="pizza.pizzas[currentSelect.id] && pizza.pizzas[currentSelect.id].ingrediantAdded">
-                                            <p v-for="(sauce, id) in pizza.pizzas[currentSelect.id].ingrediantAdded.sauce" :key="id" @click="(e) => deleteIngrediant(e,id)">
+                                            <p class="ingrediant-add" v-for="(sauce, id) in pizza.pizzas[currentSelect.id].ingrediantAdded.sauce" :key="id" @click="(e) => deleteIngrediant(e,id)">
                                                 {{sauce}}
                                             </p>
                                         </template>
                                         <template v-else>
-                                            <p v-for="(sauce, id) in ingrediantSelected.sauce" :key="id" @click="(e) => deleteIngrediant(e,id)">
+                                            <p class="ingrediant-add" v-for="(sauce, id) in ingrediantSelected.sauce" :key="id" @click="(e) => deleteIngrediant(e,id)">
                                                 {{sauce}}
                                             </p>
                                         </template>
                                     </div>
 
-                                    <div class="d-flex flex-row flex-wrap" id="viande">
+                                    <div class="d-flex flex-row flex-wrap  justify-space-around" id="viande">
                                         <v-select
                                             v-model="currentSelect.viande"
                                             label="Viandes" 
@@ -49,12 +50,12 @@
                                         <button @click="addIngrediant">Ajouter</button>
                                         <br>
                                         <template v-if="pizza.pizzas[currentSelect.id] && pizza.pizzas[currentSelect.id].ingrediantAdded">
-                                            <p v-for="(viande, id) in pizza.pizzas[currentSelect.id].ingrediantAdded.viande" :key="id" @click="(e) => deleteIngrediant(e,id)">
+                                            <p class="ingrediant-add" v-for="(viande, id) in pizza.pizzas[currentSelect.id].ingrediantAdded.viande" :key="id" @click="(e) => deleteIngrediant(e,id)">
                                                     {{viande}}
                                             </p>
                                         </template>
                                         <template v-else>
-                                            <p v-for="(viande, id) in ingrediantSelected.viande" :key="id" @click="(e) => deleteIngrediant(e,id)">
+                                            <p class="ingrediant-add" v-for="(viande, id) in ingrediantSelected.viande" :key="id" @click="(e) => deleteIngrediant(e,id)">
                                                     {{viande}}
                                             </p>
                                         </template>
@@ -67,7 +68,7 @@
 
 
 
-                                    <div class="d-flex flex-row flex-wrap" id="legume">
+                                    <div class="d-flex flex-row flex-wrap  justify-space-around" id="legume">
                                         <v-select
                                             v-model="currentSelect.legume"
                                             label="Légumes" 
@@ -76,12 +77,12 @@
                                         <button @click="addIngrediant">Ajouter</button>
                                         <br>
                                         <template v-if="pizza.pizzas[currentSelect.id] && pizza.pizzas[currentSelect.id].ingrediantAdded">
-                                            <p v-for="(legume, id) in pizza.pizzas[currentSelect.id].ingrediantAdded.legume" :key="id" @click="(e) => deleteIngrediant(e,id)">
+                                            <p class="ingrediant-add" v-for="(legume, id) in pizza.pizzas[currentSelect.id].ingrediantAdded.legume" :key="id" @click="(e) => deleteIngrediant(e,id)">
                                                     {{legume}}
                                             </p>
                                         </template>
                                         <template v-else>
-                                            <p v-for="(legume, id) in ingrediantSelected.legume" :key="id" @click="(e) => deleteIngrediant(e,id)">
+                                            <p class="ingrediant-add" v-for="(legume, id) in ingrediantSelected.legume" :key="id" @click="(e) => deleteIngrediant(e,id)">
                                                     {{legume}}
                                             </p>
                                         </template>
@@ -94,7 +95,7 @@
 
 
 
-                                    <div class="d-flex flex-row flex-wrap" id="fromage">
+                                    <div class="d-flex flex-row flex-wrap  justify-space-around" id="fromage">
                                         <v-select
                                             v-model="currentSelect.fromage"
                                             label="Fromages" 
@@ -103,12 +104,12 @@
                                         <button @click="addIngrediant">Ajouter</button>
                                         <br>
                                         <template v-if="pizza.pizzas[currentSelect.id] && pizza.pizzas[currentSelect.id].ingrediantAdded">
-                                            <p v-for="(fromage, id) in pizza.pizzas[currentSelect.id].ingrediantAdded.fromage" :key="id" @click="(e) => deleteIngrediant(e,id)">
+                                            <p class="ingrediant-add" v-for="(fromage, id) in pizza.pizzas[currentSelect.id].ingrediantAdded.fromage" :key="id" @click="(e) => deleteIngrediant(e,id)">
                                                     {{fromage}}
                                             </p>
                                         </template>
                                         <template v-else>
-                                            <p v-for="(fromage, id) in ingrediantSelected.fromage" :key="id" @click="(e) => deleteIngrediant(e,id)">
+                                            <p class="ingrediant-add" v-for="(fromage, id) in ingrediantSelected.fromage" :key="id" @click="(e) => deleteIngrediant(e,id)">
                                                     {{fromage}}
                                             </p>
                                         </template>
@@ -117,7 +118,7 @@
 
 
 
-                                    <div class="d-flex flex-row flex-wrap" id="epice">
+                                    <div class="d-flex flex-row flex-wrap  justify-space-around" id="epice">
                                         <v-select
                                             v-model="currentSelect.epice"
                                             label="Epices" 
@@ -126,12 +127,12 @@
                                         <button @click="addIngrediant">Ajouter</button>
                                         <br>
                                         <template v-if="pizza.pizzas[currentSelect.id] && pizza.pizzas[currentSelect.id].ingrediantAdded">
-                                            <p v-for="(epice, id) in pizza.pizzas[currentSelect.id].ingrediantAdded.epice" :key="id" @click="(e) => deleteIngrediant(e,id)">
+                                            <p class="ingrediant-add" v-for="(epice, id) in pizza.pizzas[currentSelect.id].ingrediantAdded.epice" :key="id" @click="(e) => deleteIngrediant(e,id)">
                                                     {{epice}}
                                             </p>
                                         </template>
                                         <template v-else>
-                                            <p v-for="(epice, id) in ingrediantSelected.epice" :key="id" @click="(e) => deleteIngrediant(e,id)">
+                                            <p class="ingrediant-add" v-for="(epice, id) in ingrediantSelected.epice" :key="id" @click="(e) => deleteIngrediant(e,id)">
                                                     {{epice}}
                                             </p>
                                         </template>
@@ -183,6 +184,7 @@ export default {
         return {
             totalPricePizza : null,
             dialog: false,
+            errorIngrediant: false,
             currentSelect : {
                 id: '',
                 sauce : '',
@@ -252,36 +254,40 @@ export default {
         ,
         addIngrediant(e){
             if(!this.ingrediantSelected.id) this.ingrediantSelected.id = this.currentSelect.id;
-            switch (e.path[1].id) {
-                case 'sauce':
-                    this.ingrediantSelected.sauce.push(this.currentSelect.sauce)
-                    this.$emit("ingrediantAdded",this.ingrediantSelected);
-                    break;
-                case 'viande':
-                    this.ingrediantSelected.viande.push(this.currentSelect.viande)
-                    this.$emit("ingrediantAdded",this.ingrediantSelected);
-                    break;
-                case 'legume':
-                    this.ingrediantSelected.legume.push(this.currentSelect.legume)
-                    this.$emit("ingrediantAdded",this.ingrediantSelected);
-                    break;
-                case 'fromage':
-                    this.ingrediantSelected.fromage.push(this.currentSelect.fromage)
-                    this.$emit("ingrediantAdded",this.ingrediantSelected);
-                    break;
-                case 'epice':
-                    this.ingrediantSelected.epice.push(this.currentSelect.epice)
-                    this.$emit("ingrediantAdded",this.ingrediantSelected);
-                    break;
-                default:
-                    break;
+            if(this.lengthIngrediantSelected() < 6 ) {
+                switch (e.path[1].id) {
+                    case 'sauce':
+                        this.ingrediantSelected.sauce.push(this.currentSelect.sauce)
+                        this.$emit("ingrediantAdded",this.ingrediantSelected);
+                        break;
+                    case 'viande':
+                        this.ingrediantSelected.viande.push(this.currentSelect.viande)
+                        this.$emit("ingrediantAdded",this.ingrediantSelected);
+                        break;
+                    case 'legume':
+                        this.ingrediantSelected.legume.push(this.currentSelect.legume)
+                        this.$emit("ingrediantAdded",this.ingrediantSelected);
+                        break;
+                    case 'fromage':
+                        this.ingrediantSelected.fromage.push(this.currentSelect.fromage)
+                        this.$emit("ingrediantAdded",this.ingrediantSelected);
+                        break;
+                    case 'epice':
+                        this.ingrediantSelected.epice.push(this.currentSelect.epice)
+                        this.$emit("ingrediantAdded",this.ingrediantSelected);
+                        break;
+                    default:
+                        break;
+                }
+            }else {
+                this.errorIngrediant = true;
             }
         },
         getAddIngrediant() {
             this.$emit("ingrediantAdded",this.ingrediantSelected);
             this.dialog = false;
         },
-        deleteIngrediant(event,key) {        
+        deleteIngrediant(event,key) {   
             switch (event.path[1].id) {
                 case "sauce":
                     this.ingrediantSelected.sauce.splice(key, 1); 
@@ -320,6 +326,17 @@ export default {
             }else {
                 return check
             }
+        },
+        lengthIngrediantSelected() {
+            let count = 0;
+           
+            count = count + this.ingrediantSelected.sauce.length;
+            count = count + this.ingrediantSelected.epice.length
+            count = count + this.ingrediantSelected.legume.length
+            count = count + this.ingrediantSelected.fromage.length
+            count = count + this.ingrediantSelected.viande.length
+            return count
+            
         }
     },
     computed: {
@@ -331,4 +348,18 @@ export default {
 </script>
 
 <style>
+
+    .ingrediant-add {
+        margin: 2px 5px;
+        padding: 5px;
+        border: 1px solid black;
+        border-radius: 3px;
+    }
+
+    .ingrediant-add:hover {
+        cursor: pointer;
+        color:white;
+        background-color: black;
+    }
+
 </style>
