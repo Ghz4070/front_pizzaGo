@@ -23,7 +23,26 @@
           sm="4"
         >
           <v-card outlined class="ma-3 pa-3 card_pizza" max-width="400">
-            <v-img height="200px" class="white--text align-end" :src="pizza.img"></v-img>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-img
+                  v-bind="attrs"
+                  v-on="on"
+                  height="200px"
+                  class="white--text align-end"
+                  :src="pizza.img"
+                ></v-img>
+              </template>
+              Sauce : <span v-for="compo in pizza.composition.sauces.items" :key="compo.label">{{ compo + ' ' }}</span>
+              <br />
+              Fromages :<span v-for="compo in pizza.composition.fromages.items" :key="compo.label"> {{ compo+ ' ' }}</span>
+              <br />
+              Viandes :<span v-for="compo in pizza.composition.viandes.items" :key="compo.label"> {{ compo+ ' ' }}</span>
+              <br />
+              Legumes :<span v-for="compo in pizza.composition.legumes.items" :key="compo.label"> {{ compo+ ' ' }}</span>
+              <br />
+              Epices :<span v-for="compo in pizza.composition.epices.items" :key="compo.label"> {{ compo+ ' ' }}</span>
+            </v-tooltip>
 
             <v-card-subtitle class="pb-0 pizza_name pacifico-font">{{ pizza.name }}</v-card-subtitle>
 
@@ -132,6 +151,7 @@ export default {
         let el = Object.assign(element, this.add);
         this.pizzas = [...this.pizzas, el];
       });
+      console.log(this.pizzas);
     },
     getCategories() {
       return axios
@@ -172,8 +192,8 @@ export default {
       let pizzas = content.contents.pizzas.length;
       let drinks = content.contents.drinks.length;
       let desserts = content.contents.desserts.length;
-      if(pizzas > 0 || desserts > 0 || drinks > 0)
-      this.$emit("changeLocalStorage")
+      if (pizzas > 0 || desserts > 0 || drinks > 0)
+        this.$emit("changeLocalStorage");
     }
   }
 };
