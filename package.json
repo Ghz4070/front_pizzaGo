@@ -1,7 +1,7 @@
 {
-  "name": "PizzaFast",
+  "name": "PizzaGo",
   "version": "1.0.0",
-  "description": "My spectacular Nuxt.js project",
+  "description": "Interface client pizzaGo project year end",
   "author": "ilies ghezal",
   "private": true,
   "scripts": {
