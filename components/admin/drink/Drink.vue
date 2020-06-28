@@ -4,6 +4,7 @@
       <!-- <AddDrink /> -->
     </v-row>
     <v-row dense>
+      <h1>{{ip}}</h1>
       <!-- <v-col v-for="(drink, index) in drinks" :key="index" cols="12" sm="12" md="4">
         <div v-if="loading" class="center">
           <v-skeleton-loader
@@ -25,15 +26,15 @@
               <v-card-title v-text="drink.name"></v-card-title>
             </v-img>
             <v-card-actions>
-              <v-spacer></v-spacer> -->
-              <!-- <EditPizza :dataPizza="pizza" /> -->
-              <!-- <v-btn icon class="ml-3">
+      <v-spacer></v-spacer>-->
+      <!-- <EditPizza :dataPizza="pizza" /> -->
+      <!-- <v-btn icon class="ml-3">
                 <v-icon>mdi-trash-can</v-icon>
               </v-btn>
             </v-card-actions>
           </v-card>
         </div>
-      </v-col> -->
+      </v-col>-->
     </v-row>
   </v-container>
 </template>
@@ -43,7 +44,8 @@ export default {
   name: "Drink",
   data: () => {
     return {
-      loading: true
+      loading: true,
+      drinks: Object
     };
   },
   mounted() {
@@ -55,13 +57,15 @@ export default {
       alert("Erreur de chargement");
     }
 
-    console.log(drinks);
+    console.log(this.ip);
   },
-  async asyncData({ app }) {
-    const { drinks } = await app.$axios.$get(
-      "http://localhost:4000/api/v1/drink"
-    );
-    return { drinks };
+  // async asyncData({ $axios }) {
+  //   const ip = await this.$axios.$get("http://localhost:4000/api/v1/drink");
+  //   return;
+  // }
+  async asyncData({ $axios }) {
+    const ip = await $axios.$get("http://icanhazip.com");
+    return { ip };
   }
 };
 </script>
