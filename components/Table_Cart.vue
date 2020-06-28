@@ -244,7 +244,9 @@ export default {
         },
         getId(e){
             this.currentSelect.id = e;
-            this.ingrediantSelected = this.pizza.pizzas[e].ingrediantAdded;
+            if(this.pizza.pizzas[e].ingrediantAdded !== undefined){
+                this.ingrediantSelected = this.pizza.pizzas[e].ingrediantAdded;
+            }
             this.dialog = true;
         }
         ,
@@ -256,20 +258,20 @@ export default {
                     this.$emit("ingrediantAdded",this.ingrediantSelected);
                     break;
                 case 'viande':
-                    this.ingrediantSelected.sauce.push(this.currentSelect.sauce)
                     this.ingrediantSelected.viande.push(this.currentSelect.viande)
+                    this.$emit("ingrediantAdded",this.ingrediantSelected);
                     break;
                 case 'legume':
-                    this.ingrediantSelected.sauce.push(this.currentSelect.sauce)
                     this.ingrediantSelected.legume.push(this.currentSelect.legume)
+                    this.$emit("ingrediantAdded",this.ingrediantSelected);
                     break;
                 case 'fromage':
-                    this.ingrediantSelected.sauce.push(this.currentSelect.sauce)
                     this.ingrediantSelected.fromage.push(this.currentSelect.fromage)
+                    this.$emit("ingrediantAdded",this.ingrediantSelected);
                     break;
                 case 'epice':
-                    this.ingrediantSelected.sauce.push(this.currentSelect.sauce)
                     this.ingrediantSelected.epice.push(this.currentSelect.epice)
+                    this.$emit("ingrediantAdded",this.ingrediantSelected);
                     break;
                 default:
                     break;
@@ -279,23 +281,27 @@ export default {
             this.$emit("ingrediantAdded",this.ingrediantSelected);
             this.dialog = false;
         },
-        deleteIngrediant(event,key) {    
-            console.log(event.path[1].id)        
+        deleteIngrediant(event,key) {        
             switch (event.path[1].id) {
                 case "sauce":
-                    this.ingrediantSelected.sauce.splice(key, 1);    
+                    this.ingrediantSelected.sauce.splice(key, 1); 
+                    this.$emit("ingrediantAdded",this.ingrediantSelected);   
                     break;
                 case "viande":
                     this.ingrediantSelected.viande.splice(key, 1);    
+                    this.$emit("ingrediantAdded",this.ingrediantSelected);
                     break;
                 case "legume":
                     this.ingrediantSelected.legume.splice(key, 1);    
+                    this.$emit("ingrediantAdded",this.ingrediantSelected);
                     break;
                 case "fromage":
                     this.ingrediantSelected.fromage.splice(key, 1);    
+                    this.$emit("ingrediantAdded",this.ingrediantSelected);
                     break;
                 case "epice":
-                    this.ingrediantSelected.epice.splice(key, 1);    
+                    this.ingrediantSelected.epice.splice(key, 1);   
+                    this.$emit("ingrediantAdded",this.ingrediantSelected); 
                     break;
             
                 default:
