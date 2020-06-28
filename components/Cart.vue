@@ -9,7 +9,7 @@
                     <button>Valider</button>
                 </div>
             </form>
-                <TableCart @totalPizza="totalPizza" @ingrediantAdded="ingrediantAdded" :Thead="tablePizza" :pizza="cart.contents" className=" d-flex flex-row flex-wrap justify-space-around max-width"/>
+                <TableCart @totalPizza="totalPizza" @ingrediantAdded="ingrediantAdded" @ingrediantRemove="ingrediantRemove" :Thead="tablePizza" :pizza="cart.contents" className=" d-flex flex-row flex-wrap justify-space-around max-width"/>
                 <TableCart @totalDrink="totalDrink" :Thead="tableBoisson" :drinks="cart.contents" className="d-flex flex-row flex-wrap justify-space-around max-width"/>
                 <TableCart @totalDessert="totalDessert" :Thead="tableDessert" :dessert="cart.contents" className="d-flex flex-row flex-wrap justify-space-around max-width"/>
             <div class="d-flex flex-row flex-wrap justify-space-around max-width">
@@ -84,6 +84,17 @@ export default {
             const { id } = ingrediantObject;
             this.cart.contents.pizzas[id].ingrediantAdded = ingrediantObject; 
             
+            const newJson = {
+                contents: this.cart.contents
+            }
+            
+            const JSONtostring = JSON.stringify(newJson);
+            localStorage.setItem('datas', JSONtostring);
+        },
+        ingrediantRemove(ingrediantRemove) {
+            const { id } = ingrediantRemove;
+            this.cart.contents.pizzas[id].ingrediantRemove = ingrediantRemove;
+
             const newJson = {
                 contents: this.cart.contents
             }
