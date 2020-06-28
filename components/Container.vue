@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col cols="12" sm="12" md="9">
-    <v-card class="mx-auto" outlined>
+    <v-card class="mx-auto container-card" outlined>
       <v-row justify="space-between">
           <v-col md="6">
             <p class="localisation-info">Les Menus de votre<br>
@@ -96,6 +96,9 @@ export default {
 </script>
 
 <style>
+.v-sheet.v-card.container-card {
+  border-radius: 30px !important;
+}
 .resume {
   font-size: 18px;
   font-family: cursive;

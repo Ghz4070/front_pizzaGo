@@ -1,6 +1,9 @@
 <template>
   <v-form v-model="valid">
-    <v-container>
+    <h1 class="title-subscribe">S'identifier</h1>
+    <p class="content-subscribe">
+          Vous n'avez pas encore de compte PizzaGo ?
+          <nuxt-link class="link-subscribe" to="inscription">S'inscrire maintenant!</nuxt-link></p>
       <v-card class="mx-auto" max-width="444" outlined>
         <v-card-text>
           <v-row>
@@ -40,7 +43,6 @@
           </v-row>
         </v-card-text>
       </v-card>
-    </v-container>
     <v-snackbar v-model="login_toast.snackbar">
       {{ login_toast.text }}
       <template v-slot:action="{ attrs }">
@@ -111,5 +113,14 @@ export default {
   display: block !important;
   margin-left: auto;
   margin-right: auto;
+}
+.title-subscribe {
+  font-size: 3em;
+}
+.link-subscribe {
+  color:#f6ac00;
+}
+.content-subscribe {
+  margin-bottom: 50px !important;
 }
 </style>
