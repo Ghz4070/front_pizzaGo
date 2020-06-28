@@ -49,12 +49,12 @@
                                         <button @click="addIngrediant">Ajouter</button>
                                         <br>
                                         <template v-if="pizza.pizzas[currentSelect.id] && pizza.pizzas[currentSelect.id].ingrediantAdded">
-                                            <p v-for="(viande, id) in pizza.pizzas[currentSelect.id].ingrediantAdded.viande" :key="id">
+                                            <p v-for="(viande, id) in pizza.pizzas[currentSelect.id].ingrediantAdded.viande" :key="id" @click="(e) => deleteIngrediant(e,id)">
                                                     {{viande}}
                                             </p>
                                         </template>
                                         <template v-else>
-                                            <p v-for="(viande, id) in ingrediantSelected.viande" :key="id">
+                                            <p v-for="(viande, id) in ingrediantSelected.viande" :key="id" @click="(e) => deleteIngrediant(e,id)">
                                                     {{viande}}
                                             </p>
                                         </template>
@@ -76,12 +76,12 @@
                                         <button @click="addIngrediant">Ajouter</button>
                                         <br>
                                         <template v-if="pizza.pizzas[currentSelect.id] && pizza.pizzas[currentSelect.id].ingrediantAdded">
-                                            <p v-for="(legume, id) in pizza.pizzas[currentSelect.id].ingrediantAdded.legume" :key="id">
+                                            <p v-for="(legume, id) in pizza.pizzas[currentSelect.id].ingrediantAdded.legume" :key="id" @click="(e) => deleteIngrediant(e,id)">
                                                     {{legume}}
                                             </p>
                                         </template>
                                         <template v-else>
-                                            <p v-for="(legume, id) in ingrediantSelected.legume" :key="id">
+                                            <p v-for="(legume, id) in ingrediantSelected.legume" :key="id" @click="(e) => deleteIngrediant(e,id)">
                                                     {{legume}}
                                             </p>
                                         </template>
@@ -103,12 +103,12 @@
                                         <button @click="addIngrediant">Ajouter</button>
                                         <br>
                                         <template v-if="pizza.pizzas[currentSelect.id] && pizza.pizzas[currentSelect.id].ingrediantAdded">
-                                            <p v-for="(fromage, id) in pizza.pizzas[currentSelect.id].ingrediantAdded.fromage" :key="id">
+                                            <p v-for="(fromage, id) in pizza.pizzas[currentSelect.id].ingrediantAdded.fromage" :key="id" @click="(e) => deleteIngrediant(e,id)">
                                                     {{fromage}}
                                             </p>
                                         </template>
                                         <template v-else>
-                                            <p v-for="(fromage, id) in ingrediantSelected.fromage" :key="id">
+                                            <p v-for="(fromage, id) in ingrediantSelected.fromage" :key="id" @click="(e) => deleteIngrediant(e,id)">
                                                     {{fromage}}
                                             </p>
                                         </template>
@@ -126,12 +126,12 @@
                                         <button @click="addIngrediant">Ajouter</button>
                                         <br>
                                         <template v-if="pizza.pizzas[currentSelect.id] && pizza.pizzas[currentSelect.id].ingrediantAdded">
-                                            <p v-for="(epice, id) in pizza.pizzas[currentSelect.id].ingrediantAdded.epice" :key="id">
+                                            <p v-for="(epice, id) in pizza.pizzas[currentSelect.id].ingrediantAdded.epice" :key="id" @click="(e) => deleteIngrediant(e,id)">
                                                     {{epice}}
                                             </p>
                                         </template>
                                         <template v-else>
-                                            <p v-for="(epice, id) in ingrediantSelected.epice" :key="id">
+                                            <p v-for="(epice, id) in ingrediantSelected.epice" :key="id" @click="(e) => deleteIngrediant(e,id)">
                                                     {{epice}}
                                             </p>
                                         </template>
