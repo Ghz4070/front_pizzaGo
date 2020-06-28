@@ -295,7 +295,10 @@ export default {
             }
         },
         getAddIngrediant() {
-            this.$emit("ingrediantAdded",this.ingrediantSelected);
+            if(this.lengthIngrediantSelected() !== 0) {
+                this.$emit("ingrediantAdded",this.ingrediantSelected);
+            }
+            
             this.dialog = false;
         },
         deleteIngrediant(event,key) {   
