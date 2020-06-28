@@ -263,22 +263,27 @@ export default {
             if(this.lengthIngrediantSelected() < 6 ) {
                 switch (e.path[1].id) {
                     case 'sauce':
+                        if(this.currentSelect.sauce === "") break;
                         this.ingrediantSelected.sauce.push(this.currentSelect.sauce)
                         this.$emit("ingrediantAdded",this.ingrediantSelected);
                         break;
                     case 'viande':
+                        if(this.currentSelect.viande === "") break;
                         this.ingrediantSelected.viande.push(this.currentSelect.viande)
                         this.$emit("ingrediantAdded",this.ingrediantSelected);
                         break;
                     case 'legume':
+                        if(this.currentSelect.legume === "") break;
                         this.ingrediantSelected.legume.push(this.currentSelect.legume)
                         this.$emit("ingrediantAdded",this.ingrediantSelected);
                         break;
                     case 'fromage':
+                        if(this.currentSelect.fromage === "") break;
                         this.ingrediantSelected.fromage.push(this.currentSelect.fromage)
                         this.$emit("ingrediantAdded",this.ingrediantSelected);
                         break;
                     case 'epice':
+                        if(this.currentSelect.epice === "") break;
                         this.ingrediantSelected.epice.push(this.currentSelect.epice)
                         this.$emit("ingrediantAdded",this.ingrediantSelected);
                         break;
