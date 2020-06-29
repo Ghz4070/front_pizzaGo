@@ -50,7 +50,7 @@
             class="buy-button center"
             v-bind="attrs"
             v-on="on"
-          >Payer - {{ promo ? (totalPrice.total - ( totalPrice.total * (promo/100) )) : totalPrice.total }} €</a>
+          >Paiement - {{ promo ? (totalPrice.total - ( totalPrice.total * (promo/100) )) : totalPrice.total }} €</a>
         </template>
         <v-card>
           <v-card-title class="headline">Paiement de votre commande</v-card-title>
@@ -62,17 +62,18 @@
                 ref="elementsRef"
                 :pk="publishableKey"
                 :amount="amount"
+                currency= "EUR"
                 locale="fr"
                 @token="tokenCreated"
                 @loading="loading = $event"
               ></stripe-elements>
-              <button @click="submit">Pay ${{amount / 100}}</button>
+              
             </div>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="green darken-1" text @click="paiement = false">Annuler</v-btn>
-            <v-btn color="green darken-1" text @click="paiement = false">Payer</v-btn>
+            <v-btn color="green darken-1" text @click="submit">Payer {{amount / 100}} €</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -105,7 +106,8 @@ export default {
       publishableKey: "pk_test_QrgGFFIn2rjHnwgwvakXU0dn00FhK9IbmE",
       loading: false,
       token: null,
-      charge: null
+      charge: null,
+      amount: 1000
     };
   },
   watch: {
@@ -119,6 +121,7 @@ export default {
   methods: {
     submit() {
       this.$refs.elementsRef.submit();
+      this.paiement = false;
     },
     tokenCreated(token) {
       this.token = token;
