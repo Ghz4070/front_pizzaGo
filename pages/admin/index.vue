@@ -14,17 +14,21 @@
         >
           <v-tab v-for="(item, index) in items" :key="index">{{ item.tab }}</v-tab>
         </v-tabs>
-        <!-- PIZZA -->
+        <!-- User -->
         <div v-if="currentTab == 0">
+          <User />
+        </div>
+        <!-- PIZZA -->
+        <div v-if="currentTab == 1">
           <Pizza />
         </div>
         <!-- Boisson -->
-        <div v-if="currentTab == 1">
+        <div v-if="currentTab == 2">
           <Drink />
         </div>
         <!-- Dessert -->
-        <div v-if="currentTab == 2">
-          <!-- <Dessert /> -->
+        <div v-if="currentTab == 3">
+          <Dessert />
         </div>
       </v-card>
     </v-container>
@@ -34,16 +38,25 @@
 <script>
 import Pizza from "@/components/admin/pizza/Pizza";
 import Drink from "@/components/admin/drink/Drink";
+import Dessert from "@/components/admin/dessert/Dessert";
+import User from "@/components/admin/user/User";
 
 export default {
   components: {
     Pizza,
-    Drink
+    Drink,
+    Dessert,
+    User
   },
   data: function() {
     return {
       currentTab: 0,
-      items: [{ tab: "Pizza" }, { tab: "Boisson" }, { tab: "Dessert" }],
+      items: [
+        { tab: "User" },
+        { tab: "Pizza" },
+        { tab: "Boisson" },
+        { tab: "Dessert" }
+      ],
       boolCart: false
     };
   },
