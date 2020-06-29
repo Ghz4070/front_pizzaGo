@@ -512,17 +512,17 @@ export default {
                 const findElement= this.pizza.pizzas[key].ingrediantRemove.sauce.find((element) => element === event.path[0].innerHTML);
                 if(findElement === undefined){
                     this.ingrediantRemove.sauce.push(event.path[0].innerHTML);
-                    this.$emit("ingrediantRemove", this.ingrediantRemove);
+                    this.$emit("ingrediantRemove", this.ingrediantRemove, this.totalIngrediantAllPizza());
                 }else {
                     const positionElement = this.ingrediantRemove.sauce.indexOf(event.path[0].id);
                     this.ingrediantRemove.sauce.splice(positionElement, 1);
-                    this.$emit("ingrediantRemove", this.ingrediantRemove);
+                    this.$emit("ingrediantRemove", this.ingrediantRemove, this.totalIngrediantAllPizza());
                 }   
             }else {
                 this.ingrediantRemove.sauce.push(event.path[0].innerHTML)
-                this.$emit("ingrediantRemove", this.ingrediantRemove);
+                this.$emit("ingrediantRemove", this.ingrediantRemove, this.totalIngrediantAllPizza());
             }
-          
+            this.totalIngrediantAllPizza()
           break;
         case "switchViande":
           if(this.pizza.pizzas[key].ingrediantRemove !== undefined){
@@ -530,15 +530,15 @@ export default {
                 const findElement= this.pizza.pizzas[key].ingrediantRemove.viande.find((element) => element === event.path[0].innerHTML);
                 if(findElement === undefined){
                     this.ingrediantRemove.viande.push(event.path[0].innerHTML);
-                    this.$emit("ingrediantRemove", this.ingrediantRemove);
+                    this.$emit("ingrediantRemove", this.ingrediantRemove, this.totalIngrediantAllPizza());
                 }else {
                     const positionElement = this.ingrediantRemove.viande.indexOf(event.path[0].id);
                     this.ingrediantRemove.viande.splice(positionElement, 1);
-                    this.$emit("ingrediantRemove", this.ingrediantRemove);
+                    this.$emit("ingrediantRemove", this.ingrediantRemove, this.totalIngrediantAllPizza());
                 }   
             }else {
                 this.ingrediantRemove.viande.push(event.path[0].innerHTML)
-                this.$emit("ingrediantRemove", this.ingrediantRemove);
+                this.$emit("ingrediantRemove", this.ingrediantRemove, this.totalIngrediantAllPizza());
             }
           break;
         case "switchLegume":
@@ -546,15 +546,15 @@ export default {
                 const findElement= this.pizza.pizzas[key].ingrediantRemove.legume.find((element) => element === event.path[0].innerHTML);
                 if(findElement === undefined){
                     this.ingrediantRemove.legume.push(event.path[0].innerHTML);
-                    this.$emit("ingrediantRemove", this.ingrediantRemove);
+                    this.$emit("ingrediantRemove", this.ingrediantRemove, this.totalIngrediantAllPizza());
                 }else {
                     const positionElement = this.ingrediantRemove.legume.indexOf(event.path[0].id);
                     this.ingrediantRemove.legume.splice(positionElement, 1);
-                    this.$emit("ingrediantRemove", this.ingrediantRemove);
+                    this.$emit("ingrediantRemove", this.ingrediantRemove, this.totalIngrediantAllPizza());
                 }   
             }else {
                 this.ingrediantRemove.legume.push(event.path[0].innerHTML)
-                this.$emit("ingrediantRemove", this.ingrediantRemove);
+                this.$emit("ingrediantRemove", this.ingrediantRemove, this.totalIngrediantAllPizza());
             }
           
           break;
@@ -563,15 +563,15 @@ export default {
                 const findElement= this.pizza.pizzas[key].ingrediantRemove.fromage.find((element) => element === event.path[0].innerHTML);
                 if(findElement === undefined){
                     this.ingrediantRemove.fromage.push(event.path[0].innerHTML);
-                    this.$emit("ingrediantRemove", this.ingrediantRemove);
+                    this.$emit("ingrediantRemove", this.ingrediantRemove, this.totalIngrediantAllPizza());
                 }else {
                     const positionElement = this.ingrediantRemove.fromage.indexOf(event.path[0].id);
                     this.ingrediantRemove.fromage.splice(positionElement, 1);
-                    this.$emit("ingrediantRemove", this.ingrediantRemove);
+                    this.$emit("ingrediantRemove", this.ingrediantRemove, this.totalIngrediantAllPizza());
                 }   
             }else {
                 this.ingrediantRemove.fromage.push(event.path[0].innerHTML)
-                this.$emit("ingrediantRemove", this.ingrediantRemove);
+                this.$emit("ingrediantRemove", this.ingrediantRemove, this.totalIngrediantAllPizza());
             }
           break;
         case "switchEpice":
@@ -579,15 +579,15 @@ export default {
                 const findElement= this.pizza.pizzas[key].ingrediantRemove.epice.find((element) => element === event.path[0].innerHTML);
                 if(findElement === undefined){
                     this.ingrediantRemove.epice.push(event.path[0].innerHTML);
-                    this.$emit("ingrediantRemove", this.ingrediantRemove);
+                    this.$emit("ingrediantRemove", this.ingrediantRemove, this.totalIngrediantAllPizza());
                 }else {
                     const positionElement = this.ingrediantRemove.epice.indexOf(event.path[0].id);
                     this.ingrediantRemove.epice.splice(positionElement, 1);
-                    this.$emit("ingrediantRemove", this.ingrediantRemove);
+                    this.$emit("ingrediantRemove", this.ingrediantRemove, this.totalIngrediantAllPizza());
                 }   
             }else {
                 this.ingrediantRemove.epice.push(event.path[0].innerHTML)
-                this.$emit("ingrediantRemove", this.ingrediantRemove);
+                this.$emit("ingrediantRemove", this.ingrediantRemove,this.totalIngrediantAllPizza());
             }
           
           break;

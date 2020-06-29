@@ -225,16 +225,18 @@ export default {
       localStorage.setItem("datas", JSONtostring);
       this.cart.total = total;
     },
-    ingrediantRemove(ingrediantRemove) {
+    ingrediantRemove(ingrediantRemove, total) {
       const { id } = ingrediantRemove;
       this.cart.contents.pizzas[id].ingrediantRemove = ingrediantRemove;
 
       const newJson = {
-        contents: this.cart.contents
+        contents: this.cart.contents,
+        total: total
       };
 
       const JSONtostring = JSON.stringify(newJson);
       localStorage.setItem("datas", JSONtostring);
+      this.cart.total
     }
   }
 };
