@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-row>
-      <!-- <AddDrink /> -->
+      <AddDrink />
     </v-row>
     <v-row dense>
       <v-col v-for="(drink, index) in drinks" :key="index" cols="12" sm="12" md="4">
@@ -42,11 +42,13 @@
 
 <script>
 import EditDrink from "./EditDrink";
+import AddDrink from "./AddDrink";
 
 export default {
   name: "Drink",
   components: {
-    EditDrink
+    EditDrink,
+    AddDrink
   },
   data: () => {
     return {

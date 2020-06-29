@@ -7,7 +7,7 @@
       <v-col v-for="(pizza, index) in pizzas" :key="index" cols="12" sm="12" md="4">
         <div v-if="loading" class="center">
           <v-skeleton-loader
-            class="mx-auto"
+            class="mt-6"
             max-width="400"
             elevation="6"
             type="card"
