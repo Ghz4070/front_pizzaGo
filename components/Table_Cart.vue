@@ -33,7 +33,7 @@
                               :key="index"
                               v-for="(element, index) in pizza.pizzas[key].composition.sauces.items"
                             >
-                              <v-list-item-title :key="index" @click="(e) => addOrRemoveIngrediant(e,key)"><span :class="cssDynamique.sauce[key]">{{element}}</span></v-list-item-title>
+                              <v-list-item-title :key="index" @click="(e) => addOrRemoveIngrediant(e,key)">{{element}}</v-list-item-title>
                             </v-list-item-content>
                           </v-list-item>
                         </div>
@@ -275,7 +275,7 @@ export default {
       dialog: false,
       errorIngrediant: {
         snackbar: false,
-        text: "Vous pouvez qu'ajouter 6 ingrédiant"
+        text: "Vous pouvez pas ajouter plus d'ingrédiant"
       },
       currentSelect: {
         id: "",
@@ -365,7 +365,7 @@ export default {
     addIngrediant(e) {
       if (!this.ingrediantSelected.id)
         this.ingrediantSelected.id = this.currentSelect.id;
-      if (this.lengthIngrediantSelected() < 6) {
+      if (this.lengthIngrediantSelected() - this.lengthIngrediantRemove(this.currentSelect.id) < 6) {
         switch (e.path[1].id) {
           case "sauce":
             if (this.currentSelect.sauce === "") break;
@@ -461,6 +461,17 @@ export default {
       count = count + this.ingrediantSelected.viande.length;
       return count;
     },
+    lengthIngrediantRemove(position){
+        let count = 0;
+
+        count = count + this.pizza.pizzas[position].ingrediantRemove.sauce.length;
+        count = count + this.pizza.pizzas[position].ingrediantRemove.epice.length;
+        count = count + this.pizza.pizzas[position].ingrediantRemove.legume.length;
+        count = count + this.pizza.pizzas[position].ingrediantRemove.fromage.length;
+        count = count + this.pizza.pizzas[position].ingrediantRemove.viande.length;
+        return count;
+    }
+    ,
     addOrRemoveIngrediant(event, key) {
         if(!this.ingrediantRemove.id) this.ingrediantRemove.id = key;
 
@@ -552,8 +563,6 @@ export default {
         default:
           break;
       }
-        console.log(event);
-        console.log(key)
     },
   },
   computed: {
