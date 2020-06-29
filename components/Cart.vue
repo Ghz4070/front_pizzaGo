@@ -47,7 +47,6 @@
       <v-dialog v-model="paiement" persistent max-width="550">
         <template v-slot:activator="{ on, attrs }">
           <a
-            @click="loadStripe"
             class="buy-button center"
             v-bind="attrs"
             v-on="on"
@@ -59,10 +58,15 @@
             <div>
               <h3>Paiement sécurisé</h3>
 
-              <div id="card-element"></div>
-              <div id="payment-request-button">
-                <!-- A Stripe Element will be inserted here. -->
-              </div>
+              <stripe-elements
+                ref="elementsRef"
+                :pk="publishableKey"
+                :amount="amount"
+                locale="de"
+                @token="tokenCreated"
+                @loading="loading = $event"
+              ></stripe-elements>
+              <button @click="submit">Pay ${{amount / 100}}</button>
             </div>
           </v-card-text>
           <v-card-actions>
@@ -79,10 +83,12 @@
 <script>
 import TableCart from "./Table_Cart";
 import axios from "axios";
+import { StripeElements } from "vue-stripe-checkout";
 
 export default {
   components: {
-    TableCart
+    TableCart,
+    StripeElements
   },
   props: {
     boolStorage: Boolean
@@ -95,13 +101,11 @@ export default {
       promo: null,
       cart: {},
       totalPrice: { pizza: 0, drink: 0, dessert: 0, ingrediant: 0, total: 0 },
-      stripeAPIToken: "pk_test_QrgGFFIn2rjHnwgwvakXU0dn00FhK9IbmE",
-      stripeSKToken : "sk_test_FFo2d2NIa2uOtzD2k88dDrYm00iLED5prj",
-      stripe: "",
-      stripe2: "",
-      elements: "",
-      card: "",
-      paiement: false
+      paiement: false,
+      publishableKey: "pk_test_QrgGFFIn2rjHnwgwvakXU0dn00FhK9IbmE",
+      loading: false,
+      token: null,
+      charge: null
     };
   },
   watch: {
@@ -113,40 +117,45 @@ export default {
   },
   mounted() {},
   methods: {
-    loadStripe() {
-      this.includeStripe(
-        "js.stripe.com/v3/",
-        function() {
-          this.configureStripe();
-        }.bind(this)
-      );
+    submit() {
+      this.$refs.elementsRef.submit();
     },
-    configureStripe() {
-      this.stripe = Stripe(this.stripeAPIToken);
+    tokenCreated(token) {
+      this.token = token;
 
-      this.elements = this.stripe.elements();
-      this.card = this.elements.create("card");
+        this.charge = {
+        source: token.id,
+        amount: null,
+        description: 'Commande pizza',
+        customer: null,
+      };
+      console.log(this.charge);
+      this.saveOrder(this.charge);
+    },
+    saveOrder(charge) {
+        const params = {
+            price: null,
+            status: null,
+            user: null,
+            content: null,
+            promo: null,
+            charge: charge
+        }
+         return axios
+        .post(`http://localhost:4000/api/v1/order/add`, params)
+        .then(res => {
+          if(res.data.status == "success") {
+            console.log(res)
+          } else {
+            console.log("error")
+          }
 
-      this.card.mount("#card-element");
+        })
+        .catch(e => {
+          console.log("catch");
+        });
     },
-    includeStripe(URL, callback) {
-      let documentTag = document,
-        tag = "script",
-        object = documentTag.createElement(tag),
-        scriptTag = documentTag.getElementsByTagName(tag)[0];
-      object.src = "//" + URL;
-      object.setAttribute("defer", "defer");
-      if (callback) {
-        object.addEventListener(
-          "load",
-          function(e) {
-            callback(null, e);
-          },
-          false
-        );
-      }
-      scriptTag.parentNode.insertBefore(object, scriptTag);
-    },
+    
     async submitPromo(e) {
       e.preventDefault();
       if (e.target[0].value.trim() === "")
