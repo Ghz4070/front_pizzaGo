@@ -9,25 +9,21 @@
             <nuxt-link to="order">Commander</nuxt-link>
             <nuxt-link to>Contact</nuxt-link>
 
-            <v-dialog v-model="dialogFullScreen" fullscreen hide-overlay transition="dialog-bottom-transition">
-              <template v-slot:activator="{ on, attrs }">
-                <img src="~/static/user.svg" height="30" width="30" v-bind="attrs" v-on="on"/>
-              </template>
-              <v-card>
-                <v-toolbar dark color="primary">
-                  <v-btn icon dark @click="dialogFullScreen = false">
-                    <v-icon>mdi-close</v-icon>
-                  </v-btn>
-                <v-toolbar-title>Utilisateur</v-toolbar-title>
-                </v-toolbar>
-                <v-list three-line subheader>
-                  <div class="desktop-menu">
-                    <nuxt-link to>Changer ses informations</nuxt-link>
-                    <button @click="deconnection">Déconnexion</button>
-                  </div>
-                </v-list>
-              </v-card>
-            </v-dialog>
+<div class="text-center">
+<v-menu offset-y>
+      <template v-slot:activator="{ on, attrs }">
+          <img src="~/static/user.svg" height="30" width="30" v-bind="attrs" v-on="on"/>
+      </template>
+      <v-list>
+        <v-list-item @click="profil">
+          <v-list-item-title>Profil</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="deconnection">
+          <v-list-item-title>Déconnection</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+</div>
 
           </template>
           <template v-else>
@@ -70,17 +66,17 @@
                     <template v-if="img">
                       <div @click="dialog = false" class="mobile-menu">
                         <nuxt-link to="order">Commander</nuxt-link>
+                        <nuxt-link to>Profil</nuxt-link>
                         <nuxt-link to="contact">Contact</nuxt-link>
-                        <nuxt-link to>Changer ses informations</nuxt-link>
                         <button @click="deconnection">Déconnexion</button>
                       </div>
                     </template>
                     <template v-else>
                       <div @click="dialog = false" class="mobile-menu">
                         <nuxt-link to="/">Accueil</nuxt-link>
+                        <nuxt-link to="order">Commander</nuxt-link>
                         <nuxt-link to="login">Connexion</nuxt-link>
                         <nuxt-link to="inscription">Inscription</nuxt-link>
-                        <nuxt-link to="order">Commander</nuxt-link>
                         <nuxt-link to="contact">Contact</nuxt-link>
                       </div>
                     </template>
