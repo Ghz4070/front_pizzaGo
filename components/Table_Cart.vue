@@ -384,6 +384,8 @@ export default {
             this.ingrediantSelected.sauce.push(this.currentSelect.sauce);
             const totalIngrediantSauce= this.totalIngrediantAllPizza()
             this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantSauce);
+            console.log(e.path)
+            e.path[0].textContent = "";
             break;
           case "viande":
             if (this.currentSelect.viande === "") break;

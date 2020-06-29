@@ -118,6 +118,7 @@ export default {
     boolStorage() {
       const local = localStorage.getItem("datas");
       const stringToJSON = JSON.parse(local);
+
       return (this.cart = stringToJSON);
     }
   },
@@ -213,7 +214,7 @@ export default {
     },
     ingrediantAdded(ingrediantObject, total) {
       const { id } = ingrediantObject;
-      console.log(`la promo est ${total}`);
+   
       this.cart.contents.pizzas[id].ingrediantAdded = ingrediantObject;
       const newJson = {
         contents: this.cart.contents,
@@ -222,7 +223,7 @@ export default {
 
       const JSONtostring = JSON.stringify(newJson);
       localStorage.setItem("datas", JSONtostring);
-      
+      this.cart.total = total;
     },
     ingrediantRemove(ingrediantRemove) {
       const { id } = ingrediantRemove;
