@@ -7,7 +7,7 @@
       <v-col v-for="(drink, index) in drinks" :key="index" cols="12" sm="12" md="4">
         <div v-if="loading" class="center">
           <v-skeleton-loader
-            class="mx-auto"
+            class="mt-6"
             max-width="400"
             elevation="6"
             type="card"
@@ -22,11 +22,13 @@
               gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
               height="200px"
             >
-              <v-card-title>{{ drink.name }} {{ drink.price | euroSign }}</v-card-title>
+              <v-card-title>{{ drink.name }} {{ drink.oz | volumeSign}} - {{ drink.price | euroSign }}</v-card-title>
             </v-img>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <!-- <EditPizza :dataPizza="pizza" /> -->
+
+              <EditDrink :dataDrink="drink" />
+
               <v-btn icon class="ml-3">
                 <v-icon>mdi-trash-can</v-icon>
               </v-btn>
@@ -39,8 +41,13 @@
 </template>
 
 <script>
+import EditDrink from "./EditDrink";
+
 export default {
   name: "Drink",
+  components: {
+    EditDrink
+  },
   data: () => {
     return {
       loading: true,
@@ -49,7 +56,6 @@ export default {
   },
   mounted() {
     this.getDrink();
-    // console.log(this.drinks);
 
     if (this.drinks != 0) {
       setTimeout(() => {
@@ -65,6 +71,7 @@ export default {
         .get("http://localhost:4000/api/v1/drink")
         .then(res => {
           this.drinks = res.data.result;
+          // console.log(this.drinks);
         })
         .catch(e => {
           console.log("catch");
