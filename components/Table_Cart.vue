@@ -291,7 +291,8 @@ export default {
         viande: [],
         legume: [],
         fromage: [],
-        epice: []
+        epice: [],
+        total: 0,
       },
       ingrediantRemove: {
         id: "",
@@ -324,7 +325,7 @@ export default {
     },
     dessert() {
       this.getTotalPriceDessert();
-    }
+    },
   },
   props: {
     Thead: Array,
@@ -341,6 +342,16 @@ export default {
       }
       this.$emit("totalPizza", pizzaTotal);
     },
+    getTotalIngrediant() {
+      let ingrediantTotal = 0;
+
+      for (let element of this.pizza.pizzas) {
+        const {epice, fromage, legume, sauce, viande} = element.ingrediantAdded
+        ingrediantTotal = ingrediantTotal + epice.length + fromage.length + legume.length + sauce.length + viande.length;
+      }
+     
+      this.$emit("totalIngrediant", ingrediantTotal);
+    },
     getTotalPriceDrink() {
       let drinkTotal = 0;
       for (let element of this.drinks.drinks) {
@@ -354,8 +365,8 @@ export default {
         dessertTotal = dessertTotal + element.price;
       }
       this.$emit("totalDessert", dessertTotal);
-    },
-    getId(e) {
+    }
+    ,getId(e) {
       this.currentSelect.id = e;
       if (this.pizza.pizzas[e].ingrediantAdded !== undefined) {
         this.ingrediantSelected = this.pizza.pizzas[e].ingrediantAdded;
@@ -365,32 +376,34 @@ export default {
     addIngrediant(e) {
       if (!this.ingrediantSelected.id)
         this.ingrediantSelected.id = this.currentSelect.id;
-      if (this.lengthIngrediantSelected() - this.lengthIngrediantRemove(this.currentSelect.id) < 6) {
+      const totalLength = this.lengthIngrediantSelected() - this.lengthIngrediantRemove(this.currentSelect.id);
+      if (totalLength < 6) {
+        const totalIngrediant= this.totalIngrediantAllPizza()
         switch (e.path[1].id) {
           case "sauce":
             if (this.currentSelect.sauce === "") break;
             this.ingrediantSelected.sauce.push(this.currentSelect.sauce);
-            this.$emit("ingrediantAdded", this.ingrediantSelected);
+            this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediant);
             break;
           case "viande":
             if (this.currentSelect.viande === "") break;
             this.ingrediantSelected.viande.push(this.currentSelect.viande);
-            this.$emit("ingrediantAdded", this.ingrediantSelected);
+            this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediant);
             break;
           case "legume":
             if (this.currentSelect.legume === "") break;
             this.ingrediantSelected.legume.push(this.currentSelect.legume);
-            this.$emit("ingrediantAdded", this.ingrediantSelected);
+            this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediant);
             break;
           case "fromage":
             if (this.currentSelect.fromage === "") break;
             this.ingrediantSelected.fromage.push(this.currentSelect.fromage);
-            this.$emit("ingrediantAdded", this.ingrediantSelected);
+            this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediant);
             break;
           case "epice":
             if (this.currentSelect.epice === "") break;
             this.ingrediantSelected.epice.push(this.currentSelect.epice);
-            this.$emit("ingrediantAdded", this.ingrediantSelected);
+            this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediant);
             break;
           default:
             break;
@@ -469,6 +482,7 @@ export default {
         count = count + this.pizza.pizzas[position].ingrediantRemove.legume.length;
         count = count + this.pizza.pizzas[position].ingrediantRemove.fromage.length;
         count = count + this.pizza.pizzas[position].ingrediantRemove.viande.length;
+        console.log(count)
         return count;
     }
     ,
@@ -564,6 +578,18 @@ export default {
           break;
       }
     },
+    totalIngrediantAllPizza() {
+      let countTotal= 0;
+
+      for(let element of this.pizza.pizzas){
+        if(element.ingrediantAdded){
+          console.log()
+          const { total } = element.ingrediantAdded;
+          countTotal = countTotal + total;
+        }
+      }
+      return countTotal
+    }
   },
   computed: {
     ingredients() {

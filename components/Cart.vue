@@ -9,7 +9,7 @@
                     <button>Valider</button>
                 </div>
             </form>
-                <TableCart @totalPizza="totalPizza" @ingrediantAdded="ingrediantAdded" @ingrediantRemove="ingrediantRemove" :Thead="tablePizza" :pizza="cart.contents" className=" d-flex flex-row flex-wrap justify-space-around max-width"/>
+                <TableCart @totalPizza="totalPizza" @totalIngrediant="totalIngrediant" @ingrediantAdded="ingrediantAdded" @ingrediantRemove="ingrediantRemove" :Thead="tablePizza" :pizza="cart.contents" className=" d-flex flex-row flex-wrap justify-space-around max-width"/>
                 <TableCart @totalDrink="totalDrink" :Thead="tableBoisson" :drinks="cart.contents" className="d-flex flex-row flex-wrap justify-space-around max-width"/>
                 <TableCart @totalDessert="totalDessert" :Thead="tableDessert" :dessert="cart.contents" className="d-flex flex-row flex-wrap justify-space-around max-width"/>
             <div class="d-flex flex-row flex-wrap justify-space-around max-width">
@@ -46,7 +46,7 @@ export default {
             tableDessert : ['Desserts', 'Prix'],
             promo:null,
             cart: {},
-            totalPrice:{pizza:0, drink: 0, dessert: 0, total:0}
+            totalPrice:{pizza:0, drink: 0, dessert: 0, ingrediant: 0,total: 0}
         }
     },
     watch: {
@@ -68,28 +68,36 @@ export default {
             if(result === "No Promo found for this Name") return console.log('pas de promo');
             this.promo = result.promoes[0].amount;
         },
+        totalIngrediant(e){
+            console.log(e)
+            this.totalPrice.ingrediant = e;
+            this.totalPrice.total = this.totalPrice.pizza + this.totalPrice.drink + this.totalPrice.dessert + this.totalPrice.ingrediant; 
+        },
         totalPizza(e) {
             this.totalPrice.pizza = e;
-            this.totalPrice.total = this.totalPrice.pizza + this.totalPrice.drink + this.totalPrice.dessert; 
+            this.totalPrice.total = this.totalPrice.pizza + this.totalPrice.drink + this.totalPrice.dessert + this.totalPrice.ingrediant; 
         },
         totalDrink(e) {
             this.totalPrice.drink = e;
-            this.totalPrice.total = this.totalPrice.pizza + this.totalPrice.drink + this.totalPrice.dessert; 
+            this.totalPrice.total = this.totalPrice.pizza + this.totalPrice.drink + this.totalPrice.dessert + this.totalPrice.ingrediant; 
         },
         totalDessert(e) {
             this.totalPrice.dessert = e;
-            this.totalPrice.total = this.totalPrice.pizza + this.totalPrice.drink + this.totalPrice.dessert; 
+            this.totalPrice.total = this.totalPrice.pizza + this.totalPrice.drink + this.totalPrice.dessert + this.totalPrice.ingrediant; 
         },
-        ingrediantAdded(ingrediantObject) {
+        ingrediantAdded(ingrediantObject, total) {
             const { id } = ingrediantObject;
+            console.log(`la promo est ${total}`)
             this.cart.contents.pizzas[id].ingrediantAdded = ingrediantObject; 
-            
             const newJson = {
-                contents: this.cart.contents
+                contents: this.cart.contents,
             }
-            
+            const totalJSON = {
+                total: total
+            }
             const JSONtostring = JSON.stringify(newJson);
             localStorage.setItem('datas', JSONtostring);
+            localStorage.setItem('total',total)
         },
         ingrediantRemove(ingrediantRemove) {
             const { id } = ingrediantRemove;
