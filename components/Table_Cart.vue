@@ -43,7 +43,7 @@
                               :key="index"
                               v-for="(element, index) in pizza.pizzas[key].composition.viandes.items"
                             >
-                              <v-list-item-title :key="index" @click="(e) => addOrRemoveIngrediant(e,key)">{{element}}</v-list-item-title>
+                              <v-list-item-title :key="index" @click="(e) => addOrRemoveIngrediant(e,key)"><span>{{element}}</span></v-list-item-title>
                             </v-list-item-content>
                           </v-list-item>
                         </div>
@@ -53,7 +53,7 @@
                               :key="index"
                               v-for="(element, index) in pizza.pizzas[key].composition.fromages.items"
                             >
-                              <v-list-item-title :key="index" @click="(e) => addOrRemoveIngrediant(e,key)">{{element}}</v-list-item-title>
+                              <v-list-item-title :key="index" @click="(e) => addOrRemoveIngrediant(e,key)"><span>{{element}}</span></v-list-item-title>
                             </v-list-item-content>
                           </v-list-item>
                         </div>
@@ -63,7 +63,7 @@
                               :key="index"
                               v-for="(element, index) in pizza.pizzas[key].composition.legumes.items"
                             >
-                              <v-list-item-title :key="index" @click="(e) => addOrRemoveIngrediant(e,key)">{{element}}</v-list-item-title>
+                              <v-list-item-title :key="index" @click="(e) => addOrRemoveIngrediant(e,key)"><span>{{element}}</span></v-list-item-title>
                             </v-list-item-content>
                           </v-list-item>
                         </div>
@@ -73,7 +73,7 @@
                               :key="index"
                               v-for="(element, index) in pizza.pizzas[key].composition.epices.items"
                             >
-                              <v-list-item-title :key="index" @click="(e) => addOrRemoveIngrediant(e,key)">{{element}}</v-list-item-title>
+                              <v-list-item-title :key="index" @click="(e) => addOrRemoveIngrediant(e,key)"><span>{{element}}</span></v-list-item-title>
                             </v-list-item-content>
                           </v-list-item>
                         </div>
@@ -490,10 +490,10 @@ export default {
     ,
     addOrRemoveIngrediant(event, key) {
         if(!this.ingrediantRemove.id) this.ingrediantRemove.id = key;
-
-        switch (event.path[3].id) {
+        switch (event.path[4].id) {
         case "switchSauce":
             if(this.pizza.pizzas[key].ingrediantRemove !== undefined){
+                this.changeCSS(event, key)
                 const findElement= this.pizza.pizzas[key].ingrediantRemove.sauce.find((element) => element === event.path[0].innerHTML);
                 if(findElement === undefined){
                     this.ingrediantRemove.sauce.push(event.path[0].innerHTML);
@@ -511,6 +511,7 @@ export default {
           break;
         case "switchViande":
           if(this.pizza.pizzas[key].ingrediantRemove !== undefined){
+                this.changeCSS(event, key)
                 const findElement= this.pizza.pizzas[key].ingrediantRemove.viande.find((element) => element === event.path[0].innerHTML);
                 if(findElement === undefined){
                     this.ingrediantRemove.viande.push(event.path[0].innerHTML);
@@ -591,6 +592,38 @@ export default {
         }
       }
       return countTotal
+    },
+    changeCSS(event,key) {
+      const getNameDiv = event.path[4].id;
+      const ingrediantDelete = this.pizza.pizzas[key].ingrediantRemove;
+      const contentSpan = event.path[0].innerHTML;
+
+      switch (getNameDiv) {
+        case 'switchSauce':
+          const findElementSauce = ingrediantDelete.sauce.indexOf(contentSpan);
+          if(findElementSauce !== -1){
+            event.path[0].style.color="green";
+            this.cssDynamique.sauce[key] = "green"
+          }else {
+            event.path[0].style.color="red";
+            this.cssDynamique.sauce[key] = "red"
+          }
+          break;
+
+        case 'switchViande':
+          const findElementViande = ingrediantDelete.viande.indexOf(contentSpan);
+          if(findElementViande !== -1){
+            event.path[0].style.color="green";
+            this.cssDynamique.sauce[key] = "green"
+          }else {
+            event.path[0].style.color="red";
+            this.cssDynamique.sauce[key] = "red"
+          }
+          break;
+      
+        default:
+          break;
+      }
     }
   },
   computed: {
@@ -615,11 +648,11 @@ export default {
   background-color: black;
 }
 
-.border-green {
-    border: 1px solid green;
+.addElement {
+    color:green;
 }
 
-.border-red {
-    border: 1px solid red;
+.deleteElement {
+    color:red;
 }
 </style>
