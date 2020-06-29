@@ -47,6 +47,7 @@
       <v-dialog v-model="paiement" persistent max-width="550">
         <template v-slot:activator="{ on, attrs }">
           <a
+            @click="loadStripe"
             class="buy-button center"
             v-bind="attrs"
             v-on="on"
@@ -58,22 +59,16 @@
             <div>
               <h3>Paiement sécurisé</h3>
 
-              <stripe-elements
-                ref="elementsRef"
-                :pk="publishableKey"
-                :amount="amount"
-                currency= "EUR"
-                locale="fr"
-                @token="tokenCreated"
-                @loading="loading = $event"
-              ></stripe-elements>
-              
+              <div id="card-element"></div>
+              <div id="payment-request-button">
+                <!-- A Stripe Element will be inserted here. -->
+              </div>
             </div>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="green darken-1" text @click="paiement = false">Annuler</v-btn>
-            <v-btn color="green darken-1" text @click="submit">Payer {{amount / 100}} €</v-btn>
+            <v-btn color="green darken-1" text>Payer {{amount / 100}} €</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -84,12 +79,10 @@
 <script>
 import TableCart from "./Table_Cart";
 import axios from "axios";
-import { StripeElements } from "vue-stripe-checkout";
 
 export default {
   components: {
-    TableCart,
-    StripeElements
+    TableCart
   },
   props: {
     boolStorage: Boolean
@@ -103,11 +96,12 @@ export default {
       cart: {},
       totalPrice: { pizza: 0, drink: 0, dessert: 0, ingrediant: 0, total: 0 },
       paiement: false,
-      publishableKey: "pk_test_QrgGFFIn2rjHnwgwvakXU0dn00FhK9IbmE",
-      loading: false,
-      token: null,
-      charge: null,
-      amount: 1000
+      stripeAPIToken: "pk_test_QrgGFFIn2rjHnwgwvakXU0dn00FhK9IbmE",
+      stripeSKToken: "sk_test_FFo2d2NIa2uOtzD2k88dDrYm00iLED5prj",
+      stripe: "",
+      elements: "",
+      card: "",
+      amount: 250
     };
   },
   watch: {
@@ -117,48 +111,66 @@ export default {
       return (this.cart = stringToJSON);
     }
   },
-  mounted() {},
   methods: {
-    submit() {
-      this.$refs.elementsRef.submit();
-      this.paiement = false;
+    // START METHOD FOR STRIPE //
+    loadStripe() {
+      this.includeStripe(
+        "js.stripe.com/v3/",
+        function() {
+          this.configureStripe();
+        }.bind(this)
+      );
     },
-    tokenCreated(token) {
-      this.token = token;
+    configureStripe() {
+      this.stripe = Stripe(this.stripeAPIToken);
+      this.elements = this.stripe.elements();
+      this.card = this.elements.create("card");
+      this.card.mount("#card-element");
+    },
+    includeStripe(URL, callback) {
+      let documentTag = document,
+        tag = "script",
+        object = documentTag.createElement(tag),
+        scriptTag = documentTag.getElementsByTagName(tag)[0];
+      object.src = "//" + URL;
+      object.setAttribute("defer", "defer");
+      if (callback) {
+        object.addEventListener(
+          "load",
+          function(e) {
+            callback(null, e);
+          },
+          false
+        );
+      }
+      scriptTag.parentNode.insertBefore(object, scriptTag);
+    },
 
-        this.charge = {
-        source: token.id,
-        amount: null,
-        description: 'Commande pizza',
-        customer: null,
-      };
-      console.log(this.charge);
-      this.saveOrder(this.charge);
-    },
+    // END METHOD FOR STRIPE //
+
     saveOrder(charge) {
-        const params = {
-            price: null,
-            status: null,
-            user: null,
-            content: null,
-            promo: null,
-            charge: charge
-        }
-         return axios
+      const params = {
+        price: null,
+        status: null,
+        user: null,
+        content: null,
+        promo: null,
+        charge: charge
+      };
+      return axios
         .post(`http://localhost:4000/api/v1/order/add`, params)
         .then(res => {
-          if(res.data.status == "success") {
-            console.log(res)
+          if (res.data.status == "success") {
+            console.log(res);
           } else {
-            console.log("error")
+            console.log("error");
           }
-
         })
         .catch(e => {
           console.log("catch");
         });
     },
-    
+
     async submitPromo(e) {
       e.preventDefault();
       if (e.target[0].value.trim() === "")
