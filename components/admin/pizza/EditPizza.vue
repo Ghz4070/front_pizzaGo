@@ -101,7 +101,6 @@ export default {
   },
   data: () => ({
     dialog: false,
-    items: ["Foo", "Bar", "Fizz", "Buzz"]
   }),
   computed: {
     ingredients() {
