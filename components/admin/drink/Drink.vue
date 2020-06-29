@@ -1,47 +1,70 @@
 <template>
   <v-container fluid>
     <v-row>
-      <!-- <AddDrink /> -->
+      <AddDrink />
     </v-row>
     <v-row dense>
-      <h1>{{ip}}</h1>
-      <!-- <v-col v-for="(drink, index) in drinks" :key="index" cols="12" sm="12" md="4">
-        <div v-if="loading" class="center">
+      <v-col v-for="(drink, index) in drinks" :key="index" cols="12"
+        xl="3"
+        lg="4"
+        md="6"
+        sm="12"
+        align="center">
+
           <v-skeleton-loader
-            class="mx-auto"
+          v-if="loading"
+            class="mt-6"
             max-width="400"
             elevation="6"
             type="card"
             transition="scale-transition"
           ></v-skeleton-loader>
-        </div>
-        <div v-else>
-          <v-card outlined class="ma-3 pa-3 card_pizza" elevation="6" max-width="400">
-            <v-img
-              :src="drink.img"
-              class="white--text align-end"
-              gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-              height="200px"
-            >
-              <v-card-title v-text="drink.name"></v-card-title>
-            </v-img>
-            <v-card-actions>
-      <v-spacer></v-spacer>-->
-      <!-- <EditPizza :dataPizza="pizza" /> -->
-      <!-- <v-btn icon class="ml-3">
-                <v-icon>mdi-trash-can</v-icon>
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </div>
-      </v-col>-->
+
+
+          <v-hover v-else>
+            <template v-slot="{ hover }">
+              <v-card
+                outlined
+                class="ma-3 pa-3 card_pizza transition-swing"
+                :class="`elevation-${hover ? 24 : 6}`"
+                max-width="400"
+              >
+                <v-img
+                  :src="drink.img"
+                  class="white--text align-end"
+                  gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                  height="200px"
+                >
+                  <v-card-title>{{ drink.name }} {{ drink.oz | volumeSign}} - {{ drink.price | euroSign }}</v-card-title>
+                </v-img>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+
+                  <EditDrink :dataDrink="drink" />
+
+                  <v-btn icon class="ml-3">
+                    <v-icon>mdi-trash-can</v-icon>
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </template>
+          </v-hover>
+        
+      </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
+import EditDrink from "./EditDrink";
+import AddDrink from "./AddDrink";
+
 export default {
   name: "Drink",
+  components: {
+    EditDrink,
+    AddDrink
+  },
   data: () => {
     return {
       loading: true,
@@ -49,6 +72,8 @@ export default {
     };
   },
   mounted() {
+    this.getDrink();
+
     if (this.drinks != 0) {
       setTimeout(() => {
         this.loading = false;
@@ -56,16 +81,19 @@ export default {
     } else {
       alert("Erreur de chargement");
     }
-
-    console.log(this.ip);
   },
-  // async asyncData({ $axios }) {
-  //   const ip = await this.$axios.$get("http://localhost:4000/api/v1/drink");
-  //   return;
-  // }
-  async asyncData({ $axios }) {
-    const ip = await $axios.$get("http://icanhazip.com");
-    return { ip };
+  methods: {
+    async getDrink() {
+      return await this.$axios
+        .get("http://localhost:4000/api/v1/drink")
+        .then(res => {
+          this.drinks = res.data.result;
+          // console.log(this.drinks);
+        })
+        .catch(e => {
+          console.log("catch");
+        });
+    }
   }
 };
 </script>
