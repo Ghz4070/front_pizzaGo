@@ -7,7 +7,7 @@
       <v-col v-for="(pizza, index) in pizzas" :key="index" cols="12" sm="12" md="4">
         <div v-if="loading" class="center">
           <v-skeleton-loader
-            class="mx-auto"
+            class="mt-6"
             max-width="400"
             elevation="6"
             type="card"
@@ -28,7 +28,7 @@
             <v-card-actions>
               <v-spacer></v-spacer>
 
-              <EditPizza :dataPizza="pizza" :categories="pizza.category"/>
+              <EditPizza :dataPizza="pizza" />
 
               <v-btn icon class="ml-3">
                 <v-icon>mdi-trash-can</v-icon>
@@ -55,13 +55,10 @@ export default {
   data: () => {
     return {
       pizzas: [],
-      categories: [],
-      sizes: [],
-      loading: true,
+      loading: true
     };
   },
   async mounted() {
-    await this.getCategories();
     await this.getPizzas();
 
     if (this.pizzas != 0) {
@@ -75,24 +72,15 @@ export default {
   methods: {
     getPizzas() {
       return axios
-        .get(`http://localhost:4000/api/v1/pizza`)
+        .get("http://localhost:4000/api/v1/pizza")
         .then(res => {
           this.pizzas = res.data.result;
+          console.log(pizzas);
         })
         .catch(e => {
           console.log("catch");
         });
-    },
-    getCategories() {
-      return axios
-        .get(`http://localhost:4000/api/v1/category`)
-        .then(res => {
-          this.categories = res.data.result;
-        })
-        .catch(e => {
-          console.log("catch");
-        });
-    },
+    }
   }
 };
 </script>

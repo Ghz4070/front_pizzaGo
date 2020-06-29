@@ -24,7 +24,7 @@
         </div>
         <!-- Dessert -->
         <div v-if="currentTab == 2">
-          <!-- <Dessert /> -->
+          <Dessert />
         </div>
       </v-card>
     </v-container>
@@ -34,11 +34,13 @@
 <script>
 import Pizza from "@/components/admin/pizza/Pizza";
 import Drink from "@/components/admin/drink/Drink";
+import Dessert from "@/components/admin/dessert/Dessert";
 
 export default {
   components: {
     Pizza,
-    Drink
+    Drink,
+    Dessert
   },
   data: function() {
     return {
