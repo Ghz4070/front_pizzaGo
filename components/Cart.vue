@@ -62,7 +62,7 @@
                 ref="elementsRef"
                 :pk="publishableKey"
                 :amount="amount"
-                locale="de"
+                locale="fr"
                 @token="tokenCreated"
                 @loading="loading = $event"
               ></stripe-elements>
