@@ -384,38 +384,42 @@ export default {
             this.ingrediantSelected.sauce.push(this.currentSelect.sauce);
             const totalIngrediantSauce= this.totalIngrediantAllPizza()
             this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantSauce);
-            console.log(e.path)
-            e.path[0].textContent = "";
+            this.currentSelect.sauce= "";
             break;
           case "viande":
             if (this.currentSelect.viande === "") break;
             this.ingrediantSelected.viande.push(this.currentSelect.viande);
             const totalIngrediantViande= this.totalIngrediantAllPizza()
             this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantViande);
+            this.currentSelect.viande= "";
             break;
           case "legume":
             if (this.currentSelect.legume === "") break;
             this.ingrediantSelected.legume.push(this.currentSelect.legume);
             const totalIngrediantLegume= this.totalIngrediantAllPizza()
             this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantLegume);
+            this.currentSelect.legume= "";
             break;
           case "fromage":
             if (this.currentSelect.fromage === "") break;
             this.ingrediantSelected.fromage.push(this.currentSelect.fromage);
             const totalIngrediantFromage= this.totalIngrediantAllPizza()
             this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantFromage);
+            this.currentSelect.fromage= "";
             break;
           case "epice":
             if (this.currentSelect.epice === "") break;
             this.ingrediantSelected.epice.push(this.currentSelect.epice);
             const totalIngrediantEpice= this.totalIngrediantAllPizza()
             this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantEpice);
+            this.currentSelect.epice= "";
             break;
           default:
             console.log(e.path[1])
             break;
         }
       } else {
+        this.currentSelect[e.path[1].id] = "";
         this.errorIngrediant.snackbar = true;
       }
     },
