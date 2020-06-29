@@ -243,7 +243,7 @@
                 </v-snackbar>
               </v-dialog>
             </tr>
-            <p v-if="checkLengthArrayIngrediant(key)">Ingrédiant</p>
+            <p v-if="checkLengthArrayIngrediant(key)">Ingrédiant {{totalIngrediant ? totalIngrediant.total : null}}</p>
           </template>
         </template>
         <template v-if="drinks && Thead[0] === 'Boissons'">
@@ -378,33 +378,36 @@ export default {
         this.ingrediantSelected.id = this.currentSelect.id;
       const totalLength = this.lengthIngrediantSelected() - this.lengthIngrediantRemove(this.currentSelect.id);
       if (totalLength < 6) {
-        const totalIngrediant= this.totalIngrediantAllPizza()
-        console.log(e.path[1])
         switch (e.path[1].id) {
           case "sauce":
             if (this.currentSelect.sauce === "") break;
             this.ingrediantSelected.sauce.push(this.currentSelect.sauce);
-            this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediant);
+            const totalIngrediantSauce= this.totalIngrediantAllPizza()
+            this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantSauce);
             break;
           case "viande":
             if (this.currentSelect.viande === "") break;
             this.ingrediantSelected.viande.push(this.currentSelect.viande);
-            this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediant);
+            const totalIngrediantViande= this.totalIngrediantAllPizza()
+            this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantViande);
             break;
           case "legume":
             if (this.currentSelect.legume === "") break;
             this.ingrediantSelected.legume.push(this.currentSelect.legume);
-            this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediant);
+            const totalIngrediantLegume= this.totalIngrediantAllPizza()
+            this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantLegume);
             break;
           case "fromage":
             if (this.currentSelect.fromage === "") break;
             this.ingrediantSelected.fromage.push(this.currentSelect.fromage);
-            this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediant);
+            const totalIngrediantFromage= this.totalIngrediantAllPizza()
+            this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantFromage);
             break;
           case "epice":
             if (this.currentSelect.epice === "") break;
             this.ingrediantSelected.epice.push(this.currentSelect.epice);
-            this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediant);
+            const totalIngrediantEpice= this.totalIngrediantAllPizza()
+            this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantEpice);
             break;
           default:
             console.log(e.path[1])
@@ -416,7 +419,8 @@ export default {
     },
     getAddIngrediant() {
       if (this.lengthIngrediantSelected() !== 0) {
-        this.$emit("ingrediantAdded", this.ingrediantSelected);
+        const totalIngrediant= this.totalIngrediantAllPizza()
+        this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediant);
       }
 
       this.dialog = false;
@@ -425,23 +429,28 @@ export default {
       switch (event.path[1].id) {
         case "sauce":
           this.ingrediantSelected.sauce.splice(key, 1);
-          this.$emit("ingrediantAdded", this.ingrediantSelected);
+          const totalIngrediantSauce= this.totalIngrediantAllPizza()
+          this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantSauce);
           break;
         case "viande":
           this.ingrediantSelected.viande.splice(key, 1);
-          this.$emit("ingrediantAdded", this.ingrediantSelected);
+          const totalIngrediantViande= this.totalIngrediantAllPizza()
+          this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantViande);
           break;
         case "legume":
           this.ingrediantSelected.legume.splice(key, 1);
-          this.$emit("ingrediantAdded", this.ingrediantSelected);
+          const totalIngrediantLegume= this.totalIngrediantAllPizza()
+          this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantLegume);
           break;
         case "fromage":
           this.ingrediantSelected.fromage.splice(key, 1);
-          this.$emit("ingrediantAdded", this.ingrediantSelected);
+          const totalIngrediantFromage= this.totalIngrediantAllPizza()
+          this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantFromage);
           break;
         case "epice":
           this.ingrediantSelected.epice.splice(key, 1);
-          this.$emit("ingrediantAdded", this.ingrediantSelected);
+          const totalIngrediantEpice= this.totalIngrediantAllPizza()
+          this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantEpice);
           break;
 
         default:
@@ -586,9 +595,8 @@ export default {
 
       for(let element of this.pizza.pizzas){
         if(element.ingrediantAdded){
-          console.log()
-          const { total } = element.ingrediantAdded;
-          countTotal = countTotal + total;
+          const { viande, sauce, legume, fromage, epice } = element.ingrediantAdded;
+          countTotal = countTotal + viande.length + sauce.length + legume.length + fromage.length + epice.length;
         }
       }
       return countTotal
