@@ -33,7 +33,7 @@
                               :key="index"
                               v-for="(element, index) in pizza.pizzas[key].composition.sauces.items"
                             >
-                              <v-list-item-title :key="index" @click="(e) => addOrRemoveIngrediant(e,key)">{{element}}</v-list-item-title>
+                              <v-list-item-title :key="index" @click="(e) => addOrRemoveIngrediant(e,key)"><span>{{element}}</span></v-list-item-title>
                             </v-list-item-content>
                           </v-list-item>
                         </div>
@@ -379,6 +379,7 @@ export default {
       const totalLength = this.lengthIngrediantSelected() - this.lengthIngrediantRemove(this.currentSelect.id);
       if (totalLength < 6) {
         const totalIngrediant= this.totalIngrediantAllPizza()
+        console.log(e.path[1])
         switch (e.path[1].id) {
           case "sauce":
             if (this.currentSelect.sauce === "") break;
@@ -406,6 +407,7 @@ export default {
             this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediant);
             break;
           default:
+            console.log(e.path[1])
             break;
         }
       } else {
@@ -476,14 +478,14 @@ export default {
     },
     lengthIngrediantRemove(position){
         let count = 0;
-
-        count = count + this.pizza.pizzas[position].ingrediantRemove.sauce.length;
-        count = count + this.pizza.pizzas[position].ingrediantRemove.epice.length;
-        count = count + this.pizza.pizzas[position].ingrediantRemove.legume.length;
-        count = count + this.pizza.pizzas[position].ingrediantRemove.fromage.length;
-        count = count + this.pizza.pizzas[position].ingrediantRemove.viande.length;
-        console.log(count)
-        return count;
+        if(this.pizza.pizzas[position].ingrediantRemove){
+          count = count + this.pizza.pizzas[position].ingrediantRemove.sauce.length;
+          count = count + this.pizza.pizzas[position].ingrediantRemove.epice.length;
+          count = count + this.pizza.pizzas[position].ingrediantRemove.legume.length;
+          count = count + this.pizza.pizzas[position].ingrediantRemove.fromage.length;
+          count = count + this.pizza.pizzas[position].ingrediantRemove.viande.length;
+        }
+        return count
     }
     ,
     addOrRemoveIngrediant(event, key) {
