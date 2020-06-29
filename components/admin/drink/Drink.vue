@@ -4,8 +4,7 @@
       <!-- <AddDrink /> -->
     </v-row>
     <v-row dense>
-      <h1>{{ip}}</h1>
-      <!-- <v-col v-for="(drink, index) in drinks" :key="index" cols="12" sm="12" md="4">
+      <v-col v-for="(drink, index) in drinks" :key="index" cols="12" sm="12" md="4">
         <div v-if="loading" class="center">
           <v-skeleton-loader
             class="mx-auto"
@@ -23,18 +22,18 @@
               gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
               height="200px"
             >
-              <v-card-title v-text="drink.name"></v-card-title>
+              <v-card-title>{{ drink.name }} {{ drink.price | euroSign }}</v-card-title>
             </v-img>
             <v-card-actions>
-      <v-spacer></v-spacer>-->
-      <!-- <EditPizza :dataPizza="pizza" /> -->
-      <!-- <v-btn icon class="ml-3">
+              <v-spacer></v-spacer>
+              <!-- <EditPizza :dataPizza="pizza" /> -->
+              <v-btn icon class="ml-3">
                 <v-icon>mdi-trash-can</v-icon>
               </v-btn>
             </v-card-actions>
           </v-card>
         </div>
-      </v-col>-->
+      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -49,6 +48,9 @@ export default {
     };
   },
   mounted() {
+    this.getDrink();
+    // console.log(this.drinks);
+
     if (this.drinks != 0) {
       setTimeout(() => {
         this.loading = false;
@@ -56,16 +58,18 @@ export default {
     } else {
       alert("Erreur de chargement");
     }
-
-    console.log(this.ip);
   },
-  // async asyncData({ $axios }) {
-  //   const ip = await this.$axios.$get("http://localhost:4000/api/v1/drink");
-  //   return;
-  // }
-  async asyncData({ $axios }) {
-    const ip = await $axios.$get("http://icanhazip.com");
-    return { ip };
+  methods: {
+    async getDrink() {
+      return await this.$axios
+        .get("http://localhost:4000/api/v1/drink")
+        .then(res => {
+          this.drinks = res.data.result;
+        })
+        .catch(e => {
+          console.log("catch");
+        });
+    }
   }
 };
 </script>
