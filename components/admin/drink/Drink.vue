@@ -61,6 +61,9 @@ export default {
       alert("Erreur de chargement");
     }
   },
+  updated() {
+    this.getDrink();
+  },
   methods: {
     async getDrink() {
       return await this.$axios
