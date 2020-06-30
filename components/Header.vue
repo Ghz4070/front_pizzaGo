@@ -6,7 +6,7 @@
         <nav class="navigation d-flex flex-row flex-wrap align-center">
           <template v-if="img">
             <nuxt-link to="/">Accueil</nuxt-link>
-            <nuxt-link to="order">Commander</nuxt-link>
+            <nuxt-link to="/order">Commander</nuxt-link>
             <nuxt-link to>Contact</nuxt-link>
 
 <div class="text-center">
@@ -15,7 +15,7 @@
           <img src="~/static/user.svg" height="30" width="30" v-bind="attrs" v-on="on"/>
       </template>
       <v-list>
-        <v-list-item @click="profil">
+        <v-list-item to="/user/profile">
           <v-list-item-title>Profil</v-list-item-title>
         </v-list-item>
         <v-list-item @click="deconnection">
@@ -28,12 +28,12 @@
           </template>
           <template v-else>
             <nuxt-link to="/">Accueil</nuxt-link>
-            <nuxt-link to="login">Connexion</nuxt-link>
-            <nuxt-link to="inscription">Inscription</nuxt-link>
-            <nuxt-link to="order">Commander</nuxt-link>
-            <nuxt-link to="contact">Contact</nuxt-link>
+            <nuxt-link to="/login">Connexion</nuxt-link>
+            <nuxt-link to="/inscription">Inscription</nuxt-link>
+            <nuxt-link to="/order">Commander</nuxt-link>
+            <nuxt-link to="/contact">Contact</nuxt-link>
             <!-- v-if="ROLE == ADMIN" -->
-            <nuxt-link to="admin">Admin</nuxt-link>
+            <nuxt-link to="/admin">Admin</nuxt-link>
             <!-- ROLE == ADMIN -->
           </template>
         </nav>
@@ -65,19 +65,19 @@
                   <v-list three-line subheader>
                     <template v-if="img">
                       <div @click="dialog = false" class="mobile-menu">
-                        <nuxt-link to="order">Commander</nuxt-link>
-                        <nuxt-link to>Profil</nuxt-link>
-                        <nuxt-link to="contact">Contact</nuxt-link>
+                        <nuxt-link to="/order">Commander</nuxt-link>
+                        <nuxt-link to="/user/profile">Profil</nuxt-link>
+                        <nuxt-link to="/contact">Contact</nuxt-link>
                         <button @click="deconnection">Déconnexion</button>
                       </div>
                     </template>
                     <template v-else>
                       <div @click="dialog = false" class="mobile-menu">
                         <nuxt-link to="/">Accueil</nuxt-link>
-                        <nuxt-link to="order">Commander</nuxt-link>
-                        <nuxt-link to="login">Connexion</nuxt-link>
-                        <nuxt-link to="inscription">Inscription</nuxt-link>
-                        <nuxt-link to="contact">Contact</nuxt-link>
+                        <nuxt-link to="/order">Commander</nuxt-link>
+                        <nuxt-link to="/login">Connexion</nuxt-link>
+                        <nuxt-link to="/inscription">Inscription</nuxt-link>
+                        <nuxt-link to="/contact">Contact</nuxt-link>
                       </div>
                     </template>
                   </v-list>
