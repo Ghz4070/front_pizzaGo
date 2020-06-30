@@ -21,52 +21,83 @@
               <v-container>
                 <v-row>
                   <v-col cols="12" xl="3" lg="4" md="6">
-                    <v-text-field clearable append-outer-icon="mdi-account" label="Nom"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" xl="3" lg="4" md="6">
-                    <v-text-field clearable append-outer-icon="mdi-account" label="Prenom"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" xl="3" lg="4" md="6">
-                    <v-text-field clearable append-outer-icon="mdi-map" label="Adresse"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" xl="3" lg="4" md="6">
-                    <v-text-field clearable append-outer-icon="mdi-map" label="Code postal"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" xl="3" lg="4" md="6">
-                    <v-text-field clearable append-outer-icon="mdi-map-marker" label="Ville"></v-text-field>
+                    <v-text-field
+                      clearable
+                      v-model="params.lastname"
+                      append-outer-icon="mdi-account"
+                      label="Nom"
+                    ></v-text-field>
                   </v-col>
                   <v-col cols="12" xl="3" lg="4" md="6">
                     <v-text-field
                       clearable
+                      v-model="params.firstname"
+                      append-outer-icon="mdi-account"
+                      label="Prenom"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" xl="3" lg="4" md="6">
+                    <v-text-field
+                      clearable
+                      v-model="params.address"
+                      append-outer-icon="mdi-map"
+                      label="Adresse"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" xl="3" lg="4" md="6">
+                    <v-text-field
+                      clearable
+                      v-model="params.zip"
+                      append-outer-icon="mdi-map"
+                      label="Code postal"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" xl="3" lg="4" md="6">
+                    <v-text-field
+                      clearable
+                      v-model="params.city"
+                      append-outer-icon="mdi-map-marker"
+                      label="Ville"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" xl="3" lg="4" md="6">
+                    <v-text-field
+                      clearable
+                      v-model="params.tel"
                       append-outer-icon="mdi-cellphone-iphone"
                       label="Telephone"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" xl="3" lg="4" md="6">
-                    <v-text-field clearable append-outer-icon="mdi-at" label="Email"></v-text-field>
+                    <v-text-field
+                      clearable
+                      v-model="params.email"
+                      append-outer-icon="mdi-at"
+                      label="Email"
+                    ></v-text-field>
                   </v-col>
                   <v-col cols="12" xl="3" lg="4" md="6">
-                    <v-text-field clearable append-outer-icon="mdi-pencil" label="Roles"></v-text-field>
+                    <v-select
+                      clearable
+                      v-model="params.roles"
+                      :items="params.roles"
+                      chips
+                      multiple
+                      dense
+                      prepend-icon="mdi-pencil"
+                      label="Roles"
+                    ></v-select>
                   </v-col>
                 </v-row>
               </v-container>
+              <v-row align="end" justify="end">
+                <v-btn color="blue darken-1" class="ma-2" text>Sauvegarder</v-btn>
+              </v-row>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
       </v-col>
     </v-row>
-    <!-- <v-row>
-      <v-col>
-        <v-pagination
-          v-model="page"
-          length="10"
-          :next-icon="nextIcon"
-          :prev-icon="prevIcon"
-          :page="page"
-          :total-visible="totalVisible"
-        ></v-pagination>
-      </v-col>
-    </v-row>-->
   </v-container>
 </template>
 
@@ -75,28 +106,39 @@ export default {
   data() {
     return {
       loading: false,
-      users: [],
-      // length: 10,
-      // page: 1,
-      // totalVisible: 10,
-      // nextIcon: "navigate_next",
-      // prevIcon: "navigate_before"
+      users: Object,
+      params: {
+        id: null,
+        firstname: null,
+        lastname: null,
+        address: null,
+        zip: null,
+        city: null,
+        tel: null,
+        email: null,
+        roles: [],
+      }
     };
   },
   mounted() {
-    // this.getUsers();
-    // if (this.users != 0) {
-    //   setTimeout(() => {
-    //     this.loading = false;
-    //   }, 750);
-    // } else {
-    //   alert("Erreur de chargement");
-    // }
+    this.getUsers();
+
+    if (this.users != 0) {
+      setTimeout(() => {
+        this.loading = false;
+      }, 500);
+    } else {
+      alert("Erreur de chargement");
+    }
   },
   methods: {
     async getUsers() {
       return await this.$axios
-        .get("http://localhost:4000/api/v1/user")
+        .get("http://localhost:4000/api/v1/user/", {
+          headers: {
+            "x-access-token": localStorage.getItem("x-access-token")
+          }
+        })
         .then(res => {
           this.users = res.data.result;
           console.log(users);
@@ -104,6 +146,20 @@ export default {
         .catch(e => {
           console.log("catch");
         });
+    },
+    getDatas() {
+      console.log(this.users);
+      this.params = {
+        id: this.users.id,
+        firstname: this.users.firstname,
+        lastname: this.users.lastname,
+        address: this.users.address,
+        zip: this.users.zip,
+        city: this.users.city,
+        tel: this.users.tel,
+        email: this.users.email,
+        roles: [this.users.role]
+      };
     }
   }
 };
