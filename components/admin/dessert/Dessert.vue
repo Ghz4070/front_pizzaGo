@@ -78,7 +78,7 @@ export default {
     if (this.desserts != 0) {
       setTimeout(() => {
         this.loading = false;
-      }, 750);
+      }, 500);
     } else {
       alert("Erreur de chargement");
     }

@@ -56,7 +56,7 @@ export default {
     if (this.drinks != 0) {
       setTimeout(() => {
         this.loading = false;
-      }, 750);
+      }, 500);
     } else {
       alert("Erreur de chargement");
     }
