@@ -33,14 +33,18 @@
         class="d-flex flex-row flex-wrap justify-space-around max-width"
       />
       <div class="d-flex flex-row flex-wrap justify-space-around max-width">
+        <h3>Ingrédients ajoutés</h3>
+        <p>{{cart.total}} €</p>
+      </div>
+      <div class="d-flex flex-row flex-wrap justify-space-around max-width">
         <p>Total :</p>
         <template v-if="promo">
           <p>{{promo}}%</p>
-          <p>{{(totalPrice.total - ( totalPrice.total * (promo/100) ))}} €</p>
-          <p>{{totalPrice.total}} €</p>
+          <p>{{(totalPrice.total - ( totalPrice.total * (promo/100) ) + cart.total)}} €</p>
+          <p>{{totalPrice.total + cart.total}} €</p>
         </template>
         <template v-else>
-          <p>{{totalPrice.total}}€</p>
+          <p>{{totalPrice.total + cart.total}}€</p>
         </template>
       </div>
 
@@ -51,7 +55,7 @@
             class="buy-button center"
             v-bind="attrs"
             v-on="on"
-          >Paiement - {{ promo ? (totalPrice.total - ( totalPrice.total * (promo/100) )) : totalPrice.total }} €</a>
+          >Paiement - {{ promo ? (totalPrice.total - ( totalPrice.total * (promo/100) ) + cart.total) : totalPrice.total + cart.total}} €</a>
         </template>
         <v-card>
           <v-card-title class="headline">Paiement de votre commande</v-card-title>
@@ -93,7 +97,7 @@ export default {
       tableBoisson: ["Boissons", "Prix"],
       tableDessert: ["Desserts", "Prix"],
       promo: null,
-      cart: {},
+      cart: {content: {}, total: 0},
       totalPrice: { pizza: 0, drink: 0, dessert: 0, ingrediant: 0, total: 0 },
       paiement: false,
       stripeAPIToken: "pk_test_QrgGFFIn2rjHnwgwvakXU0dn00FhK9IbmE",
@@ -108,6 +112,7 @@ export default {
     boolStorage() {
       const local = localStorage.getItem("datas");
       const stringToJSON = JSON.parse(local);
+
       return (this.cart = stringToJSON);
     }
   },
@@ -221,28 +226,29 @@ export default {
     },
     ingrediantAdded(ingrediantObject, total) {
       const { id } = ingrediantObject;
-      console.log(`la promo est ${total}`);
+   
       this.cart.contents.pizzas[id].ingrediantAdded = ingrediantObject;
       const newJson = {
-        contents: this.cart.contents
-      };
-      const totalJSON = {
+        contents: this.cart.contents,
         total: total
       };
+
       const JSONtostring = JSON.stringify(newJson);
       localStorage.setItem("datas", JSONtostring);
-      localStorage.setItem("total", total);
+      this.cart.total = total;
     },
-    ingrediantRemove(ingrediantRemove) {
+    ingrediantRemove(ingrediantRemove, total) {
       const { id } = ingrediantRemove;
       this.cart.contents.pizzas[id].ingrediantRemove = ingrediantRemove;
 
       const newJson = {
-        contents: this.cart.contents
+        contents: this.cart.contents,
+        total: total
       };
 
       const JSONtostring = JSON.stringify(newJson);
       localStorage.setItem("datas", JSONtostring);
+      this.cart.total
     }
   }
 };

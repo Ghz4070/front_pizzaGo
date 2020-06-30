@@ -33,7 +33,9 @@
                               :key="index"
                               v-for="(element, index) in pizza.pizzas[key].composition.sauces.items"
                             >
-                              <v-list-item-title :key="index" @click="(e) => addOrRemoveIngrediant(e,key)">{{element}}</v-list-item-title>
+                              <v-list-item-title :key="index" @click="(e) => addOrRemoveIngrediant(e,key)">
+                                <span>{{element}}</span>
+                              </v-list-item-title>
                             </v-list-item-content>
                           </v-list-item>
                         </div>
@@ -43,7 +45,7 @@
                               :key="index"
                               v-for="(element, index) in pizza.pizzas[key].composition.viandes.items"
                             >
-                              <v-list-item-title :key="index" @click="(e) => addOrRemoveIngrediant(e,key)">{{element}}</v-list-item-title>
+                              <v-list-item-title :key="index" @click="(e) => addOrRemoveIngrediant(e,key)"><span>{{element}}</span></v-list-item-title>
                             </v-list-item-content>
                           </v-list-item>
                         </div>
@@ -53,7 +55,7 @@
                               :key="index"
                               v-for="(element, index) in pizza.pizzas[key].composition.fromages.items"
                             >
-                              <v-list-item-title :key="index" @click="(e) => addOrRemoveIngrediant(e,key)">{{element}}</v-list-item-title>
+                              <v-list-item-title :key="index" @click="(e) => addOrRemoveIngrediant(e,key)"><span>{{element}}</span></v-list-item-title>
                             </v-list-item-content>
                           </v-list-item>
                         </div>
@@ -63,7 +65,7 @@
                               :key="index"
                               v-for="(element, index) in pizza.pizzas[key].composition.legumes.items"
                             >
-                              <v-list-item-title :key="index" @click="(e) => addOrRemoveIngrediant(e,key)">{{element}}</v-list-item-title>
+                              <v-list-item-title :key="index" @click="(e) => addOrRemoveIngrediant(e,key)"><span>{{element}}</span></v-list-item-title>
                             </v-list-item-content>
                           </v-list-item>
                         </div>
@@ -73,7 +75,7 @@
                               :key="index"
                               v-for="(element, index) in pizza.pizzas[key].composition.epices.items"
                             >
-                              <v-list-item-title :key="index" @click="(e) => addOrRemoveIngrediant(e,key)">{{element}}</v-list-item-title>
+                              <v-list-item-title :key="index" @click="(e) => addOrRemoveIngrediant(e,key)"><span>{{element}}</span></v-list-item-title>
                             </v-list-item-content>
                           </v-list-item>
                         </div>
@@ -243,7 +245,7 @@
                 </v-snackbar>
               </v-dialog>
             </tr>
-            <p v-if="checkLengthArrayIngrediant(key)">Ingrédiant</p>
+            <p v-if="checkLengthArrayIngrediant(key)">Ingrédiant {{totalIngrediant ? totalIngrediant.total : null}}</p>
           </template>
         </template>
         <template v-if="drinks && Thead[0] === 'Boissons'">
@@ -313,7 +315,7 @@ export default {
       switchViande: false,
       switchFromage: false,
       switchLegume: false,
-      switchEpice: false
+      switchEpice: false,
     };
   },
   watch: {
@@ -378,43 +380,55 @@ export default {
         this.ingrediantSelected.id = this.currentSelect.id;
       const totalLength = this.lengthIngrediantSelected() - this.lengthIngrediantRemove(this.currentSelect.id);
       if (totalLength < 6) {
-        const totalIngrediant= this.totalIngrediantAllPizza()
         switch (e.path[1].id) {
           case "sauce":
             if (this.currentSelect.sauce === "") break;
             this.ingrediantSelected.sauce.push(this.currentSelect.sauce);
-            this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediant);
+            const totalIngrediantSauce= this.totalIngrediantAllPizza()
+            this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantSauce);
+            this.currentSelect.sauce= "";
             break;
           case "viande":
             if (this.currentSelect.viande === "") break;
             this.ingrediantSelected.viande.push(this.currentSelect.viande);
-            this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediant);
+            const totalIngrediantViande= this.totalIngrediantAllPizza()
+            this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantViande);
+            this.currentSelect.viande= "";
             break;
           case "legume":
             if (this.currentSelect.legume === "") break;
             this.ingrediantSelected.legume.push(this.currentSelect.legume);
-            this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediant);
+            const totalIngrediantLegume= this.totalIngrediantAllPizza()
+            this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantLegume);
+            this.currentSelect.legume= "";
             break;
           case "fromage":
             if (this.currentSelect.fromage === "") break;
             this.ingrediantSelected.fromage.push(this.currentSelect.fromage);
-            this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediant);
+            const totalIngrediantFromage= this.totalIngrediantAllPizza()
+            this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantFromage);
+            this.currentSelect.fromage= "";
             break;
           case "epice":
             if (this.currentSelect.epice === "") break;
             this.ingrediantSelected.epice.push(this.currentSelect.epice);
-            this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediant);
+            const totalIngrediantEpice= this.totalIngrediantAllPizza()
+            this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantEpice);
+            this.currentSelect.epice= "";
             break;
           default:
+            console.log(e.path[1])
             break;
         }
       } else {
+        this.currentSelect[e.path[1].id] = "";
         this.errorIngrediant.snackbar = true;
       }
     },
     getAddIngrediant() {
       if (this.lengthIngrediantSelected() !== 0) {
-        this.$emit("ingrediantAdded", this.ingrediantSelected);
+        const totalIngrediant= this.totalIngrediantAllPizza()
+        this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediant);
       }
 
       this.dialog = false;
@@ -423,23 +437,28 @@ export default {
       switch (event.path[1].id) {
         case "sauce":
           this.ingrediantSelected.sauce.splice(key, 1);
-          this.$emit("ingrediantAdded", this.ingrediantSelected);
+          const totalIngrediantSauce= this.totalIngrediantAllPizza()
+          this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantSauce);
           break;
         case "viande":
           this.ingrediantSelected.viande.splice(key, 1);
-          this.$emit("ingrediantAdded", this.ingrediantSelected);
+          const totalIngrediantViande= this.totalIngrediantAllPizza()
+          this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantViande);
           break;
         case "legume":
           this.ingrediantSelected.legume.splice(key, 1);
-          this.$emit("ingrediantAdded", this.ingrediantSelected);
+          const totalIngrediantLegume= this.totalIngrediantAllPizza()
+          this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantLegume);
           break;
         case "fromage":
           this.ingrediantSelected.fromage.splice(key, 1);
-          this.$emit("ingrediantAdded", this.ingrediantSelected);
+          const totalIngrediantFromage= this.totalIngrediantAllPizza()
+          this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantFromage);
           break;
         case "epice":
           this.ingrediantSelected.epice.splice(key, 1);
-          this.$emit("ingrediantAdded", this.ingrediantSelected);
+          const totalIngrediantEpice= this.totalIngrediantAllPizza()
+          this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantEpice);
           break;
 
         default:
@@ -476,51 +495,52 @@ export default {
     },
     lengthIngrediantRemove(position){
         let count = 0;
-
-        count = count + this.pizza.pizzas[position].ingrediantRemove.sauce.length;
-        count = count + this.pizza.pizzas[position].ingrediantRemove.epice.length;
-        count = count + this.pizza.pizzas[position].ingrediantRemove.legume.length;
-        count = count + this.pizza.pizzas[position].ingrediantRemove.fromage.length;
-        count = count + this.pizza.pizzas[position].ingrediantRemove.viande.length;
-        console.log(count)
-        return count;
+        if(this.pizza.pizzas[position].ingrediantRemove){
+          count = count + this.pizza.pizzas[position].ingrediantRemove.sauce.length;
+          count = count + this.pizza.pizzas[position].ingrediantRemove.epice.length;
+          count = count + this.pizza.pizzas[position].ingrediantRemove.legume.length;
+          count = count + this.pizza.pizzas[position].ingrediantRemove.fromage.length;
+          count = count + this.pizza.pizzas[position].ingrediantRemove.viande.length;
+        }
+        return count
     }
     ,
     addOrRemoveIngrediant(event, key) {
         if(!this.ingrediantRemove.id) this.ingrediantRemove.id = key;
-
-        switch (event.path[3].id) {
+        switch (event.path[4].id) {
         case "switchSauce":
             if(this.pizza.pizzas[key].ingrediantRemove !== undefined){
+                this.changeCSS(event, key)
                 const findElement= this.pizza.pizzas[key].ingrediantRemove.sauce.find((element) => element === event.path[0].innerHTML);
                 if(findElement === undefined){
                     this.ingrediantRemove.sauce.push(event.path[0].innerHTML);
-                    this.$emit("ingrediantRemove", this.ingrediantRemove);
+                    this.$emit("ingrediantRemove", this.ingrediantRemove, this.totalIngrediantAllPizza());
                 }else {
                     const positionElement = this.ingrediantRemove.sauce.indexOf(event.path[0].id);
                     this.ingrediantRemove.sauce.splice(positionElement, 1);
-                    this.$emit("ingrediantRemove", this.ingrediantRemove);
+                    this.$emit("ingrediantRemove", this.ingrediantRemove, this.totalIngrediantAllPizza());
                 }   
             }else {
                 this.ingrediantRemove.sauce.push(event.path[0].innerHTML)
-                this.$emit("ingrediantRemove", this.ingrediantRemove);
+                this.$emit("ingrediantRemove", this.ingrediantRemove, this.totalIngrediantAllPizza());
             }
-          
+            this.totalIngrediantAllPizza()
           break;
         case "switchViande":
           if(this.pizza.pizzas[key].ingrediantRemove !== undefined){
+                this.changeCSS(event, key)
                 const findElement= this.pizza.pizzas[key].ingrediantRemove.viande.find((element) => element === event.path[0].innerHTML);
                 if(findElement === undefined){
                     this.ingrediantRemove.viande.push(event.path[0].innerHTML);
-                    this.$emit("ingrediantRemove", this.ingrediantRemove);
+                    this.$emit("ingrediantRemove", this.ingrediantRemove, this.totalIngrediantAllPizza());
                 }else {
                     const positionElement = this.ingrediantRemove.viande.indexOf(event.path[0].id);
                     this.ingrediantRemove.viande.splice(positionElement, 1);
-                    this.$emit("ingrediantRemove", this.ingrediantRemove);
+                    this.$emit("ingrediantRemove", this.ingrediantRemove, this.totalIngrediantAllPizza());
                 }   
             }else {
                 this.ingrediantRemove.viande.push(event.path[0].innerHTML)
-                this.$emit("ingrediantRemove", this.ingrediantRemove);
+                this.$emit("ingrediantRemove", this.ingrediantRemove, this.totalIngrediantAllPizza());
             }
           break;
         case "switchLegume":
@@ -528,15 +548,15 @@ export default {
                 const findElement= this.pizza.pizzas[key].ingrediantRemove.legume.find((element) => element === event.path[0].innerHTML);
                 if(findElement === undefined){
                     this.ingrediantRemove.legume.push(event.path[0].innerHTML);
-                    this.$emit("ingrediantRemove", this.ingrediantRemove);
+                    this.$emit("ingrediantRemove", this.ingrediantRemove, this.totalIngrediantAllPizza());
                 }else {
                     const positionElement = this.ingrediantRemove.legume.indexOf(event.path[0].id);
                     this.ingrediantRemove.legume.splice(positionElement, 1);
-                    this.$emit("ingrediantRemove", this.ingrediantRemove);
+                    this.$emit("ingrediantRemove", this.ingrediantRemove, this.totalIngrediantAllPizza());
                 }   
             }else {
                 this.ingrediantRemove.legume.push(event.path[0].innerHTML)
-                this.$emit("ingrediantRemove", this.ingrediantRemove);
+                this.$emit("ingrediantRemove", this.ingrediantRemove, this.totalIngrediantAllPizza());
             }
           
           break;
@@ -545,15 +565,15 @@ export default {
                 const findElement= this.pizza.pizzas[key].ingrediantRemove.fromage.find((element) => element === event.path[0].innerHTML);
                 if(findElement === undefined){
                     this.ingrediantRemove.fromage.push(event.path[0].innerHTML);
-                    this.$emit("ingrediantRemove", this.ingrediantRemove);
+                    this.$emit("ingrediantRemove", this.ingrediantRemove, this.totalIngrediantAllPizza());
                 }else {
                     const positionElement = this.ingrediantRemove.fromage.indexOf(event.path[0].id);
                     this.ingrediantRemove.fromage.splice(positionElement, 1);
-                    this.$emit("ingrediantRemove", this.ingrediantRemove);
+                    this.$emit("ingrediantRemove", this.ingrediantRemove, this.totalIngrediantAllPizza());
                 }   
             }else {
                 this.ingrediantRemove.fromage.push(event.path[0].innerHTML)
-                this.$emit("ingrediantRemove", this.ingrediantRemove);
+                this.$emit("ingrediantRemove", this.ingrediantRemove, this.totalIngrediantAllPizza());
             }
           break;
         case "switchEpice":
@@ -561,15 +581,15 @@ export default {
                 const findElement= this.pizza.pizzas[key].ingrediantRemove.epice.find((element) => element === event.path[0].innerHTML);
                 if(findElement === undefined){
                     this.ingrediantRemove.epice.push(event.path[0].innerHTML);
-                    this.$emit("ingrediantRemove", this.ingrediantRemove);
+                    this.$emit("ingrediantRemove", this.ingrediantRemove, this.totalIngrediantAllPizza());
                 }else {
                     const positionElement = this.ingrediantRemove.epice.indexOf(event.path[0].id);
                     this.ingrediantRemove.epice.splice(positionElement, 1);
-                    this.$emit("ingrediantRemove", this.ingrediantRemove);
+                    this.$emit("ingrediantRemove", this.ingrediantRemove, this.totalIngrediantAllPizza());
                 }   
             }else {
                 this.ingrediantRemove.epice.push(event.path[0].innerHTML)
-                this.$emit("ingrediantRemove", this.ingrediantRemove);
+                this.$emit("ingrediantRemove", this.ingrediantRemove,this.totalIngrediantAllPizza());
             }
           
           break;
@@ -583,12 +603,43 @@ export default {
 
       for(let element of this.pizza.pizzas){
         if(element.ingrediantAdded){
-          console.log()
-          const { total } = element.ingrediantAdded;
-          countTotal = countTotal + total;
+          const { viande, sauce, legume, fromage, epice } = element.ingrediantAdded;
+          countTotal = countTotal + viande.length + sauce.length + legume.length + fromage.length + epice.length;
         }
       }
       return countTotal
+    },
+    changeCSS(event,key) {
+      const getNameDiv = event.path[4].id;
+      const ingrediantDelete = this.pizza.pizzas[key].ingrediantRemove;
+      const contentSpan = event.path[0].innerHTML;
+
+      switch (getNameDiv) {
+        case 'switchSauce':
+          const findElementSauce = ingrediantDelete.sauce.indexOf(contentSpan);
+          if(findElementSauce !== -1){
+            //event.path[0].style.color="green";
+            this.cssDynamique.sauce[key].addIngrediant = true
+          }else {
+            //event.path[0].style.color="red";
+            this.cssDynamique.sauce[key].deleteIngrediant = false
+          }
+          break;
+
+        case 'switchViande':
+          const findElementViande = ingrediantDelete.viande.indexOf(contentSpan);
+          if(findElementViande !== -1){
+            event.path[0].style.color="green";
+            this.cssDynamique.sauce[key] = "green"
+          }else {
+            event.path[0].style.color="red";
+            this.cssDynamique.sauce[key] = "red"
+          }
+          break;
+      
+        default:
+          break;
+      }
     }
   },
   computed: {
@@ -613,11 +664,11 @@ export default {
   background-color: black;
 }
 
-.border-green {
-    border: 1px solid green;
+.addElement {
+    color:green;
 }
 
-.border-red {
-    border: 1px solid red;
+.deleteElement {
+    color:red;
 }
 </style>
