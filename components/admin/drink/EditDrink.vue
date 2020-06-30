@@ -83,7 +83,7 @@ export default {
         })
         .then(res => {
           if (res.data.status == "success") {
-            console.log(res.data.result);
+            // console.log(res.data.result);
             this.dialog = false;
           } else {
             console.log("not admin");

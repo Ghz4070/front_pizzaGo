@@ -44,7 +44,7 @@
 
                 <EditDessert :dataDessert="dessert" />
 
-                <v-btn icon class="ml-3">
+                <v-btn icon class="ml-3" @click="deleteDessert(dessert.id)">
                   <v-icon>mdi-trash-can</v-icon>
                 </v-btn>
               </v-card-actions>
@@ -72,6 +72,11 @@ export default {
       desserts: Object
     };
   },
+  updated() {
+    setTimeout(() => {
+      this.getDessert();
+    }, 2500);
+  },
   mounted() {
     this.getDessert();
 
@@ -90,6 +95,25 @@ export default {
         .then(res => {
           this.desserts = res.data.result;
           // console.log(this.desserts);
+        })
+        .catch(e => {
+          console.log("catch");
+        });
+    },
+    deleteDessert(id) {
+      return this.$axios
+        .delete(`http://localhost:4000/api/v1/admin/dessert/delete/${id}`, {
+          headers: {
+            "x-access-token": localStorage.getItem("x-access-token")
+          }
+        })
+        .then(res => {
+          if (res.data.status == "success") {
+            console.log(res);
+            this.getDessert();
+          } else {
+            console.log("not admin");
+          }
         })
         .catch(e => {
           console.log("catch");
