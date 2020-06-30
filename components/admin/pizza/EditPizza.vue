@@ -8,13 +8,13 @@
       </template>
       <v-card>
         <v-card-title>
-          <span class="headline">{{ dataPizza.name }}</span>
+          <span class="headline">{{ params.name }}</span>
         </v-card-title>
         <v-card-text>
           <v-container>
             <v-row>
               <v-col cols="12" md="12">
-                <v-text-field clearable label="Nom de la pizza" v-model="data.name"></v-text-field>
+                <v-text-field clearable label="Nom de la pizza" v-model="params.name"></v-text-field>
               </v-col>
 
               <v-col cols="12" md="12">
@@ -23,7 +23,7 @@
 
               <v-col v-for="(ingredient) in ingredients" :key="ingredient.label" cols="12" md="12">
                 <v-autocomplete
-                  v-model="data.composition.sauces.items"
+                  v-model="params.composition.sauces.items"
                   :items="ingredient.sauces.items"
                   dense
                   clearable
@@ -35,7 +35,7 @@
 
               <v-col v-for="(ingredient) in ingredients" :key="ingredient.label" cols="12" md="6">
                 <v-autocomplete
-                  v-model="data.composition.viandes.items"
+                  v-model="params.composition.viandes.items"
                   :items="ingredient.viandes.items"
                   dense
                   clearable
@@ -47,7 +47,7 @@
 
               <v-col v-for="(ingredient) in ingredients" :key="ingredient.label" cols="12" md="6">
                 <v-autocomplete
-                  v-model="data.composition.legumes.items"
+                  v-model="params.composition.legumes.items"
                   :items="ingredient.legumes.items"
                   dense
                   clearable
@@ -59,7 +59,7 @@
 
               <v-col v-for="(ingredient, index) in ingredients" :key="index" cols="12" md="6">
                 <v-autocomplete
-                  v-model="data.composition.fromages.items"
+                  v-model="params.composition.fromages.items"
                   :items="ingredient.fromages.items"
                   dense
                   clearable
@@ -71,7 +71,7 @@
 
               <v-col v-for="(ingredient) in ingredients" :key="ingredient.label" cols="12" md="6">
                 <v-autocomplete
-                  v-model="data.composition.epices.items"
+                  v-model="params.composition.epices.items"
                   :items="ingredient.epices.items"
                   dense
                   clearable
@@ -84,7 +84,7 @@
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field
-                      v-model="data.img"
+                      v-model="params.img"
                       v-bind="attrs"
                       v-on="on"
                       clearable
@@ -102,7 +102,7 @@
                 <!-- https://vuetifyjs.com/en/components/selects/#api : la doc -->
                 <v-select
                   :items="allCategories"
-                  v-model="data.category"
+                  v-model="params.category"
                   persistent-hint
                   return-object
                   single-line
@@ -133,10 +133,11 @@ export default {
     dialog: false,
     allCategories: [],
     idCategories: undefined,
-    data: {
-      category: "",
-      name: "",
-      img: "",
+    params: {
+      id: null,
+      categoryId: null,
+      name: null,
+      img: null,
       composition: {
         epices: { items: [] },
         sauces: { items: [] },
@@ -151,12 +152,9 @@ export default {
       return this.$store.state.ingredients;
     }
   },
-  updated() {
-    // console.log(this.allCategories);
-  },
-  async mounted() {
-    await this.getAllCategories();
-    this.formatData();
+  mounted() {
+    this.getAllCategories();
+    this.getDatas();
   },
   methods: {
     getAllCategories() {
@@ -165,7 +163,6 @@ export default {
         .then(res => {
           res.data.result.forEach(element => {
             this.allCategories = [...this.allCategories, element.name];
-            // this.idCategories = [...this.idCategories, element.id]; // tableau d'id categories
           });
         })
         .catch(e => {
@@ -173,33 +170,33 @@ export default {
         });
     },
     editPizza() {
-      this.data.category = this.dataPizza.category.id; // changer le name par son id
+      this.params.categoryId = this.dataPizza.category.id; // changer le name par son id
+      console.log(this.params)
       return this.$axios
-        .post(`http://localhost:4000/api/v1/admin/pizza/add`, this.data, {
+        .put(`http://localhost:4000/api/v1/admin/pizza/update`, this.params, {
           headers: {
-            "x-access-token":
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjpbIlJPTEVfVVNFUiIsIlJPTEVfQURNSU4iXSwiZW1haWwiOiJpLmdoZXphbEBlY29sZS1pcHNzaS5uZXQiLCJpZCI6ImNrYnpxdW51MzAxeDQwOTI4NDFteGwxdjgiLCJpYXQiOjE1OTM0Njg0NDUsImV4cCI6MTU5MzU1NDg0NX0.xj2Ylaa82KMNYdgl8nWD4Tca6nmkVqRc1QMxAeU0Bv4"
+            "x-access-token": localStorage.getItem('x-access-token')
           }
         })
         .then(res => {
           if (res.data.status == "success") {
-            console.log(res);
+            this.dialog = false;
           } else {
             console.log("erreur");
+            console.log(res);
           }
         })
         .catch(e => {
           console.log("catch");
-          this.login_toast.text =
-            "Une erreur est survenue. Veuillez réessayer ultèrieurement.";
-          this.login_toast.snackbar = true;
         });
     },
-    formatData() {
-      this.data = {
-        category: this.dataPizza.category.name,
+    getDatas() {
+      console.log(this.dataPizza.composition);
+      this.params = {
+        id: this.dataPizza.id,
+        categoryId: this.dataPizza.category.name,
         name: this.dataPizza.name,
-        img: "",
+        img: this.dataPizza.img,
         composition: {
           epices: { items: this.dataPizza.composition.epices.items },
           sauces: { items: this.dataPizza.composition.sauces.items },
