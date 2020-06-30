@@ -90,34 +90,31 @@ export default {
   },
   methods: {
     async getDessert() {
-      return await this.$axios
-        .get("http://localhost:4000/api/v1/dessert")
-        .then(res => {
-          this.desserts = res.data.result;
-          // console.log(this.desserts);
-        })
-        .catch(e => {
-          console.log("catch");
-        });
+      try {
+        const response = await this.$axios.get(
+          "http://localhost:4000/api/v1/dessert"
+        );
+        console.log(response.data.result);
+        return (this.desserts = response.data.result);
+      } catch (error) {
+        console.log(error);
+      }
     },
-    deleteDessert(id) {
-      return this.$axios
-        .delete(`http://localhost:4000/api/v1/admin/dessert/delete/${id}`, {
-          headers: {
-            "x-access-token": localStorage.getItem("x-access-token")
+    async deleteDessert(id) {
+      try {
+        const response = await this.$axios.delete(
+          `http://localhost:4000/api/v1/admin/dessert/delete/${id}`,
+          {
+            headers: {
+              "x-access-token": localStorage.getItem("x-access-token")
+            }
           }
-        })
-        .then(res => {
-          if (res.data.status == "success") {
-            console.log(res);
-            this.getDessert();
-          } else {
-            console.log("not admin");
-          }
-        })
-        .catch(e => {
-          console.log("catch");
-        });
+        );
+
+        return response.status;
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 };

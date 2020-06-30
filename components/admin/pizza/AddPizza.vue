@@ -35,7 +35,7 @@
 
               <v-col v-for="(ingredient) in ingredients" :key="ingredient.label" cols="12" md="6">
                 <v-autocomplete
-                v-model="params.composition.viandes.items"
+                  v-model="params.composition.viandes.items"
                   :items="ingredient.viandes.items"
                   dense
                   clearable
@@ -47,7 +47,7 @@
 
               <v-col v-for="(ingredient) in ingredients" :key="ingredient.label" cols="12" md="6">
                 <v-autocomplete
-                v-model="params.composition.legumes.items"
+                  v-model="params.composition.legumes.items"
                   :items="ingredient.legumes.items"
                   dense
                   clearable
@@ -59,7 +59,7 @@
 
               <v-col v-for="(ingredient, index) in ingredients" :key="index" cols="12" md="6">
                 <v-autocomplete
-                v-model="params.composition.fromages.items"
+                  v-model="params.composition.fromages.items"
                   :items="ingredient.fromages.items"
                   dense
                   clearable
@@ -71,7 +71,7 @@
 
               <v-col v-for="(ingredient) in ingredients" :key="ingredient.label" cols="12" md="6">
                 <v-autocomplete
-                v-model="params.composition.epices.items"
+                  v-model="params.composition.epices.items"
                   :items="ingredient.epices.items"
                   dense
                   clearable
@@ -84,7 +84,7 @@
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field
-                    v-model="params.img"
+                      v-model="params.img"
                       v-bind="attrs"
                       v-on="on"
                       label="Lien de votre image"
@@ -151,43 +151,44 @@ export default {
     this.getAllCategories();
   },
   methods: {
-    addPizza() {
+    async addPizza() {
       // set the id of the label category selected
       this.allCategories.forEach(element => {
-        element.name == this.params.categoryId ? this.params.categoryId = element.id : ''
+        element.name == this.params.categoryId
+          ? (this.params.categoryId = element.id)
+          : "";
       });
-      return this.$axios
-        .post(`http://localhost:4000/api/v1/admin/pizza/add`, this.params, {
-          headers: {
-            "x-access-token": localStorage.getItem('x-access-token')
+      try {
+        const repsonse = this.$axios.post(
+          `http://localhost:4000/api/v1/admin/pizza/add`,
+          this.params,
+          {
+            headers: {
+              "x-access-token": localStorage.getItem("x-access-token")
+            }
           }
-        })
-        .then(res => {
-          if (res.data.status == "success") {
-            console.log(res);
-            this.dialog = false;
-          } else {
-            console.log("erreur");
-            console.log(res);
-          }
-        })
-        .catch(e => {
-          console.log("catch");
-        });
+        );
+        console.log(response);
+        this.dialog = false;
+      } catch (error) {
+        console.log(error);
+      }
     },
-    getAllCategories() {
-      this.labelCategories = [];
-      return axios
-        .get("http://localhost:4000/api/v1/category")
-        .then(res => {
-          this.allCategories = res.data.result;
-          (res.data.result).forEach(element => {
-            this.labelCategories = [...this.labelCategories, element.name];
-          });
-        })
-        .catch(e => {
-          console.log("catch");
+    async getAllCategories() {
+      try {
+        this.labelCategories = [];
+        const response = await this.$axios.get(
+          "http://localhost:4000/api/v1/category"
+        );
+
+        response.data.result.forEach(element => {
+          this.labelCategories = [...this.labelCategories, element.name];
         });
+
+        return (this.allCategories = response.data.result);
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 };

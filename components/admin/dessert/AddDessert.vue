@@ -69,26 +69,23 @@ export default {
     };
   },
   methods: {
-    addDessert() {
+    async addDessert() {
       this.params.price = Number(this.params.price);
-      return this.$axios
-        .post(`http://localhost:4000/api/v1/admin/dessert/add`, this.params, {
-          headers: {
-            "x-access-token": localStorage.getItem("x-access-token")
+      try {
+        const response = await this.$axios.post(
+          `http://localhost:4000/api/v1/admin/dessert/add`,
+          this.params,
+          {
+            headers: {
+              "x-access-token": localStorage.getItem("x-access-token")
+            }
           }
-        })
-        .then(res => {
-          if (res.data.status == "success") {
-            console.log(res.data.result);
-            this.dialog = false;
-          } else {
-            console.log(res);
-            console.log("not admin");
-          }
-        })
-        .catch(e => {
-          console.log("catch");
-        });
+        );
+        this.dialog = false;
+        return console.log(response.status);
+      } catch (error) {
+        console.log(error); // catches both errors
+      }
     }
   }
 };
