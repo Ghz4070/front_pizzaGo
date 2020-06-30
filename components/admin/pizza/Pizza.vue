@@ -45,7 +45,7 @@
 
                 <EditPizza :dataPizza="pizza" />
 
-                <v-btn icon class="ml-3">
+                <v-btn icon class="ml-3" @click="deletePizza(pizza.id)">
                   <v-icon>mdi-trash-can</v-icon>
                 </v-btn>
               </v-card-actions>
@@ -95,6 +95,18 @@ export default {
         })
         .catch(e => {
           console.log("catch");
+        });
+    },
+    deletePizza(id) {
+      this.$axios
+        .delete(`http://localhost:4000/api/v1/admin/pizza/delete/${id}`, {
+          headers: {
+            "x-access-token":
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjpbIlJPTEVfVVNFUiIsIlJPTEVfQURNSU4iXSwiZW1haWwiOiJpLmdoZXphbEBlY29sZS1pcHNzaS5uZXQiLCJpZCI6ImNrYnpxdW51MzAxeDQwOTI4NDFteGwxdjgiLCJpYXQiOjE1OTM0Njg0NDUsImV4cCI6MTU5MzU1NDg0NX0.xj2Ylaa82KMNYdgl8nWD4Tca6nmkVqRc1QMxAeU0Bv4"
+          }
+        })
+        .then(res => {
+          console.log(res);
         });
     }
   }
