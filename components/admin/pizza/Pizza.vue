@@ -85,6 +85,11 @@ export default {
       alert("Erreur de chargement");
     }
   },
+  updated() {
+    setTimeout(() => {
+      this.getPizzas();
+    }, 1500);
+  },
   methods: {
     getPizzas() {
       return axios
@@ -101,8 +106,7 @@ export default {
       this.$axios
         .delete(`http://localhost:4000/api/v1/admin/pizza/delete/${id}`, {
           headers: {
-            "x-access-token":
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjpbIlJPTEVfVVNFUiIsIlJPTEVfQURNSU4iXSwiZW1haWwiOiJpLmdoZXphbEBlY29sZS1pcHNzaS5uZXQiLCJpZCI6ImNrYnpxdW51MzAxeDQwOTI4NDFteGwxdjgiLCJpYXQiOjE1OTM0Njg0NDUsImV4cCI6MTU5MzU1NDg0NX0.xj2Ylaa82KMNYdgl8nWD4Tca6nmkVqRc1QMxAeU0Bv4"
+            "x-access-token": localStorage.getItem('x-access-token')
           }
         })
         .then(res => {
