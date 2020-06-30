@@ -60,7 +60,7 @@ export default {
     params: { price: null, name: null, oz: null, img: null }
   }),
   mounted() {
-    this.params = { price: null, name: null, oz: null, img:null };
+    this.params = { price: null, name: null, oz: null, img: null };
   },
   methods: {
     addDrink() {
@@ -84,7 +84,7 @@ export default {
         .catch(e => {
           console.log("catch");
         });
-    },
+    }
   }
 };
 </script>

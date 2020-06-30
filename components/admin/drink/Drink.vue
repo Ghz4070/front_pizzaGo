@@ -91,7 +91,6 @@ export default {
           } else {
             console.log("not admin")
           }
-
         })
         .catch(e => {
           console.log("catch");
