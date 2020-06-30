@@ -6,7 +6,7 @@
           <h1 class="banner__hero">PizzaGo</h1>
           <p class="banner__text">Obtenez la pizza la plus délicieuse de tous les temps!</p>
           <div>
-            <nuxt-link to='order' class="button button--primary">Commander maintenant 🍕</nuxt-link>
+            <nuxt-link to='/order' class="button button--primary">Commander maintenant 🍕</nuxt-link>
           </div>
         </div>
       </div>
