@@ -3,7 +3,7 @@
     <h1 class="title-subscribe">S'identifier</h1>
     <p class="content-subscribe">
           Vous n'avez pas encore de compte PizzaGo ?
-          <nuxt-link class="link-subscribe" to="inscription">S'inscrire maintenant!</nuxt-link></p>
+          <nuxt-link class="link-subscribe" to="/inscription">S'inscrire maintenant!</nuxt-link></p>
       <v-card class="mx-auto" max-width="444" outlined>
         <v-card-text>
           <v-row>
@@ -37,8 +37,8 @@
             </v-col>
 
             <v-row>
-              <v-col cols="12" md="6"><nuxt-link class="center" to="password/forgot-password">Mot de passe oublier ?</nuxt-link></v-col>
-              <v-col cols="12" md="6"><nuxt-link class="center" to="inscription">Inscription</nuxt-link></v-col>
+              <v-col cols="12" md="6"><nuxt-link class="center" to="/password/forgot-password">Mot de passe oublier ?</nuxt-link></v-col>
+              <v-col cols="12" md="6"><nuxt-link class="center" to="/inscription">Inscription</nuxt-link></v-col>
             </v-row>
           </v-row>
         </v-card-text>
