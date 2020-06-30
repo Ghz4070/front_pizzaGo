@@ -33,7 +33,9 @@
                               :key="index"
                               v-for="(element, index) in pizza.pizzas[key].composition.sauces.items"
                             >
-                              <v-list-item-title :key="index" @click="(e) => addOrRemoveIngrediant(e,key)"><span>{{element}}</span></v-list-item-title>
+                              <v-list-item-title :key="index" @click="(e) => addOrRemoveIngrediant(e,key)">
+                                <span>{{element}}</span>
+                              </v-list-item-title>
                             </v-list-item-content>
                           </v-list-item>
                         </div>
@@ -313,7 +315,7 @@ export default {
       switchViande: false,
       switchFromage: false,
       switchLegume: false,
-      switchEpice: false
+      switchEpice: false,
     };
   },
   watch: {
@@ -616,11 +618,11 @@ export default {
         case 'switchSauce':
           const findElementSauce = ingrediantDelete.sauce.indexOf(contentSpan);
           if(findElementSauce !== -1){
-            event.path[0].style.color="green";
-            this.cssDynamique.sauce[key] = "green"
+            //event.path[0].style.color="green";
+            this.cssDynamique.sauce[key].addIngrediant = true
           }else {
-            event.path[0].style.color="red";
-            this.cssDynamique.sauce[key] = "red"
+            //event.path[0].style.color="red";
+            this.cssDynamique.sauce[key].deleteIngrediant = false
           }
           break;
 
