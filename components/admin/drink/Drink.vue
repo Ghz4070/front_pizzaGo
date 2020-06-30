@@ -62,7 +62,9 @@ export default {
     }
   },
   updated() {
-    //this.getDrink();
+    setTimeout(() => {
+      this.getDrink();
+    }, 2500);
   },
   methods: {
     async getDrink() {
