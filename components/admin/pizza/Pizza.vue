@@ -88,7 +88,7 @@ export default {
   updated() {
     setTimeout(() => {
       this.getPizzas();
-    }, 1500);
+    }, 2500);
   },
   methods: {
     getPizzas() {
