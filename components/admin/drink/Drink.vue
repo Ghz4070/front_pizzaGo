@@ -62,7 +62,7 @@ export default {
     }
   },
   updated() {
-    this.getDrink();
+    //this.getDrink();
   },
   methods: {
     async getDrink() {
@@ -70,7 +70,6 @@ export default {
         .get("http://localhost:4000/api/v1/drink")
         .then(res => {
           this.drinks = res.data.result;
-          // console.log(this.drinks);
         })
         .catch(e => {
           console.log("catch");

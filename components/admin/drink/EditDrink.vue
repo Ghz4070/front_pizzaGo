@@ -17,7 +17,7 @@
                 <v-text-field v-model="params.name" clearable label="Nom de la boisson"></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
-                <v-text-field label="Prix" v-model="params.price" suffix="€"></v-text-field>
+                <v-text-field label="Prix" type="number" v-model="params.price" suffix="€"></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
                 <v-text-field label="Volume" v-model="params.oz" suffix="cL"></v-text-field>
@@ -60,7 +60,7 @@ export default {
   },
   data: () => ({
     dialog: false,
-    params: { id : null, price: null, name: null, oz: null }
+    params: { id : null, price: null, name: null, oz: null, img: null }
   }),
   mounted() {
     this.getDatas();
@@ -89,7 +89,7 @@ export default {
     getDatas() {
       this.params = {
         id: this.dataDrink.id,
-        price: this.dataDrink.price,
+        price: Number(this.dataDrink.price),
         name: this.dataDrink.name,
         oz: this.dataDrink.oz,
         img: this.dataDrink.img
