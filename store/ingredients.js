@@ -13,7 +13,7 @@ export const state = () => ({
       items: ["Olives", "Champignon", "Oignon", "Mache", "Ananas", "Poivron", "Avocat"]
     },
     fromages: {
-      label: "Frommages",
+      label: "Fromages",
       items: ["Mozzarela", "Emmental", "Chèvre", "Roquefort", "Ricotta"]
     },
     epices: {
