@@ -44,8 +44,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialog = false">Annuler</v-btn>
-          <v-btn color="blue darken-1" text @click="saveDrink">Sauvegarder</v-btn>
+          <v-btn color="orange darken-2" class="ma-2" text @click="dialog = false">Annuler</v-btn>
+          <v-btn color="orange darken-2" class="ma-2" text @click="saveDrink">Sauvegarder</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -60,7 +60,13 @@ export default {
   },
   data: () => ({
     dialog: false,
-    params: { id : null, price: null, name: null, oz: null, img: null }
+    params: {
+      id: null,
+      price: null,
+      name: null,
+      oz: null,
+      img: null
+    }
   }),
   mounted() {
     this.getDatas();
@@ -77,10 +83,9 @@ export default {
         })
         .then(res => {
           if (res.data.status == "success") {
-            console.log(res);
+            // console.log(res.data.result);
             this.dialog = false;
           } else {
-            console.log(res);
             console.log("not admin");
           }
         })
@@ -95,7 +100,7 @@ export default {
         name: this.dataDrink.name,
         oz: this.dataDrink.oz,
         img: this.dataDrink.img
-      }
+      };
     }
   }
 };

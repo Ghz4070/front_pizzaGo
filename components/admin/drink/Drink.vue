@@ -56,7 +56,7 @@ export default {
     if (this.drinks != 0) {
       setTimeout(() => {
         this.loading = false;
-      }, 750);
+      }, 500);
     } else {
       alert("Erreur de chargement");
     }
@@ -91,7 +91,6 @@ export default {
           } else {
             console.log("not admin")
           }
-
         })
         .catch(e => {
           console.log("catch");

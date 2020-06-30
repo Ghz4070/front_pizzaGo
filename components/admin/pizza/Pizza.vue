@@ -80,7 +80,7 @@ export default {
     if (this.pizzas != 0) {
       setTimeout(() => {
         this.loading = false;
-      }, 750);
+      }, 500);
     } else {
       alert("Erreur de chargement");
     }
@@ -88,7 +88,7 @@ export default {
   updated() {
     setTimeout(() => {
       this.getPizzas();
-    }, 1500);
+    }, 2500);
   },
   methods: {
     getPizzas() {
