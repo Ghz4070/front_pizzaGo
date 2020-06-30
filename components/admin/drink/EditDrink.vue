@@ -8,19 +8,19 @@
       </template>
       <v-card>
         <v-card-title>
-          <span class="headline">{{ dataDrink.name }}</span>
+          <span class="headline">{{ params.name }}</span>
         </v-card-title>
         <v-card-text>
           <v-container>
             <v-row>
               <v-col cols="12" md="6">
-                <v-text-field clearable label="Nom de la boisson" :value="dataDrink.name"></v-text-field>
+                <v-text-field v-model="params.name" clearable label="Nom de la boisson"></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
-                <v-text-field label="Prix" :value="dataDrink.price" suffix="€"></v-text-field>
+                <v-text-field label="Prix" type="number" v-model="params.price" suffix="€"></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
-                <v-text-field label="Volume" :value="dataDrink.oz" suffix="cL"></v-text-field>
+                <v-text-field label="Volume" v-model="params.oz" suffix="cL"></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
                 <v-tooltip bottom>
@@ -28,6 +28,7 @@
                     <v-text-field
                       v-bind="attrs"
                       v-on="on"
+                      v-model="params.img"
                       label="Lien de votre image"
                       prepend-icon="mdi-camera"
                     ></v-text-field>
@@ -43,8 +44,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-          <v-btn color="blue darken-1" text @click="dialog = false">Save</v-btn>
+          <v-btn color="blue darken-1" text @click="dialog = false">Annuler</v-btn>
+          <v-btn color="blue darken-1" text @click="saveDrink">Sauvegarder</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -58,8 +59,43 @@ export default {
     dataDrink: Object
   },
   data: () => ({
-    dialog: false
-  })
+    dialog: false,
+    params: { id : null, price: null, name: null, oz: null, img: null }
+  }),
+  mounted() {
+    this.getDatas();
+  },
+  methods: {
+    saveDrink() {
+      return this.$axios
+        .put(`http://localhost:4000/api/v1/admin/drink/update`, this.params, {
+          headers: {
+            "x-access-token": localStorage.getItem("x-access-token")
+          }
+        })
+        .then(res => {
+          if (res.data.status == "success") {
+            console.log(res);
+            this.dialog = false;
+          } else {
+            console.log(res);
+            console.log("not admin");
+          }
+        })
+        .catch(e => {
+          console.log("catch");
+        });
+    },
+    getDatas() {
+      this.params = {
+        id: this.dataDrink.id,
+        price: Number(this.dataDrink.price),
+        name: this.dataDrink.name,
+        oz: this.dataDrink.oz,
+        img: this.dataDrink.img
+      }
+    }
+  }
 };
 </script>
 
