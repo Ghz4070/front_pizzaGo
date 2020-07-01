@@ -339,7 +339,8 @@ export default {
     className: String,
     pizza: Object,
     drinks: Object,
-    dessert: Object
+    dessert: Object,
+    props: Number
   },
   methods: {
     getTotalPricePizza() {
@@ -353,8 +354,10 @@ export default {
       let ingrediantTotal = 0;
 
       for (let element of this.pizza.pizzas) {
-        const {epice, fromage, legume, sauce, viande} = element.ingrediantAdded
-        ingrediantTotal = ingrediantTotal + epice.length + fromage.length + legume.length + sauce.length + viande.length;
+        if(element.ingrediantAdded){
+          const {epice, fromage, legume, sauce, viande} = element.ingrediantAdded
+          ingrediantTotal = ingrediantTotal + epice.length + fromage.length + legume.length + sauce.length + viande.length;
+        }
       }
      
       this.$emit("totalIngrediant", ingrediantTotal);
