@@ -85,8 +85,8 @@
               </v-row>
             </v-container>
             <v-row align="end" justify="end">
-              <v-btn outlined color="green" class="ma-1" @click="updateUser(params.id)">Sauvegarder</v-btn>
-              <v-btn outlined color="red" class="ma-1" @click="deleteUser(params.id)">Supprimer</v-btn>
+              <v-btn outlined color="green" class="ma-1" @click="updateUser(user.id)">Sauvegarder</v-btn>
+              <v-btn outlined color="red" class="ma-1" @click="deleteUser(user.id)">Supprimer</v-btn>
             </v-row>
           </v-expansion-panel-content>
         </v-expansion-panel>
@@ -103,7 +103,7 @@ export default {
       loading: true,
       items: ["ROLE_USER", "ROLE_ADMIN"],
       params: {
-        id: null,
+        // id: null,
         firstname: null,
         lastname: null,
         address: null,
@@ -111,7 +111,7 @@ export default {
         city: null,
         tel: null,
         email: null,
-        roles: []
+        // roles: []
       }
     };
   },
@@ -132,15 +132,15 @@ export default {
   methods: {
     getDatas() {
       this.params = {
-        id: this.user.id,
+        // id: this.user.id,
         firstname: this.user.firstname,
         lastname: this.user.lastname,
         address: this.user.address,
         zip: Number(this.user.zip),
         city: this.user.city,
-        tel: Number(this.user.tel),
+        tel: this.user.tel,
         email: this.user.email,
-        roles: this.user.role
+        // roles: this.user.role
       };
     },
     async deleteUser(id) {
@@ -161,7 +161,7 @@ export default {
     async updateUser(id) {
       try {
         const response = await this.$axios.put(
-          `http://localhost:4000/api/v1/admin/update/${id}`,
+          `http://localhost:4000/api/v1/admin/user/update/${id}`,
           this.params,
           {
             headers: {

@@ -55,37 +55,42 @@ export default {
   props: {
     dataDessert: Object
   },
-  data: () => ({
-    dialog: false,
-    params: {
-      id: null,
-      name: null,
-      price: null,
-      img: null
-    }
-  }),
+  data() {
+    return {
+      dialog: false,
+      params: {
+        id: null,
+        name: null,
+        price: null,
+        img: null
+      }
+    };
+  },
   mounted() {
     this.getDatas();
   },
   methods: {
-    saveDessert() {
-      this.params.price = Number(this.params.price);
-      return this.$axios
-        .put(`http://localhost:4000/api/v1/admin/dessert/update`, this.params, {
-          headers: {
-            "x-access-token": localStorage.getItem("x-access-token")
+    async saveDessert() {
+      try {
+        this.params.price = Number(this.params.price);
+        const response = await this.$axios.put(
+          `http://localhost:4000/api/v1/admin/dessert/update`,
+          this.params,
+          {
+            headers: {
+              "x-access-token": localStorage.getItem("x-access-token")
+            }
           }
-        })
-        .then(res => {
-          if (res.data.status == "success") {
-            this.dialog = false;
-          } else {
-            console.log("not admin");
-          }
-        })
-        .catch(e => {
-          console.log("catch");
-        });
+        );
+        
+        this.params = response.data.result
+        this.$emit('updateDessert', this.params)
+        this.dialog = false;
+
+      } catch (error) {
+        console.log(error);
+        console.log("not admin");
+      }
     },
     getDatas() {
       this.params = {
