@@ -7,7 +7,8 @@
           <template v-if="img">
             <nuxt-link to="/">Accueil</nuxt-link>
             <nuxt-link to="/order">Commander</nuxt-link>
-            <nuxt-link to>Contact</nuxt-link>
+            <nuxt-link v-if="admin" to="/admin">Admin</nuxt-link>
+            <nuxt-link to="/contact">Contact</nuxt-link>
             <div class="text-center">
               <v-menu offset-y>
                 <template v-slot:activator="{ on, attrs }">
@@ -70,9 +71,6 @@
             <nuxt-link to="/inscription">Inscription</nuxt-link>
             <nuxt-link to="/order">Commander</nuxt-link>
             <nuxt-link to="/contact">Contact</nuxt-link>
-            <!-- v-if="ROLE == ADMIN" -->
-            <nuxt-link to="/admin">Admin</nuxt-link>
-            <!-- ROLE == ADMIN -->
           </template>
         </nav>
       </div>
@@ -104,7 +102,8 @@
                     <template v-if="img">
                       <div @click="dialog = false" class="mobile-menu">
                         <nuxt-link to="/">Accueil</nuxt-link>
-                        <nuxt-link to="order">Commander</nuxt-link>
+                        <nuxt-link v-if="admin" to="/admin">Admin</nuxt-link>
+                        <nuxt-link to="/order">Commander</nuxt-link>
                         <a @click.stop="profil">
                           Profile
                         </a>
@@ -149,7 +148,7 @@
                             </v-snackbar>
                           </v-card>
                         </v-dialog>
-                        <nuxt-link to="contact">Contact</nuxt-link>
+                        <nuxt-link to="/contact">Contact</nuxt-link>
                         <button @click="deconnection">Déconnexion</button>
                       </div>
                     </template>
@@ -185,6 +184,7 @@ export default {
   data() {
     return {
       img: "",
+      admin: false,
       dialogFullScreen: false,
       dialog: false,
       display: false,
@@ -207,10 +207,10 @@ export default {
   },
   mounted() {
     this.checkStorage();
+    this.checkAdmin();
   },
   methods: {
     checkStorage() {
-      console.log(localStorage.getItem("x-access-token"));
       if (localStorage.getItem("x-access-token") && this.checkTokenSession()) {
         this.img = true;
       } else {
@@ -249,6 +249,18 @@ export default {
       this.id = getUserObject.id;
       delete getUserObject.id;
       this.userInformation = getUserObject;
+    },
+
+    async checkAdmin() {
+      const getToken = localStorage.getItem("x-access-token");
+      const check = await axios.get(
+        "http://localhost:4000/api/v1/user/checkuser",
+        { headers: { "x-access-token": getToken } }
+      );
+      (check.data).forEach(el => {
+        el == 'ROLE_ADMIN' ? this.admin = true : '';
+      });
+      
     },
     async updateProfil(e) {
       e.preventDefault();
