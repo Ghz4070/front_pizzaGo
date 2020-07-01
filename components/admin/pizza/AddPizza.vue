@@ -14,7 +14,7 @@
           <v-container>
             <v-row>
               <v-col cols="12" md="12">
-                <v-text-field clearable label="Nom de la pizza"></v-text-field>
+                <v-text-field v-model="params.name" clearable label="Nom de la pizza"></v-text-field>
               </v-col>
 
               <v-col cols="12" md="12">
@@ -23,6 +23,7 @@
 
               <v-col v-for="(ingredient) in ingredients" :key="ingredient.label" cols="12" md="12">
                 <v-autocomplete
+                  v-model="params.composition.sauces.items"
                   :items="ingredient.sauces.items"
                   dense
                   clearable
@@ -34,6 +35,7 @@
 
               <v-col v-for="(ingredient) in ingredients" :key="ingredient.label" cols="12" md="6">
                 <v-autocomplete
+                  v-model="params.composition.viandes.items"
                   :items="ingredient.viandes.items"
                   dense
                   clearable
@@ -45,6 +47,7 @@
 
               <v-col v-for="(ingredient) in ingredients" :key="ingredient.label" cols="12" md="6">
                 <v-autocomplete
+                  v-model="params.composition.legumes.items"
                   :items="ingredient.legumes.items"
                   dense
                   clearable
@@ -56,6 +59,7 @@
 
               <v-col v-for="(ingredient, index) in ingredients" :key="index" cols="12" md="6">
                 <v-autocomplete
+                  v-model="params.composition.fromages.items"
                   :items="ingredient.fromages.items"
                   dense
                   clearable
@@ -67,6 +71,7 @@
 
               <v-col v-for="(ingredient) in ingredients" :key="ingredient.label" cols="12" md="6">
                 <v-autocomplete
+                  v-model="params.composition.epices.items"
                   :items="ingredient.epices.items"
                   dense
                   clearable
@@ -79,6 +84,7 @@
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field
+                      v-model="params.img"
                       v-bind="attrs"
                       v-on="on"
                       label="Lien de votre image"
@@ -92,12 +98,9 @@
                 </v-tooltip>
               </v-col>
               <v-col cols="12" md="6">
-                <!-- https://vuetifyjs.com/en/components/selects/#api : la doc -->
                 <v-select
-                  :hint="`${allCategories.name}, ${allCategories.id}`"
-                  :items="allCategories"
-                  :item-text="allCategories.id"
-                  :item-value="allCategories.name"
+                  v-model="params.categoryId"
+                  :items="labelCategories"
                   persistent-hint
                   return-object
                   single-line
@@ -109,8 +112,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-          <v-btn color="blue darken-1" text @click="dialog = false">Save</v-btn>
+          <v-btn color="blue darken-1" class="ma-2" text @click="dialog = false">Close</v-btn>
+          <v-btn color="blue darken-1" class="ma-2" text @click="addPizza">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -124,26 +127,68 @@ export default {
   name: "AddPizza",
   data: () => ({
     dialog: false,
-    allCategories: Object
+    allCategories: null,
+    labelCategories: [],
+    params: {
+      categoryId: null,
+      name: null,
+      img: null,
+      composition: {
+        epices: { items: [] },
+        sauces: { items: [] },
+        viandes: { items: [] },
+        fromages: { items: [] },
+        legumes: { items: [] }
+      }
+    }
   }),
   computed: {
     ingredients() {
       return this.$store.state.ingredients;
     }
   },
-  async mounted() {
-    await this.getAllCategories();
+  mounted() {
+    this.getAllCategories();
   },
   methods: {
-    getAllCategories() {
-      return axios
-        .get("http://localhost:4000/api/v1/category")
-        .then(res => {
-          this.allCategories = res.data.result;
-        })
-        .catch(e => {
-          console.log("catch");
+    async addPizza() {
+      // set the id of the label category selected
+      this.allCategories.forEach(element => {
+        element.name == this.params.categoryId
+          ? (this.params.categoryId = element.id)
+          : "";
+      });
+      try {
+        const repsonse = this.$axios.post(
+          `http://localhost:4000/api/v1/admin/pizza/add`,
+          this.params,
+          {
+            headers: {
+              "x-access-token": localStorage.getItem("x-access-token")
+            }
+          }
+        );
+        console.log(response);
+        this.dialog = false;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async getAllCategories() {
+      try {
+        this.labelCategories = [];
+        const response = await this.$axios.get(
+          "http://localhost:4000/api/v1/category"
+        );
+
+        response.data.result.forEach(element => {
+          this.labelCategories = [...this.labelCategories, element.name];
         });
+
+        return (this.allCategories = response.data.result);
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 };

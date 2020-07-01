@@ -6,14 +6,14 @@ export const state = () => ({
     },
     viandes: {
       label: "Viandes",
-      items: ["Kebab", "Poulet mariné", "Bacon", "Pepperoni", "Jambon", "Lardons", "Thon", "Saumon", "Anchois", "Fruit de mer", "Crevettes", "Moules", "Merguez", "Oeuf"]
+      items: ["Viande hachée", "Kebab", "Poulet mariné", "Bacon", "Pepperoni", "Jambon", "Lardons", "Thon", "Saumon", "Anchois", "Fruit de mer", "Crevettes", "Moules", "Merguez", "Oeuf"]
     },
     legumes: {
       label: "Légumes",
       items: ["Olives", "Champignon", "Oignon", "Mache", "Ananas", "Poivron", "Avocat"]
     },
     fromages: {
-      label: "Frommages",
+      label: "Fromages",
       items: ["Mozzarela", "Emmental", "Chèvre", "Roquefort", "Ricotta"]
     },
     epices: {

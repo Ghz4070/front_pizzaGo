@@ -42,9 +42,9 @@
               <v-card-actions>
                 <v-spacer></v-spacer>
 
-                <EditDessert :dataDessert="dessert" />
+                <EditDessert :dataDessert="dessert" @updateDessert="updateDessert" />
 
-                <v-btn icon class="ml-3">
+                <v-btn icon class="ml-3" @click="deleteDessert(dessert.id)">
                   <v-icon>mdi-trash-can</v-icon>
                 </v-btn>
               </v-card-actions>
@@ -72,28 +72,57 @@ export default {
       desserts: Object
     };
   },
+  // updated() {
+  //   setTimeout(() => {
+  //     this.getDessert();
+  //   }, 2500);
+  // },
   mounted() {
     this.getDessert();
 
     if (this.desserts != 0) {
       setTimeout(() => {
         this.loading = false;
-      }, 750);
+      }, 500);
     } else {
       alert("Erreur de chargement");
     }
   },
   methods: {
     async getDessert() {
-      return await this.$axios
-        .get("http://localhost:4000/api/v1/dessert")
-        .then(res => {
-          this.desserts = res.data.result;
-          // console.log(this.desserts);
-        })
-        .catch(e => {
-          console.log("catch");
-        });
+      try {
+        const response = await this.$axios.get(
+          "http://localhost:4000/api/v1/dessert"
+        );
+        return (this.desserts = response.data.result);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async deleteDessert(id) {
+      try {
+        const response = await this.$axios.delete(
+          `http://localhost:4000/api/v1/admin/dessert/delete/${id}`,
+          {
+            headers: {
+              "x-access-token": localStorage.getItem("x-access-token")
+            }
+          }
+        );
+        return response.status;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    updateDessert(value) {
+      // couple key value
+      for (let key in this.desserts) {
+        // search the key in array and compare
+        if (this.desserts[key].id === value.id) {
+          this.desserts[key] = value;
+          this.getDessert();
+        }
+      }
     }
   }
 };

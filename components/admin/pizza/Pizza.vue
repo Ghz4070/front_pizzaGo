@@ -45,7 +45,7 @@
 
                 <EditPizza :dataPizza="pizza" />
 
-                <v-btn icon class="ml-3">
+                <v-btn icon class="ml-3" @click="deletePizza(pizza.id)">
                   <v-icon>mdi-trash-can</v-icon>
                 </v-btn>
               </v-card-actions>
@@ -80,10 +80,15 @@ export default {
     if (this.pizzas != 0) {
       setTimeout(() => {
         this.loading = false;
-      }, 750);
+      }, 500);
     } else {
       alert("Erreur de chargement");
     }
+  },
+  updated() {
+    setTimeout(() => {
+      this.getPizzas();
+    }, 2500);
   },
   methods: {
     getPizzas() {
@@ -95,6 +100,17 @@ export default {
         })
         .catch(e => {
           console.log("catch");
+        });
+    },
+    deletePizza(id) {
+      this.$axios
+        .delete(`http://localhost:4000/api/v1/admin/pizza/delete/${id}`, {
+          headers: {
+            "x-access-token": localStorage.getItem('x-access-token')
+          }
+        })
+        .then(res => {
+          console.log(res);
         });
     }
   }

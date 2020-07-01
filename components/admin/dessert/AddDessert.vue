@@ -14,10 +14,10 @@
           <v-container>
             <v-row>
               <v-col cols="12" md="6">
-                <v-text-field clearable label="Nom du dessert"></v-text-field>
+                <v-text-field clearable v-model="params.name" label="Nom du dessert"></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
-                <v-text-field label="Prix" suffix="€"></v-text-field>
+                <v-text-field v-model="params.price" label="Prix" suffix="€"></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
                 <v-tooltip bottom>
@@ -25,6 +25,7 @@
                     <v-text-field
                       v-bind="attrs"
                       v-on="on"
+                      v-model="params.img"
                       label="Lien de votre image"
                       prepend-icon="mdi-camera"
                     ></v-text-field>
@@ -40,8 +41,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-          <v-btn color="blue darken-1" text @click="dialog = false">Save</v-btn>
+          <v-btn color="blue darken-1" class="ma-2" text @click="dialog = false">Close</v-btn>
+          <v-btn color="blue darken-1" class="ma-2" text @click="addDessert">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -52,8 +53,41 @@
 export default {
   name: "AddDessert",
   data: () => ({
-    dialog: false
-  })
+    dialog: false,
+    params: {
+      id: undefined,
+      name: undefined,
+      price: undefined,
+      img: undefined
+    }
+  }),
+  mounted() {
+    this.params = {
+      name: null,
+      price: null,
+      img: null
+    };
+  },
+  methods: {
+    async addDessert() {
+      this.params.price = Number(this.params.price);
+      try {
+        const response = await this.$axios.post(
+          `http://localhost:4000/api/v1/admin/dessert/add`,
+          this.params,
+          {
+            headers: {
+              "x-access-token": localStorage.getItem("x-access-token")
+            }
+          }
+        );
+        this.dialog = false;
+        return console.log(response.status);
+      } catch (error) {
+        console.log(error); // catches both errors
+      }
+    }
+  }
 };
 </script>
 

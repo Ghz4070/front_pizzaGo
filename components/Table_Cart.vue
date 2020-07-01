@@ -245,7 +245,7 @@
                 </v-snackbar>
               </v-dialog>
             </tr>
-            <p v-if="checkLengthArrayIngrediant(key)">Ingrédiant {{totalIngrediant ? totalIngrediant.total : null}}</p>
+            <p v-if="checkLengthArrayIngrediant(key)">Ingrédiant</p>
           </template>
         </template>
         <template v-if="drinks && Thead[0] === 'Boissons'">
@@ -334,7 +334,8 @@ export default {
     className: String,
     pizza: Object,
     drinks: Object,
-    dessert: Object
+    dessert: Object,
+    props: Number
   },
   methods: {
     getTotalPricePizza() {
@@ -348,8 +349,10 @@ export default {
       let ingrediantTotal = 0;
 
       for (let element of this.pizza.pizzas) {
-        const {epice, fromage, legume, sauce, viande} = element.ingrediantAdded
-        ingrediantTotal = ingrediantTotal + epice.length + fromage.length + legume.length + sauce.length + viande.length;
+        if(element.ingrediantAdded){
+          const {epice, fromage, legume, sauce, viande} = element.ingrediantAdded
+          ingrediantTotal = ingrediantTotal + epice.length + fromage.length + legume.length + sauce.length + viande.length;
+        }
       }
      
       this.$emit("totalIngrediant", ingrediantTotal);
@@ -618,11 +621,11 @@ export default {
         case 'switchSauce':
           const findElementSauce = ingrediantDelete.sauce.indexOf(contentSpan);
           if(findElementSauce !== -1){
-            //event.path[0].style.color="green";
-            this.cssDynamique.sauce[key].addIngrediant = true
+            event.path[0].style.color="green";
+            //this.cssDynamique.sauce[key].addIngrediant = true
           }else {
-            //event.path[0].style.color="red";
-            this.cssDynamique.sauce[key].deleteIngrediant = false
+            event.path[0].style.color="red";
+            //this.cssDynamique.sauce[key].deleteIngrediant = false
           }
           break;
 

@@ -8,16 +8,16 @@
       </template>
       <v-card>
         <v-card-title>
-          <span class="headline">{{ dataDessert.name }}</span>
+          <span class="headline">{{ params.name }}</span>
         </v-card-title>
         <v-card-text>
           <v-container>
             <v-row>
               <v-col cols="12" md="6">
-                <v-text-field clearable label="Nom de la boisson" :value="dataDessert.name"></v-text-field>
+                <v-text-field clearable label="Nom de la boisson" v-model="params.name"></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
-                <v-text-field label="Prix" :value="dataDessert.price" suffix="€"></v-text-field>
+                <v-text-field label="Prix" v-model="params.price" suffix="€"></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
                 <v-tooltip bottom>
@@ -25,6 +25,7 @@
                     <v-text-field
                       v-bind="attrs"
                       v-on="on"
+                      v-model="params.img"
                       label="Lien de votre image"
                       prepend-icon="mdi-camera"
                     ></v-text-field>
@@ -40,8 +41,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-          <v-btn color="blue darken-1" text @click="dialog = false">Save</v-btn>
+          <v-btn color="blue darken-1" class="ma-2" text @click="dialog = false">Close</v-btn>
+          <v-btn color="blue darken-1" class="ma-2" text @click="saveDessert">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -54,9 +55,52 @@ export default {
   props: {
     dataDessert: Object
   },
-  data: () => ({
-    dialog: false
-  })
+  data() {
+    return {
+      dialog: false,
+      params: {
+        id: null,
+        name: null,
+        price: null,
+        img: null
+      }
+    };
+  },
+  mounted() {
+    this.getDatas();
+  },
+  methods: {
+    async saveDessert() {
+      try {
+        this.params.price = Number(this.params.price);
+        const response = await this.$axios.put(
+          `http://localhost:4000/api/v1/admin/dessert/update`,
+          this.params,
+          {
+            headers: {
+              "x-access-token": localStorage.getItem("x-access-token")
+            }
+          }
+        );
+        
+        this.params = response.data.result
+        this.$emit('updateDessert', this.params)
+        this.dialog = false;
+
+      } catch (error) {
+        console.log(error);
+        console.log("not admin");
+      }
+    },
+    getDatas() {
+      this.params = {
+        id: this.dataDessert.id,
+        price: Number(this.dataDessert.price),
+        name: this.dataDessert.name,
+        img: this.dataDessert.img
+      };
+    }
+  }
 };
 </script>
 
