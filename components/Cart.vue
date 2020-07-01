@@ -242,7 +242,6 @@ export default {
     },
     ingrediantAdded(ingrediantObject, total) {
       const { id } = ingrediantObject;
-
       this.cart.contents.pizzas[id].ingrediantAdded = ingrediantObject;
       this.totalPrice.ingrediant = total;
 
@@ -251,7 +250,7 @@ export default {
         promo: this.promo,
         total: this.totalPrice,
       };
-
+      console.log(newJson)
       const JSONtostring = JSON.stringify(newJson);
       localStorage.setItem("datas", JSONtostring);
       
