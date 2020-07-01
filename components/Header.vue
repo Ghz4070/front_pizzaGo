@@ -103,6 +103,7 @@
                   <v-list three-line subheader>
                     <template v-if="img">
                       <div @click="dialog = false" class="mobile-menu">
+                        <nuxt-link to="/">Accueil</nuxt-link>
                         <nuxt-link to="order">Commander</nuxt-link>
                         <a @click.stop="profil">
                           Profile
@@ -361,24 +362,4 @@ button {
   margin-left: auto;
   padding: 10px 20px 0 0;
 }
-
-/** ----!!---->
- MOBILE RESPONSIVE
-<----!!---- **/
-
-@media only screen and (max-device-width: 640px) {
-  .hidden-mobile {
-    display: none !important;
-  }
-}
-
-@media only screen and (min-device-width: 640px) {
-  .only-mobile {
-    display: none !important;
-  }
-}
-
-/** ----!!---->
-   MOBILE RESPONSIVE
-  <----!!---- **/
 </style>
