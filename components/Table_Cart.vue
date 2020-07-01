@@ -101,6 +101,7 @@
                             v-if="pizza.pizzas[currentSelect.id] && pizza.pizzas[currentSelect.id].ingrediantAdded"
                           >
                             <p
+                              :id="id"
                               class="ingrediant-add"
                               v-for="(sauce, id) in pizza.pizzas[currentSelect.id].ingrediantAdded.sauce"
                               :key="id"
@@ -109,6 +110,7 @@
                           </template>
                           <template v-else>
                             <p
+                              :id="id"
                               class="ingrediant-add"
                               v-for="(sauce, id) in ingrediantSelected.sauce"
                               :key="id"
@@ -127,6 +129,7 @@
                           <template
                             v-if="pizza.pizzas[currentSelect.id] && pizza.pizzas[currentSelect.id].ingrediantAdded"
                           >
+                           
                             <p
                               class="ingrediant-add"
                               v-for="(viande, id) in pizza.pizzas[currentSelect.id].ingrediantAdded.viande"
@@ -156,6 +159,7 @@
                             v-if="pizza.pizzas[currentSelect.id] && pizza.pizzas[currentSelect.id].ingrediantAdded"
                           >
                             <p
+                              :id="id"
                               class="ingrediant-add"
                               v-for="(legume, id) in pizza.pizzas[currentSelect.id].ingrediantAdded.legume"
                               :key="id"
@@ -164,6 +168,7 @@
                           </template>
                           <template v-else>
                             <p
+                              :id="id"
                               class="ingrediant-add"
                               v-for="(legume, id) in ingrediantSelected.legume"
                               :key="id"
@@ -377,14 +382,19 @@ export default {
     }
     ,getId(e) {
       this.currentSelect.id = e;
+      //console.log(this.pizza.pizzas[e].ingrediantAdded);
       if (this.pizza.pizzas[e].ingrediantAdded !== undefined) {
+        console.log('je rentre car il y a un ingrediantAdded')
         this.ingrediantSelected = this.pizza.pizzas[e].ingrediantAdded;
+      }else {
+        console.log('je rentre pas car il y a un ingrediantAdded')
+        this.ingrediantSelected = {id: "",sauce: [],viande: [],legume: [],fromage: [],epice: [],total: 0,}
       }
       this.dialog = true;
     },
     addIngrediant(e) {
-      if (!this.ingrediantSelected.id)
-        this.ingrediantSelected.id = this.currentSelect.id;
+      
+      this.ingrediantSelected.id = this.currentSelect.id;
       const totalLength = this.lengthIngrediantSelected() - this.lengthIngrediantRemove(this.currentSelect.id);
       if (totalLength < 6) {
         switch (e.path[1].id) {
@@ -656,6 +666,48 @@ export default {
             /* event.path[0].style.color="red";
             this.cssDynamique.sauce[key] = "red" */
           }
+          break;
+      
+        default:
+          break;
+      }
+    },
+    switchChange(id) {
+      switch (id) {
+        case 'switchSauce':
+          this.switchSauce = true;
+          this.switchViande = false;
+          this.switchFromage = false;
+          this.switchEpice = false;
+          this.switchLegume = false; 
+          break;
+        case 'switchViande':
+          this.switchSauce = false;
+          this.switchViande = true;
+          this.switchFromage = false;
+          this.switchEpice = false;
+          this.switchLegume = false; 
+          break;
+        case 'switchLegume':
+          this.switchSauce = false;
+          this.switchViande = false;
+          this.switchFromage = false;
+          this.switchEpice = false;
+          this.switchLegume = true; 
+          break;
+        case 'switchEpice':
+          this.switchSauce = false;
+          this.switchViande = false;
+          this.switchFromage = false;
+          this.switchEpice = true;
+          this.switchLegume = false; 
+          break;
+        case 'switchFromage':
+          this.switchSauce = false;
+          this.switchViande = false;
+          this.switchFromage = true;
+          this.switchEpice = false;
+          this.switchLegume = false; 
           break;
       
         default:
