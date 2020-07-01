@@ -9,11 +9,34 @@
     ></v-skeleton-loader>
     <v-expansion-panels v-else popout inset multiple focusable hover>
       <v-expansion-panel>
-        <v-expansion-panel-header>Client : {{ dataOrders.user.firstname }} | date de commande : {{ dataOrders.date | formatDate}}</v-expansion-panel-header>
+        <v-expansion-panel-header disable-icon-rotate>
+          Client : {{ dataOrders.user.firstname }} | date de commande : {{ dataOrders.date | formatDate}}
+          <template
+            v-if="this.params != 1"
+            v-slot:actions
+          >
+            <v-icon color="teal">mdi-check</v-icon>
+          </template>
+          <template v-else v-slot:actions>
+            <v-icon color="error">mdi-alert-circle</v-icon>
+          </template>
+        </v-expansion-panel-header>
         <v-expansion-panel-content>
           <v-container>
             <v-row>
-              <v-col cols="12">
+              <v-col cols="12" xl="12">
+                <span>Pizza : {{ dataOrders.content }}</span>
+              </v-col>
+              <v-col cols="12" xl="12">
+                <span>Prix : {{ dataOrders.price | euroSign }}</span>
+              </v-col>
+              <v-col cols="12" xl="12">
+                <span>Promo : {{ dataOrders.promo.name }} -{{ dataOrders.promo.amount }}%</span>
+              </v-col>
+              <v-col cols="12" xl="12">
+                <span>Status : {{ params.status }}</span>
+              </v-col>
+              <v-col cols="12" xl="12">
                 <v-select v-model="params.status" :items="items" label="Status"></v-select>
               </v-col>
             </v-row>
@@ -45,26 +68,24 @@ export default {
     };
   },
   mounted() {
-    this.getDatas();
-    console.log(this.getDatas());
     // permet d'iterer un tableau
     for (let key in this.status) {
       this.items = [...this.items, this.status[key].label];
     }
+
     // insert in this.params.status the label of the current status
-    // this.params.status = this.items[this.dataOrders.status - 1];
+    this.params.status = this.items[this.dataOrders.status - 1];
+
     if (this.dataOrders != 0) {
       setTimeout(() => {
         this.loading = false;
       }, 500);
     } else {
-      alert("Erreur de chargement");
     }
   },
   methods: {
     async saveOrder() {
-      await this.getDatas();
-
+      this.getDatas();
       try {
         const response = await this.$axios.put(
           `http://localhost:4000/api/v1/admin/order/update`,
@@ -75,24 +96,18 @@ export default {
             }
           }
         );
-        this.$emit("updateOrder", response.data.result);
+        // this.$emit("updateOrder", response.data.result);
+        this.params.status = this.status[response.data.result.status - 1].label;
       } catch (error) {
         console.log(error);
         console.log("not admin");
       }
     },
-    formatStatus() {
-      // item peux directement aller chercher l'index
-      const statusId = this.status.filter(item => {
-        // this.params.status -> v-model recup la data
-        if (item.label == this.params.status) {
-          return (this.statusId = item.id);
-        }
-      });
-    },
     getDatas() {
-      this.formatStatus();
-
+      // item peux directement aller chercher l'index
+      this.statusId = this.status.find(
+        item => item.label == this.params.status
+      ).id;
       this.params = {
         id: this.dataOrders.id,
         price: this.dataOrders.price,
@@ -101,8 +116,6 @@ export default {
         content: this.dataOrders.content,
         promoId: this.dataOrders.promo.id
       };
-
-      return this.params;
     }
   },
   computed: {
