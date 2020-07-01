@@ -36,8 +36,8 @@
       </div>
       <div class="hidden-mobile">
         <div class="d-flex flex-row flex-wrap justify-space-around max-width">
-          <h3>Ingrédients ajoutés</h3>
-          <p>{{cart.total}} €</p>
+          <h3>Ingrédients ajoutés </h3>
+          <p> {{cart.total}} €</p>
         </div>
       </div>
       <div class="hidden-mobile">
@@ -46,10 +46,15 @@
           <template v-if="promo">
             <p>{{promo}}%</p>
             <p>{{(totalPrice.total - ( totalPrice.total * (promo/100) ) + cart.total)}} €</p>
+            
             <p>{{totalPrice.total + cart.total}} €</p>
           </template>
           <template v-else>
-            <p>{{totalPrice.total + cart.total}}€</p>
+            {{totalPrice.total}}
+            <br>
+            {{cart.total}}
+            <br>
+            
           </template>
         </div>
       </div>
@@ -117,8 +122,8 @@ export default {
   watch: {
     boolStorage() {
       const local = localStorage.getItem("datas");
-      const stringToJSON = JSON.parse(local);
-
+      let stringToJSON = JSON.parse(local);
+      stringToJSON = {...stringToJSON, total: this.cart.total}
       return (this.cart = stringToJSON);
     }
   },
@@ -234,27 +239,31 @@ export default {
       const { id } = ingrediantObject;
 
       this.cart.contents.pizzas[id].ingrediantAdded = ingrediantObject;
+      this.cart.total = total;
+
       const newJson = {
         contents: this.cart.contents,
-        total: total
+        promo: this.cart.promo,
+        total: this.cart.total
       };
 
       const JSONtostring = JSON.stringify(newJson);
       localStorage.setItem("datas", JSONtostring);
-      this.cart.total = total;
+      
     },
     ingrediantRemove(ingrediantRemove, total) {
       const { id } = ingrediantRemove;
       this.cart.contents.pizzas[id].ingrediantRemove = ingrediantRemove;
-
+      this.cart.total = total;
       const newJson = {
         contents: this.cart.contents,
-        total: total
+        promo: this.cart.promo,
+        total: this.cart.total,
       };
 
       const JSONtostring = JSON.stringify(newJson);
       localStorage.setItem("datas", JSONtostring);
-      this.cart.total;
+      
     }
   }
 };
