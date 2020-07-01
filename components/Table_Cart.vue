@@ -13,7 +13,7 @@
               <td :key="element.name">{{element.name}}</td>
               <td :key="element.size">{{element.size}}</td>
               <td :key="element.price">{{element.price}} €</td>
-              <td @click="getId(key)">Modifier</td>
+              <td style="cursor:pointer" @click="getId(key)">Modifier</td>
               <v-dialog v-model="dialog" max-width="390">
                 <v-card class="pt-3 pr-3 pb-3 pl-3">
                   <v-expansion-panels>
@@ -28,16 +28,21 @@
                           <v-switch v-model="switchEpice" class="ma-1" label="Epice" />
                         </div>
                         <div id="switchSauce" v-if="switchSauce">
-                          <v-list-item>
-                            <v-list-item-content
+                          <div>
+                            <div
                               :key="index"
-                              v-for="(element, index) in pizza.pizzas[key].composition.sauces.items"
-                            >
-                              <v-list-item-title :key="index" @click="(e) => addOrRemoveIngrediant(e,key)">
-                                <span>{{element}}</span>
-                              </v-list-item-title>
-                            </v-list-item-content>
-                          </v-list-item>
+                              v-for="(element, index) in pizza.pizzas[key].composition.sauces.items" >
+                                
+                                <v-chip
+                               :key="index" @click="(e) => addOrRemoveIngrediant(e,key)"
+                                    style="cursor:pointer"
+                                    class="ma-2"
+                                    :color="checkSelectedIngredient(element) ? 'green' : 'red'"
+                                    text-color="white"
+                                    @click:close="chip2 = false"
+                                  >{{ element }}</v-chip>                                  
+                            </div>
+                          </div>
                         </div>
                         <div id="switchViande" v-if="switchViande">
                           <v-list-item>
@@ -245,7 +250,7 @@
                 </v-snackbar>
               </v-dialog>
             </tr>
-            <p v-if="checkLengthArrayIngrediant(key)">Ingrédiant {{totalIngrediant ? totalIngrediant.total : null}}</p>
+            <!-- <p v-if="checkLengthArrayIngrediant(key)">Ingrédiant {{totalIngrediant ? totalIngrediant.total : null}}</p> -->
           </template>
         </template>
         <template v-if="drinks && Thead[0] === 'Boissons'">
@@ -503,14 +508,28 @@ export default {
           count = count + this.pizza.pizzas[position].ingrediantRemove.viande.length;
         }
         return count
-    }
-    ,
+    },
+    checkSelectedIngredient(name) {
+      let check = false;
+      for(var key in this.ingrediantRemove) {
+        let ingredient = this.ingrediantRemove[key];
+        if(Array.isArray(ingredient)) {
+          ingredient.forEach(el => {
+            console.log("name " + name);
+            console.log("ingredient "+ ingredient);
+            name == ingredient ? check = true : '';
+          });
+        }
+      }
+      return check;
+    },
     addOrRemoveIngrediant(event, key) {
+      //console.log(this.checkSelectedIngredient("Barbecue"));
         if(!this.ingrediantRemove.id) this.ingrediantRemove.id = key;
         switch (event.path[4].id) {
         case "switchSauce":
             if(this.pizza.pizzas[key].ingrediantRemove !== undefined){
-                this.changeCSS(event, key)
+                //this.changeCSS(event, key)
                 const findElement= this.pizza.pizzas[key].ingrediantRemove.sauce.find((element) => element === event.path[0].innerHTML);
                 if(findElement === undefined){
                     this.ingrediantRemove.sauce.push(event.path[0].innerHTML);
@@ -528,7 +547,7 @@ export default {
           break;
         case "switchViande":
           if(this.pizza.pizzas[key].ingrediantRemove !== undefined){
-                this.changeCSS(event, key)
+                //this.changeCSS(event, key)
                 const findElement= this.pizza.pizzas[key].ingrediantRemove.viande.find((element) => element === event.path[0].innerHTML);
                 if(findElement === undefined){
                     this.ingrediantRemove.viande.push(event.path[0].innerHTML);
@@ -619,21 +638,21 @@ export default {
           const findElementSauce = ingrediantDelete.sauce.indexOf(contentSpan);
           if(findElementSauce !== -1){
             //event.path[0].style.color="green";
-            this.cssDynamique.sauce[key].addIngrediant = true
+            //this.cssDynamique.sauce[key].addIngrediant = true
           }else {
             //event.path[0].style.color="red";
-            this.cssDynamique.sauce[key].deleteIngrediant = false
+            //this.cssDynamique.sauce[key].deleteIngrediant = false
           }
           break;
 
         case 'switchViande':
           const findElementViande = ingrediantDelete.viande.indexOf(contentSpan);
           if(findElementViande !== -1){
-            event.path[0].style.color="green";
-            this.cssDynamique.sauce[key] = "green"
+            /* event.path[0].style.color="green";
+            this.cssDynamique.sauce[key] = "green" */
           }else {
-            event.path[0].style.color="red";
-            this.cssDynamique.sauce[key] = "red"
+            /* event.path[0].style.color="red";
+            this.cssDynamique.sauce[key] = "red" */
           }
           break;
       
