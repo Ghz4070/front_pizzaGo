@@ -16,18 +16,22 @@
         </v-tabs>
         <!-- User -->
         <div v-if="currentTab == 0">
+          <Order />
+        </div>
+        <!-- User -->
+        <div v-if="currentTab == 1">
           <User />
         </div>
         <!-- PIZZA -->
-        <div v-if="currentTab == 1">
+        <div v-if="currentTab == 2">
           <Pizza />
         </div>
         <!-- Boisson -->
-        <div v-if="currentTab == 2">
+        <div v-if="currentTab == 3">
           <Drink />
         </div>
         <!-- Dessert -->
-        <div v-if="currentTab == 3">
+        <div v-if="currentTab == 4">
           <Dessert />
         </div>
       </v-card>
@@ -40,19 +44,22 @@ import Pizza from "@/components/admin/pizza/Pizza";
 import Drink from "@/components/admin/drink/Drink";
 import Dessert from "@/components/admin/dessert/Dessert";
 import User from "@/components/admin/user/User";
+import Order from "@/components/admin/order/Order";
 
 export default {
   components: {
     Pizza,
     Drink,
     Dessert,
-    User
+    User,
+    Order
   },
   data: function() {
     return {
       currentTab: 0,
       items: [
-        { tab: "User" },
+        { tab: "Commandes" },
+        { tab: "Utilisateurs" },
         { tab: "Pizza" },
         { tab: "Boisson" },
         { tab: "Dessert" }

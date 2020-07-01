@@ -82,7 +82,6 @@ export default {
             }
           }
         );
-        
         this.params = response.data.result
         this.$emit('updateDessert', this.params)
         this.dialog = false;
