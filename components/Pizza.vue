@@ -98,8 +98,6 @@ export default {
       size: ["S", "M", "L", "XL"],
       add: { quantity: 1, size: "M", price: "10" },
       model: {
-        promo: null,
-        total_price: 0,
         contents: {
           pizzas: [],
           drinks: [],
@@ -169,7 +167,9 @@ export default {
       for (let i = 0; i < pizza.quantity; i++) {
         cart.contents.pizzas = [...cart.contents.pizzas, pizza];
       }
-      this.setTotalPrice(cart);
+      localStorage.setItem("datas", JSON.stringify(cart));
+      this.$emit("changeLocalStorage");
+      //this.setTotalPrice(cart);
     },
     setTotalPrice(cart) {
       let price = 0;

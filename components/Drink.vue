@@ -109,7 +109,9 @@ export default {
       for (let i = 0; i < drink.quantity; i++) {
         cart.contents.drinks = [...cart.contents.drinks, drink];
       }
-      this.setTotalPrice(cart);
+      localStorage.setItem("datas", JSON.stringify(cart));
+      this.$emit("changeLocalStorage");
+      //this.setTotalPrice(cart);
     },
     setTotalPrice(cart) {
       let price = 0;
