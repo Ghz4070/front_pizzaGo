@@ -6,9 +6,8 @@
         <nav class="navigation d-flex flex-row flex-wrap align-center">
           <template v-if="img">
             <nuxt-link to="/">Accueil</nuxt-link>
-            <nuxt-link to="order">Commander</nuxt-link>
+            <nuxt-link to="/order">Commander</nuxt-link>
             <nuxt-link to>Contact</nuxt-link>
-
             <div class="text-center">
               <v-menu offset-y>
                 <template v-slot:activator="{ on, attrs }">
@@ -31,7 +30,6 @@
                             :key="key"
                             required
                           />
-
                           <button>yes</button>
                         </v-form>
                       </template>
@@ -68,12 +66,12 @@
           </template>
           <template v-else>
             <nuxt-link to="/">Accueil</nuxt-link>
-            <nuxt-link to="login">Connexion</nuxt-link>
-            <nuxt-link to="inscription">Inscription</nuxt-link>
-            <nuxt-link to="order">Commander</nuxt-link>
-            <nuxt-link to="contact">Contact</nuxt-link>
+            <nuxt-link to="/login">Connexion</nuxt-link>
+            <nuxt-link to="/inscription">Inscription</nuxt-link>
+            <nuxt-link to="/order">Commander</nuxt-link>
+            <nuxt-link to="/contact">Contact</nuxt-link>
             <!-- v-if="ROLE == ADMIN" -->
-            <nuxt-link to="admin">Admin</nuxt-link>
+            <nuxt-link to="/admin">Admin</nuxt-link>
             <!-- ROLE == ADMIN -->
           </template>
         </nav>
@@ -157,10 +155,10 @@
                     <template v-else>
                       <div @click="dialog = false" class="mobile-menu">
                         <nuxt-link to="/">Accueil</nuxt-link>
-                        <nuxt-link to="order">Commander</nuxt-link>
-                        <nuxt-link to="login">Connexion</nuxt-link>
-                        <nuxt-link to="inscription">Inscription</nuxt-link>
-                        <nuxt-link to="contact">Contact</nuxt-link>
+                        <nuxt-link to="/order">Commander</nuxt-link>
+                        <nuxt-link to="/login">Connexion</nuxt-link>
+                        <nuxt-link to="/inscription">Inscription</nuxt-link>
+                        <nuxt-link to="/contact">Contact</nuxt-link>
                       </div>
                     </template>
                   </v-list>
