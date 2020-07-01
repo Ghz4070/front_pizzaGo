@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row>
       <v-col v-for="(order, index) in orders" :key="index" cols="12" xl="4" lg="6" md="6" sm="12">
-        <EditOrder :dataOrders="order" @updateOrder="updateOrder" />
+        <EditOrder :dataOrders="order" />
       </v-col>
     </v-row>
   </v-container>
@@ -34,20 +34,11 @@ export default {
             }
           }
         );
-        return (this.orders = response.data.result);
+        this.orders = response.data.result;
       } catch (error) {
         console.log(error);
       }
     },
-    updateOrder(value) {
-      // couple key value
-      for (let key in this.orders) {
-        // search the key in array and compare
-        if (this.orders[key].status === value.status) {
-          this.orders[key] = value;
-        }
-      }
-    }
   }
 };
 </script>

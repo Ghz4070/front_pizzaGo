@@ -120,7 +120,7 @@ export default {
         // search the key in array and compare
         if (this.desserts[key].id === value.id) {
           this.desserts[key] = value;
-          this.getDessert();
+          // this.getDessert();
         }
       }
     }
