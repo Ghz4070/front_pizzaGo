@@ -250,7 +250,6 @@
                 </v-snackbar>
               </v-dialog>
             </tr>
-            <!-- <p v-if="checkLengthArrayIngrediant(key)">Ingrédiant {{totalIngrediant ? totalIngrediant.total : null}}</p> -->
           </template>
         </template>
         <template v-if="drinks && Thead[0] === 'Boissons'">

@@ -69,4 +69,28 @@ body,
 .v-text-field .v-input__append-inner {
   margin-top: -2px !important;
 }
+
+/** ----!!---->
+ MOBILE RESPONSIVE
+<----!!---- **/
+
+@media only screen and (max-device-width: 640px) {
+  .hidden-mobile {
+    display: none !important;
+  }
+  .container {
+   padding: 0px 12px;
+ }
+}
+
+@media only screen and (min-device-width: 640px) {
+  .only-mobile {
+    display: none !important;
+  }
+}
+
+/** ----!!---->
+   MOBILE RESPONSIVE
+  <----!!---- **/
+
 </style>

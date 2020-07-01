@@ -11,41 +11,47 @@
           <button>Valider</button>
         </div>
       </form>
-      <TableCart
-        @totalPizza="totalPizza"
-        @totalIngrediant="totalIngrediant"
-        @ingrediantAdded="ingrediantAdded"
-        @ingrediantRemove="ingrediantRemove"
-        :Thead="tablePizza"
-        :pizza="cart.contents"
-        class="d-flex flex-row flex-wrap justify-space-around max-width"
-      />
-      <TableCart
-        @totalDrink="totalDrink"
-        :Thead="tableBoisson"
-        :drinks="cart.contents"
-        class="d-flex flex-row flex-wrap justify-space-around max-width"
-      />
-      <TableCart
-        @totalDessert="totalDessert"
-        :Thead="tableDessert"
-        :dessert="cart.contents"
-        class="d-flex flex-row flex-wrap justify-space-around max-width"
-      />
-      <div class="d-flex flex-row flex-wrap justify-space-around max-width">
-        <h3>Ingrédients ajoutés</h3>
-        <p>{{cart.total}} €</p>
+      <div class="hidden-mobile">
+        <TableCart
+          @totalPizza="totalPizza"
+          @totalIngrediant="totalIngrediant"
+          @ingrediantAdded="ingrediantAdded"
+          @ingrediantRemove="ingrediantRemove"
+          :Thead="tablePizza"
+          :pizza="cart.contents"
+          class="d-flex flex-row flex-wrap justify-space-around max-width"
+        />
+        <TableCart
+          @totalDrink="totalDrink"
+          :Thead="tableBoisson"
+          :drinks="cart.contents"
+          class="d-flex flex-row flex-wrap justify-space-around max-width"
+        />
+        <TableCart
+          @totalDessert="totalDessert"
+          :Thead="tableDessert"
+          :dessert="cart.contents"
+          class="d-flex flex-row flex-wrap justify-space-around max-width"
+        />
       </div>
-      <div class="d-flex flex-row flex-wrap justify-space-around max-width">
-        <p>Total :</p>
-        <template v-if="promo">
-          <p>{{promo}}%</p>
-          <p>{{(totalPrice.total - ( totalPrice.total * (promo/100) ) + cart.total)}} €</p>
-          <p>{{totalPrice.total + cart.total}} €</p>
-        </template>
-        <template v-else>
-          <p>{{totalPrice.total + cart.total}}€</p>
-        </template>
+      <div class="hidden-mobile">
+        <div class="d-flex flex-row flex-wrap justify-space-around max-width">
+          <h3>Ingrédients ajoutés</h3>
+          <p>{{cart.total}} €</p>
+        </div>
+      </div>
+      <div class="hidden-mobile">
+        <div class="d-flex flex-row flex-wrap justify-space-around max-width">
+          <p>Total :</p>
+          <template v-if="promo">
+            <p>{{promo}}%</p>
+            <p>{{(totalPrice.total - ( totalPrice.total * (promo/100) ) + cart.total)}} €</p>
+            <p>{{totalPrice.total + cart.total}} €</p>
+          </template>
+          <template v-else>
+            <p>{{totalPrice.total + cart.total}}€</p>
+          </template>
+        </div>
       </div>
 
       <v-dialog v-model="paiement" persistent max-width="550">
@@ -97,7 +103,7 @@ export default {
       tableBoisson: ["Boissons", "Prix"],
       tableDessert: ["Desserts", "Prix"],
       promo: null,
-      cart: {content: {}, total: 0},
+      cart: { content: {}, total: 0 },
       totalPrice: { pizza: 0, drink: 0, dessert: 0, ingrediant: 0, total: 0 },
       paiement: false,
       stripeAPIToken: "pk_test_QrgGFFIn2rjHnwgwvakXU0dn00FhK9IbmE",
@@ -226,7 +232,7 @@ export default {
     },
     ingrediantAdded(ingrediantObject, total) {
       const { id } = ingrediantObject;
-   
+
       this.cart.contents.pizzas[id].ingrediantAdded = ingrediantObject;
       const newJson = {
         contents: this.cart.contents,
@@ -248,7 +254,7 @@ export default {
 
       const JSONtostring = JSON.stringify(newJson);
       localStorage.setItem("datas", JSONtostring);
-      this.cart.total
+      this.cart.total;
     }
   }
 };
@@ -353,5 +359,22 @@ thead {
 
 .StripeElement--webkit-autofill {
   background-color: #fefde5 !important;
+}
+@media only screen and (max-device-width: 640px) {
+  .cart-container {
+    position: fixed;
+    bottom: 4px;
+    margin-right: 25px;
+    margin-left: 25px;
+  }
+  .buy-button {
+    padding: 4px 30px;
+    bottom: 20px;
+  }
+  .cart-div {
+    height: calc(50% - 230px) !important;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 }
 </style>
