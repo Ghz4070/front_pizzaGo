@@ -42,7 +42,7 @@
               <v-card-actions>
                 <v-spacer></v-spacer>
 
-                <EditDessert :dataDessert="dessert" />
+                <EditDessert :dataDessert="dessert" @updateDessert="updateDessert" />
 
                 <v-btn icon class="ml-3" @click="deleteDessert(dessert.id)">
                   <v-icon>mdi-trash-can</v-icon>
@@ -72,11 +72,11 @@ export default {
       desserts: Object
     };
   },
-  updated() {
-    setTimeout(() => {
-      this.getDessert();
-    }, 2500);
-  },
+  // updated() {
+  //   setTimeout(() => {
+  //     this.getDessert();
+  //   }, 2500);
+  // },
   mounted() {
     this.getDessert();
 
@@ -94,7 +94,6 @@ export default {
         const response = await this.$axios.get(
           "http://localhost:4000/api/v1/dessert"
         );
-        console.log(response.data.result);
         return (this.desserts = response.data.result);
       } catch (error) {
         console.log(error);
@@ -110,10 +109,19 @@ export default {
             }
           }
         );
-
         return response.status;
       } catch (error) {
         console.log(error);
+      }
+    },
+    updateDessert(value) {
+      // couple key value
+      for (let key in this.desserts) {
+        // search the key in array and compare
+        if (this.desserts[key].id === value.id) {
+          this.desserts[key] = value;
+          this.getDessert();
+        }
       }
     }
   }
