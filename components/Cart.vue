@@ -106,7 +106,7 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-      <a v-else>Veuillez vous connectez pour procéder au paiement !</a>
+      <a v-else>Veuillez-vous connectez pour procéder au paiement !</a>
     </div>
     <v-snackbar v-model="pay_toast.snackbar">
       {{ pay_toast.text }}

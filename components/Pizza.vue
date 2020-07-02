@@ -143,7 +143,7 @@ import axios from "axios";
 export default {
   data: function() {
     return {
-      pizza_toast: { snackbar: false, text: "Pizza ajouté au panier" },
+      pizza_toast: { snackbar: false, text: "Pizza ajoutée au panier" },
       pizzas: [],
       categories: null,
       size: ["S", "M", "L", "XL"],
