@@ -1,6 +1,4 @@
 <template>
-  <!-- <v-dialog> -->
-
   <v-card>
     <v-card-title class="headline">Mes informations</v-card-title>
     <template v-if="userInformation">
@@ -13,23 +11,34 @@
           :key="key"
           required
         />
-        <button>yes</button>
+        <button>Modifier</button>
       </v-form>
     </template>
     <v-snackbar v-model="fieldValide_toast.snackbar">
       {{ fieldValide_toast.text }}
       <template v-slot:action="{ attrs }">
-        <v-btn color="pink" text v-bind="attrs" @click="fieldValide_toast.snackbar = false">X</v-btn>
+        <v-btn
+          color="pink"
+          text
+          v-bind="attrs"
+          @click="fieldValide_toast.snackbar = false"
+          >X</v-btn
+        >
       </template>
     </v-snackbar>
     <v-snackbar v-model="field_toast.snackbar">
       {{ field_toast.text }}
       <template v-slot:action="{ attrs }">
-        <v-btn color="pink" text v-bind="attrs" @click="field_toast.snackbar = false">X</v-btn>
+        <v-btn
+          color="pink"
+          text
+          v-bind="attrs"
+          @click="field_toast.snackbar = false"
+          >X</v-btn
+        >
       </template>
     </v-snackbar>
   </v-card>
-  <!--  </v-dialog> -->
 </template>
 
 <script>
@@ -114,5 +123,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>
