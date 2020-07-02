@@ -70,6 +70,10 @@ body,
   margin-top: -2px !important;
 }
 
+.hidden {
+  display: none !important;
+}
+
 /** ----!!---->
  MOBILE RESPONSIVE
 <----!!---- **/
@@ -79,8 +83,8 @@ body,
     display: none !important;
   }
   .container {
-   padding: 0px 12px;
- }
+    padding: 0px 12px;
+  }
 }
 
 @media only screen and (min-device-width: 640px) {
@@ -92,5 +96,4 @@ body,
 /** ----!!---->
    MOBILE RESPONSIVE
   <----!!---- **/
-
 </style>
