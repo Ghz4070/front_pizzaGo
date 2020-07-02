@@ -46,10 +46,11 @@
         <div class="d-flex flex-row flex-wrap justify-space-around max-width">
           <p>Total :</p>
           <template v-if="promo">
+            <p>{{cart.total.total}} € -</p>
             <p>{{promo}}%</p>
             <p>{{(cart.total.total - ( cart.total.total * (promo/100) ))}} €</p>
             
-            <p>{{cart.total.total}} €</p>
+            
           </template>
           <template v-else>
             <p>{{cart.total.total}} €</p>
