@@ -79,7 +79,7 @@
 
             <v-card-text class="text--primary center">
               <v-select
-                :change="
+                v-on:change="
                   updatePrice(index, pizza.quantity, pizza.price, pizza.size)
                 "
                 v-model="pizza.size"
@@ -90,13 +90,21 @@
                 <v-col cols="12" sm="6" md="6">
                   <v-text-field
                     v-model="pizza.quantity"
+                    v-on:input="
+                      updatePrice(
+                        index,
+                        pizza.quantity,
+                        pizza.price,
+                        pizza.size
+                      )
+                    "
                     type="number"
                     label="x1"
                     value="1"
                     solo
                   ></v-text-field>
                 </v-col>
-                <v-col cols="12" sm="6" md="6">
+                <v-col v-if="hackReload" cols="12" sm="6" md="6">
                   <v-text-field
                     disabled
                     label
@@ -143,11 +151,13 @@ import axios from "axios";
 export default {
   data: function() {
     return {
+      hackReload: true,
       pizza_toast: { snackbar: false, text: "Pizza ajoutée au panier" },
       pizzas: [],
       categories: null,
       size: ["S", "M", "L", "XL"],
       add: { quantity: 1, size: "M", price: "10" },
+      nb: [],
       model: {
         contents: {
           pizzas: [],
@@ -175,6 +185,7 @@ export default {
         });
     },
     updatePrice(i, nb, price, size) {
+      this.hackReload = false;
       let new_price;
       switch (size) {
         case "S":
@@ -193,6 +204,7 @@ export default {
           break;
       }
       this.pizzas[i].price = new_price;
+      this.hackReload = true;
     },
     formatDatas: function(pizzas) {
       this.pizzas = [];
@@ -200,7 +212,6 @@ export default {
         let el = Object.assign(element, this.add);
         this.pizzas = [...this.pizzas, el];
       });
-      console.log(this.pizzas);
     },
     getCategories() {
       return axios
@@ -227,7 +238,6 @@ export default {
       cart.contents.pizzas.forEach(element => {
         price += element.price;
       });
-      console.log(price);
       cart.total_price = price;
       localStorage.setItem("datas", JSON.stringify(cart));
       this.$emit("changeLocalStorage");

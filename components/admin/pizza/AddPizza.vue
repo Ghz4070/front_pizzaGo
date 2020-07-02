@@ -14,14 +14,23 @@
           <v-container>
             <v-row>
               <v-col cols="12" md="12">
-                <v-text-field v-model="params.name" clearable label="Nom de la pizza"></v-text-field>
+                <v-text-field
+                  v-model="params.name"
+                  clearable
+                  label="Nom de la pizza"
+                ></v-text-field>
               </v-col>
 
               <v-col cols="12" md="12">
                 <h3 class="mb-3">Ingredients</h3>
               </v-col>
 
-              <v-col v-for="(ingredient) in ingredients" :key="ingredient.label" cols="12" md="12">
+              <v-col
+                v-for="ingredient in ingredients"
+                :key="ingredient.label"
+                cols="12"
+                md="12"
+              >
                 <v-autocomplete
                   v-model="params.composition.sauces.items"
                   :items="ingredient.sauces.items"
@@ -33,7 +42,12 @@
                 ></v-autocomplete>
               </v-col>
 
-              <v-col v-for="(ingredient) in ingredients" :key="ingredient.label" cols="12" md="6">
+              <v-col
+                v-for="ingredient in ingredients"
+                :key="ingredient.label"
+                cols="12"
+                md="6"
+              >
                 <v-autocomplete
                   v-model="params.composition.viandes.items"
                   :items="ingredient.viandes.items"
@@ -45,7 +59,12 @@
                 ></v-autocomplete>
               </v-col>
 
-              <v-col v-for="(ingredient) in ingredients" :key="ingredient.label" cols="12" md="6">
+              <v-col
+                v-for="ingredient in ingredients"
+                :key="ingredient.label"
+                cols="12"
+                md="6"
+              >
                 <v-autocomplete
                   v-model="params.composition.legumes.items"
                   :items="ingredient.legumes.items"
@@ -57,7 +76,12 @@
                 ></v-autocomplete>
               </v-col>
 
-              <v-col v-for="(ingredient, index) in ingredients" :key="index" cols="12" md="6">
+              <v-col
+                v-for="(ingredient, index) in ingredients"
+                :key="index"
+                cols="12"
+                md="6"
+              >
                 <v-autocomplete
                   v-model="params.composition.fromages.items"
                   :items="ingredient.fromages.items"
@@ -69,7 +93,12 @@
                 ></v-autocomplete>
               </v-col>
 
-              <v-col v-for="(ingredient) in ingredients" :key="ingredient.label" cols="12" md="6">
+              <v-col
+                v-for="ingredient in ingredients"
+                :key="ingredient.label"
+                cols="12"
+                md="6"
+              >
                 <v-autocomplete
                   v-model="params.composition.epices.items"
                   :items="ingredient.epices.items"
@@ -112,8 +141,12 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" class="ma-2" text @click="dialog = false">Close</v-btn>
-          <v-btn color="blue darken-1" class="ma-2" text @click="addPizza">Save</v-btn>
+          <v-btn color="blue darken-1" class="ma-2" text @click="dialog = false"
+            >Close</v-btn
+          >
+          <v-btn color="blue darken-1" class="ma-2" text @click="addPizza"
+            >Save</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -168,7 +201,6 @@ export default {
             }
           }
         );
-        console.log(response);
         this.dialog = false;
       } catch (error) {
         console.log(error);
@@ -194,5 +226,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

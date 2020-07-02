@@ -599,12 +599,9 @@ export default {
     },
     getId(e) {
       this.currentSelect.id = e;
-      //console.log(this.pizza.pizzas[e].ingrediantAdded);
       if (this.pizza.pizzas[e].ingrediantAdded !== undefined) {
-        console.log("je rentre car il y a un ingrediantAdded");
         this.ingrediantSelected = this.pizza.pizzas[e].ingrediantAdded;
       } else {
-        console.log("je rentre pas car il y a un ingrediantAdded");
         this.ingrediantSelected = {
           id: "",
           sauce: [],
@@ -685,7 +682,6 @@ export default {
             this.addIngrediant_alert.snackbar = true;
             break;
           default:
-            console.log(e.path[1]);
             break;
         }
       } else {
@@ -808,8 +804,6 @@ export default {
         let ingredient = this.ingrediantRemove[key];
         if (Array.isArray(ingredient)) {
           ingredient.forEach(el => {
-            console.log("name " + name);
-            console.log("ingredient " + ingredient);
             name == ingredient ? (check = true) : "";
           });
         }
@@ -817,7 +811,6 @@ export default {
       return check;
     },
     addOrRemoveIngrediant(event, key) {
-      //console.log(this.checkSelectedIngredient("Barbecue"));
       if (!this.ingrediantRemove.id) this.ingrediantRemove.id = key;
       switch (event.path[4].id) {
         case "switchSauce":

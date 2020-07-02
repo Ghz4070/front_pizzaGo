@@ -78,7 +78,6 @@ export default {
         .get("http://localhost:4000/api/v1/order/user/" + this.userId)
         .then(res => {
           this.orders = res.data.result.orders;
-          console.log(res.data.result.orders);
         })
         .catch(e => {
           console.log("catch");
