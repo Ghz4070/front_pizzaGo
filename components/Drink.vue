@@ -1,6 +1,13 @@
 <template>
   <v-row no-gutters>
-    <v-col v-for="(drink) in drinks" :key="drink.id" cols="12" sm="4" md="4" lg="4">
+    <v-col
+      v-for="drink in drinks"
+      :key="drink.id"
+      cols="12"
+      sm="4"
+      md="4"
+      lg="4"
+    >
       <v-card outlined class="ma-3 pa-3 card_pizza" max-width="400">
         <v-img
           height="200px"
@@ -8,14 +15,27 @@
           :src="drink.img"
         ></v-img>
 
-        <v-card-subtitle class="pb-0 pizza_name">{{ drink.name }}</v-card-subtitle>
+        <v-card-subtitle class="pb-0 pizza_name">{{
+          drink.name
+        }}</v-card-subtitle>
         <v-card-text class="text--primary center">
           <v-row>
             <v-col cols="12" sm="6" md="6">
-              <v-text-field v-model="drink.quantity" type="number" label="x1" value="1" solo></v-text-field>
+              <v-text-field
+                v-model="drink.quantity"
+                type="number"
+                label="x1"
+                value="1"
+                solo
+              ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6" md="6">
-              <v-text-field disabled label :value="drink.price+ ' €'" solo></v-text-field>
+              <v-text-field
+                disabled
+                label
+                :value="drink.price + ' €'"
+                solo
+              ></v-text-field>
             </v-col>
           </v-row>
         </v-card-text>
@@ -28,14 +48,21 @@
             class="ma-2"
             outlined
             color="indigo"
-          >Ajouter</v-btn>
+            >Ajouter</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-col>
     <v-snackbar v-model="drink_toast.snackbar">
       {{ drink_toast.text }}
       <template v-slot:action="{ attrs }">
-        <v-btn color="pink" text v-bind="attrs" @click="drink_toast.snackbar = false">X</v-btn>
+        <v-btn
+          color="pink"
+          text
+          v-bind="attrs"
+          @click="drink_toast.snackbar = false"
+          >X</v-btn
+        >
       </template>
     </v-snackbar>
   </v-row>
@@ -47,7 +74,7 @@ import axios from "axios";
 export default {
   data: function() {
     return {
-      drink_toast: { snackbar: false, text: "Dessert ajouté au panier" },
+      drink_toast: { snackbar: false, text: "Boisson ajoutée au panier" },
       drinks: [],
       add: { quantity: 1 },
       model: {

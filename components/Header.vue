@@ -28,7 +28,7 @@
                     <User />
                   </v-dialog>
                   <v-list-item @click="deconnection">
-                    <v-list-item-title>Déconnection</v-list-item-title>
+                    <v-list-item-title>Déconnexion</v-list-item-title>
                   </v-list-item>
                 </v-list>
               </v-menu>
@@ -36,7 +36,7 @@
           </template>
           <template v-else>
             <nuxt-link to="/">Accueil</nuxt-link>
-            <nuxt-link to="/login">Connexion</nuxt-link>
+            <nuxt-link to="/login">Se connecter</nuxt-link>
             <nuxt-link to="/inscription">Inscription</nuxt-link>
             <nuxt-link to="/order">Commander</nuxt-link>
             <nuxt-link to="/contact">Contact</nuxt-link>
@@ -93,7 +93,7 @@
                       <div @click="dialog = false" class="mobile-menu">
                         <nuxt-link to="/">Accueil</nuxt-link>
                         <nuxt-link to="/order">Commander</nuxt-link>
-                        <nuxt-link to="/login">Connexion</nuxt-link>
+                        <nuxt-link to="/login">Se connecter</nuxt-link>
                         <nuxt-link to="/inscription">Inscription</nuxt-link>
                         <nuxt-link to="/contact">Contact</nuxt-link>
                       </div>

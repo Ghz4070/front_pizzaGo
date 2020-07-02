@@ -78,8 +78,12 @@
             >Paiement de votre commande</v-card-title
           >
           <v-card-text>
-            <div v-if="!checkPay">
+            <div class="pay-logo">
+              <img src="http://i76.imgup.net/accepted_c22e0.png" />
               <h3>Paiement sécurisé</h3>
+            </div>
+            <div v-if="!checkPay">
+              <br />
 
               <div id="card-element"></div>
               <div id="payment-request-button">
@@ -106,7 +110,7 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-      <a v-else>Veuillez vous connectez pour procéder au paiement !</a>
+      <a v-else>Veuillez-vous connectez pour procéder au paiement !</a>
     </div>
     <v-snackbar v-model="pay_toast.snackbar">
       {{ pay_toast.text }}
@@ -270,10 +274,12 @@ export default {
         .then(res => {
           if (res.data.status == "success") {
             setTimeout(() => {
+              localStorage.removeItem("datas");
               this.checkPay = false;
               this.pay_toast.text = "Paiement réaliser avec succées.";
               this.pay_toast.snackbar = true;
               this.paiement = false;
+              this.$router.go();
             }, 2500);
           } else {
             setTimeout(() => {
