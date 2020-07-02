@@ -19,6 +19,7 @@
             <v-icon color="error">mdi-alert-circle</v-icon>
           </template>
         </v-expansion-panel-header>
+
         <v-expansion-panel-content>
           <v-container>
             <v-row>
