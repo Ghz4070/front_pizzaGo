@@ -78,8 +78,12 @@
             >Paiement de votre commande</v-card-title
           >
           <v-card-text>
-            <div v-if="!checkPay">
+            <div class="pay-logo">
+              <img src="http://i76.imgup.net/accepted_c22e0.png" />
               <h3>Paiement sécurisé</h3>
+            </div>
+            <div v-if="!checkPay">
+              <br />
 
               <div id="card-element"></div>
               <div id="payment-request-button">
