@@ -9,18 +9,7 @@
     ></v-skeleton-loader>
     <v-expansion-panels v-else popout inset multiple focusable hover>
       <v-expansion-panel>
-        <v-expansion-panel-header disable-icon-rotate>
-          Client : {{ dataOrders.user.firstname }} | date de commande : {{ dataOrders.date | formatDate}}
-          <template
-            v-if="this.params != 1"
-            v-slot:actions
-          >
-            <v-icon color="teal">mdi-check</v-icon>
-          </template>
-          <template v-else v-slot:actions>
-            <v-icon color="error">mdi-alert-circle</v-icon>
-          </template>
-        </v-expansion-panel-header>
+        <v-expansion-panel-header>Client : {{ dataOrders.user.firstname }} | date de commande : {{ dataOrders.date | formatDate}}</v-expansion-panel-header>
         <v-expansion-panel-content>
           <v-container>
             <v-row>
