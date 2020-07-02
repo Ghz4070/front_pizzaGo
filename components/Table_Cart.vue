@@ -10,7 +10,7 @@
         <template v-if="pizza && Thead[0] === 'Pizza' ">
           <template v-for="(element, key) in pizza.pizzas">
             <tr :key="key">
-              <td :key="element.name">{{element.name}}</td>
+              <td @click="() => deletePizzaCart(key)" class="border-element-cart" :key="element.name">{{element.name}}</td>
               <td :key="element.size">{{element.size}}</td>
               <td :key="element.price">{{element.price}} €</td>
               <td style="cursor:pointer" @click="getId(key)">Modifier</td>
@@ -87,7 +87,7 @@
                       </v-expansion-panel-content>
                     </v-expansion-panel>
                     <v-expansion-panel>
-                      <v-expansion-panel-header>Ingrédiant supplémentaire</v-expansion-panel-header>
+                      <v-expansion-panel-header>L'ingrédient supplémentaire à 1€</v-expansion-panel-header>
                       <v-expansion-panel-content>
                         <div class="d-flex flex-row flex-wrap justify-space-around" id="sauce">
                           <v-select
@@ -238,6 +238,28 @@
 
                           <v-btn color="green darken-1" text @click="getAddIngrediant(key)">Valider</v-btn>
                         </v-card-actions>
+                         <v-snackbar v-model="addIngrediant_alert.snackbar">
+                          {{ addIngrediant_alert.text }}
+                          <template v-slot:action="{ attrs }">
+                            <v-btn
+                              color="pink"
+                              text
+                              v-bind="attrs"
+                              @click="addIngrediant.snackbar = false"
+                            >X</v-btn>
+                          </template>
+                        </v-snackbar>
+                        <v-snackbar v-model="deleteIngrediant_alert.snackbar">
+                          {{ deleteIngrediant_alert.text }}
+                          <template v-slot:action="{ attrs }">
+                            <v-btn
+                              color="pink"
+                              text
+                              v-bind="attrs"
+                              @click="deleteIngrediant.snackbar = false"
+                            >X</v-btn>
+                          </template>
+                        </v-snackbar>
                       </v-expansion-panel-content>
                     </v-expansion-panel>
                   </v-expansion-panels>
@@ -260,7 +282,7 @@
         <template v-if="drinks && Thead[0] === 'Boissons'">
           <template v-for="(element, key) in drinks.drinks">
             <tr :key="key">
-              <td :key="element.name">{{element.name}}</td>
+              <td @click="() => deleteDrinkCart(key)" class="border-element-cart" :key="element.name">{{element.name}}</td>
               <td :key="element.price">{{element.price}} €</td>
             </tr>
           </template>
@@ -268,7 +290,7 @@
         <template v-if="dessert && Thead[0] === 'Desserts'">
           <template v-for="(element, key) in dessert.desserts">
             <tr :key="key">
-              <td :key="element.name">{{element.name}}</td>
+              <td @click="() => deleteDessertCart(key)" class="border-element-cart" :key="element.name">{{element.name}}</td>
               <td :key="element.price">{{element.price}} €</td>
             </tr>
           </template>
@@ -325,6 +347,8 @@ export default {
       switchFromage: false,
       switchLegume: false,
       switchEpice: false,
+      addIngrediant_alert: {snackbar: false, text: "L'ingrédient a bien été ajouté"},
+      deleteIngrediant_alert: {snackbar: false, text: "L'ingrédient a bien été supprimé"}
     };
   },
   watch: {
@@ -404,6 +428,7 @@ export default {
             const totalIngrediantSauce= this.totalIngrediantAllPizza()
             this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantSauce);
             this.currentSelect.sauce= "";
+            this.addIngrediant_alert.snackbar = true;
             break;
           case "viande":
             if (this.currentSelect.viande === "") break;
@@ -411,6 +436,7 @@ export default {
             const totalIngrediantViande= this.totalIngrediantAllPizza()
             this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantViande);
             this.currentSelect.viande= "";
+            this.addIngrediant_alert.snackbar = true;
             break;
           case "legume":
             if (this.currentSelect.legume === "") break;
@@ -418,6 +444,7 @@ export default {
             const totalIngrediantLegume= this.totalIngrediantAllPizza()
             this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantLegume);
             this.currentSelect.legume= "";
+            this.addIngrediant_alert.snackbar = true;
             break;
           case "fromage":
             if (this.currentSelect.fromage === "") break;
@@ -425,6 +452,7 @@ export default {
             const totalIngrediantFromage= this.totalIngrediantAllPizza()
             this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantFromage);
             this.currentSelect.fromage= "";
+            this.addIngrediant_alert.snackbar = true;
             break;
           case "epice":
             if (this.currentSelect.epice === "") break;
@@ -432,10 +460,12 @@ export default {
             const totalIngrediantEpice= this.totalIngrediantAllPizza()
             this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantEpice);
             this.currentSelect.epice= "";
+            this.addIngrediant_alert.snackbar = true;
             break;
           default:
             console.log(e.path[1])
             break;
+          
         }
       } else {
         this.currentSelect[e.path[1].id] = "";
@@ -456,26 +486,31 @@ export default {
           this.ingrediantSelected.sauce.splice(key, 1);
           const totalIngrediantSauce= this.totalIngrediantAllPizza()
           this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantSauce);
+          this.deleteIngrediant_alert.snackbar = true;
           break;
         case "viande":
           this.ingrediantSelected.viande.splice(key, 1);
           const totalIngrediantViande= this.totalIngrediantAllPizza()
           this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantViande);
+          this.deleteIngrediant_alert.snackbar = true;
           break;
         case "legume":
           this.ingrediantSelected.legume.splice(key, 1);
           const totalIngrediantLegume= this.totalIngrediantAllPizza()
           this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantLegume);
+          this.deleteIngrediant_alert.snackbar = true;
           break;
         case "fromage":
           this.ingrediantSelected.fromage.splice(key, 1);
           const totalIngrediantFromage= this.totalIngrediantAllPizza()
           this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantFromage);
+          this.deleteIngrediant_alert.snackbar = true;
           break;
         case "epice":
           this.ingrediantSelected.epice.splice(key, 1);
           const totalIngrediantEpice= this.totalIngrediantAllPizza()
           this.$emit("ingrediantAdded", this.ingrediantSelected, totalIngrediantEpice);
+          this.deleteIngrediant_alert.snackbar = true;
           break;
 
         default:
@@ -672,48 +707,16 @@ export default {
           break;
       }
     },
-    switchChange(id) {
-      switch (id) {
-        case 'switchSauce':
-          this.switchSauce = true;
-          this.switchViande = false;
-          this.switchFromage = false;
-          this.switchEpice = false;
-          this.switchLegume = false; 
-          break;
-        case 'switchViande':
-          this.switchSauce = false;
-          this.switchViande = true;
-          this.switchFromage = false;
-          this.switchEpice = false;
-          this.switchLegume = false; 
-          break;
-        case 'switchLegume':
-          this.switchSauce = false;
-          this.switchViande = false;
-          this.switchFromage = false;
-          this.switchEpice = false;
-          this.switchLegume = true; 
-          break;
-        case 'switchEpice':
-          this.switchSauce = false;
-          this.switchViande = false;
-          this.switchFromage = false;
-          this.switchEpice = true;
-          this.switchLegume = false; 
-          break;
-        case 'switchFromage':
-          this.switchSauce = false;
-          this.switchViande = false;
-          this.switchFromage = true;
-          this.switchEpice = false;
-          this.switchLegume = false; 
-          break;
-      
-        default:
-          break;
-      }
-    }
+    deletePizzaCart(key) {
+      this.$emit('deletePizzaCart', key);
+    },
+    deleteDrinkCart(key) {
+      this.$emit('deleteDrinkCart', key);
+    },
+    deleteDessertCart(key) {
+      this.$emit('deleteDessertCart', key);
+    },
+
   },
   computed: {
     ingredients() {
@@ -743,5 +746,10 @@ export default {
 
 .deleteElement {
     color:red;
+}
+
+.border-element-cart:hover {
+  border: 1px solid black;
+  border-radius: 10px
 }
 </style>
