@@ -144,6 +144,7 @@ export default {
   },
   watch: {
     boolStorage() {
+     
       const local = localStorage.getItem("datas");
       let stringToJSON = JSON.parse(local);
       stringToJSON = {
@@ -151,7 +152,7 @@ export default {
         total: this.totalPrice,
         promo: this.promo
       };
-
+      
       let countTotal = 0;
 
       for (let element of stringToJSON.contents.pizzas) {
@@ -295,6 +296,7 @@ export default {
         `https://server-api-pizzago.herokuapp.com/api/v1/promo/name/${namePromo}`
       );
       const { result } = getPromo.data;
+      console.log(result)
       if (result === "No Promo found for this Name") return;
       this.promo = result.promoes[0].amount;
       this.cart.promo = this.promo;
@@ -312,7 +314,7 @@ export default {
       this.getIdUserCurrent();
     },
     totalIngrediant(e) {
-      this.totalPrice.ingrediant = Number(e);
+      this.totalPrice.ingrediant = parseInt(e, 10);
       this.totalPrice.total =
         this.totalPrice.pizza +
         this.totalPrice.drink +
@@ -320,7 +322,7 @@ export default {
         this.totalPrice.ingrediant;
     },
     totalPizza(e) {
-      this.totalPrice.pizza = Number(e);
+      this.totalPrice.pizza = parseInt(e, 10);
       this.totalPrice.total =
         this.totalPrice.pizza +
         this.totalPrice.drink +
@@ -328,7 +330,7 @@ export default {
         this.totalPrice.ingrediant;
     },
     totalDrink(e) {
-      this.totalPrice.drink = Number(e);
+      this.totalPrice.drink = parseInt(e, 10);
       this.totalPrice.total =
         this.totalPrice.pizza +
         this.totalPrice.drink +
@@ -336,7 +338,7 @@ export default {
         this.totalPrice.ingrediant;
     },
     totalDessert(e) {
-      this.totalPrice.dessert = Number(e);
+      this.totalPrice.dessert = parseInt(e, 10);
       this.totalPrice.total =
         this.totalPrice.pizza +
         this.totalPrice.drink +
