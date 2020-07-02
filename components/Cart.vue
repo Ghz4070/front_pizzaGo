@@ -39,21 +39,19 @@
       </div>
       <div class="hidden-mobile">
         <div class="d-flex flex-row flex-wrap justify-space-around max-width">
-          <p>Ingrédients ajoutés: {{cart.total.ingrediant}} €</p>
+          <p>Ingrédients ajoutés: {{ cart.total.ingrediant }} €</p>
         </div>
       </div>
       <div class="hidden-mobile">
         <div class="d-flex flex-row flex-wrap justify-space-around max-width">
           <p>Total :</p>
           <template v-if="promo">
-            <p>{{cart.total.total}} € -</p>
-            <p>{{promo}}%</p>
-            <p>{{(cart.total.total - ( cart.total.total * (promo/100) ))}} €</p>
-            
-            
+            <p>{{ cart.total.total }} € -</p>
+            <p>{{ promo }}%</p>
+            <p>{{ cart.total.total - cart.total.total * (promo / 100) }} €</p>
           </template>
           <template v-else>
-            <p>{{cart.total.total}} €</p>
+            <p>{{ cart.total.total }} €</p>
           </template>
         </div>
       </div>
@@ -65,12 +63,21 @@
             class="buy-button center"
             v-bind="attrs"
             v-on="on"
-          >Paiement - {{ promo ? (cart.total.total - ( cart.total.total * (promo/100) )) : cart.total.total }} €</a>
+            >Paiement -
+            {{
+              promo
+                ? cart.total.total - cart.total.total * (promo / 100)
+                : cart.total.total
+            }}
+            €</a
+          >
         </template>
         <v-card>
-          <v-card-title class="headline">Paiement de votre commande</v-card-title>
+          <v-card-title class="headline"
+            >Paiement de votre commande</v-card-title
+          >
           <v-card-text>
-            <div>
+            <div v-if="!checkPay">
               <h3>Paiement sécurisé</h3>
 
               <div id="card-element"></div>
@@ -78,15 +85,39 @@
                 <!-- A Stripe Element will be inserted here. -->
               </div>
             </div>
+            <!-- load spinner -->
+            <div v-if="checkPay" class="center">
+              <v-progress-circular
+                :size="50"
+                color="primary"
+                indeterminate
+              ></v-progress-circular>
+            </div>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="green darken-1" text @click="paiement = false">Annuler</v-btn>
-            <v-btn color="green darken-1" text>Payer {{amount / 100}} €</v-btn>
+            <v-btn color="green darken-1" text @click="paiement = false"
+              >Annuler</v-btn
+            >
+            <v-btn color="green darken-1" @click="saveOrder" text
+              >Payer {{ amount }} €</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-dialog>
     </div>
+    <v-snackbar v-model="pay_toast.snackbar">
+      {{ pay_toast.text }}
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="pink"
+          text
+          v-bind="attrs"
+          @click="pay_toast.snackbar = false"
+          >X</v-btn
+        >
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
@@ -103,12 +134,17 @@ export default {
   },
   data() {
     return {
+      checkPay: false,
+      pay_toast: { snackbar: false, text: "" },
       tablePizza: ["Pizza", "Taille", "Prix"],
       tableBoisson: ["Boissons", "Prix"],
       tableDessert: ["Desserts", "Prix"],
-      idPromo:'',
+      idPromo: "",
       promo: null,
-      cart: { content: {}, total : {pizza: 0, drink: 0, dessert: 0, ingrediant: 0, total: 0 }},
+      cart: {
+        content: {},
+        total: { pizza: 0, drink: 0, dessert: 0, ingrediant: 0, total: 0 }
+      },
       totalPrice: { pizza: 0, drink: 0, dessert: 0, ingrediant: 0, total: 0 },
       paiement: false,
       stripeAPIToken: "pk_test_QrgGFFIn2rjHnwgwvakXU0dn00FhK9IbmE",
@@ -116,30 +152,43 @@ export default {
       stripe: "",
       elements: "",
       card: "",
-      amount: 0,
+      amount: 0
     };
   },
   watch: {
     boolStorage() {
       const local = localStorage.getItem("datas");
       let stringToJSON = JSON.parse(local);
-      stringToJSON = {...stringToJSON, total: this.totalPrice, promo: this.promo}
+      stringToJSON = {
+        ...stringToJSON,
+        total: this.totalPrice,
+        promo: this.promo
+      };
 
-      let countTotal= 0;
+      let countTotal = 0;
 
-      for(let element of stringToJSON.contents.pizzas){
-        if(element.ingrediantAdded){
-          const { viande, sauce, legume, fromage, epice } = element.ingrediantAdded;
-          countTotal = countTotal + viande.length + sauce.length + legume.length + fromage.length + epice.length;
+      for (let element of stringToJSON.contents.pizzas) {
+        if (element.ingrediantAdded) {
+          const {
+            viande,
+            sauce,
+            legume,
+            fromage,
+            epice
+          } = element.ingrediantAdded;
+          countTotal =
+            countTotal +
+            viande.length +
+            sauce.length +
+            legume.length +
+            fromage.length +
+            epice.length;
         }
       }
       this.totalIngrediant(countTotal);
-      
-    
-    
+
       console.log(stringToJSON);
-      
-      
+
       localStorage.setItem("datas", JSON.stringify(stringToJSON));
       return (this.cart = stringToJSON);
     }
@@ -151,9 +200,8 @@ export default {
         "js.stripe.com/v3/",
         function() {
           this.configureStripe();
-            console.log('je paye')
+          console.log("je paye");
         }.bind(this)
-        
       );
     },
     configureStripe() {
@@ -161,58 +209,70 @@ export default {
       this.elements = this.stripe.elements();
       this.card = this.elements.create("card");
       this.card.mount("#card-element");
-      const checkPrice = this.promo ? (this.cart.total.total - ( this.cart.total.total * (this.promo/100))) : this.cart.total.total;
-      this.amount = checkPrice
+      const checkPrice = this.promo
+        ? this.cart.total.total - this.cart.total.total * (this.promo / 100)
+        : this.cart.total.total;
+      this.amount = checkPrice;
     },
     includeStripe(URL, callback) {
       let documentTag = document,
         tag = "script",
         object = documentTag.createElement(tag),
         scriptTag = documentTag.getElementsByTagName(tag)[0];
-        object.src = "//" + URL;
-        object.setAttribute("defer", "defer");
-        if (callback) {
-          object.addEventListener(
-            "load",
-            function(e) {
-              callback(null, e);
-              
-            },
-            false
-          );
-          //this.saveOrder()
-        }
-        scriptTag.parentNode.insertBefore(object, scriptTag);
-        this.saveOrder()
+      object.src = "//" + URL;
+      object.setAttribute("defer", "defer");
+      if (callback) {
+        object.addEventListener(
+          "load",
+          function(e) {
+            callback(null, e);
+          },
+          false
+        );
+      }
+      scriptTag.parentNode.insertBefore(object, scriptTag);
     },
 
     // END METHOD FOR STRIPE //
 
     async saveOrder() {
-      
+      this.checkPay = true;
       const idUser = await this.getIdUserCurrent();
-      const local = localStorage.getItem('datas');
-      const JSONtoLocalstorage = JSON.parse(local)
+      const local = localStorage.getItem("datas");
+      const JSONtoLocalstorage = JSON.parse(local);
       const params = {
-        price: this.promo ? (this.cart.total.total - ( this.cart.total.total * (this.promo/100))) : this.cart.total.total,
+        price: this.promo
+          ? this.cart.total.total - this.cart.total.total * (this.promo / 100)
+          : this.cart.total.total,
         status: 1,
         userId: idUser,
-        content: JSONtoLocalstorage,
-        promoId: JSONtoLocalstorage.idPromo,
+        content: JSONtoLocalstorage
       };
-      //console.log(params)
-      
+
       return axios
         .post(`http://localhost:4000/api/v1/order/add`, params)
         .then(res => {
           if (res.data.status == "success") {
-            console.log(params)
-            console.log(res);
+            setTimeout(() => {
+              this.checkPay = false;
+              this.pay_toast.text = "Paiement réaliser avec succées.";
+              this.pay_toast.snackbar = true;
+              this.paiement = false;
+            }, 2500);
           } else {
-            console.log("error");
+            setTimeout(() => {
+              this.checkPay = false;
+              this.pay_toast.text = "Erreur veuillez réessayer.";
+              this.pay_toast.snackbar = true;
+              console.log("error");
+            }, 2500);
           }
         })
         .catch(e => {
+          this.checkPay = false;
+          this.pay_toast.text =
+            "Service monentanément indisponnible, veuillez réessayer.";
+          this.pay_toast.snackbar = true;
           console.log("catch");
         });
     },
@@ -224,7 +284,7 @@ export default {
       await this.checkPromo(e.target[0].value);
     },
 
-    async getIdUserCurrent () {
+    async getIdUserCurrent() {
       const getToken = localStorage.getItem("x-access-token");
       const check = await axios.get(
         "http://localhost:4000/api/v1/user/checkuser",
@@ -244,10 +304,14 @@ export default {
       this.promo = result.promoes[0].amount;
       this.cart.promo = this.promo;
       this.idPromo = result.promoes[0].id;
-      if(this.cart.contents) {
+      if (this.cart.contents) {
         const local = localStorage.getItem("datas");
         let stringToJSON = JSON.parse(local);
-        stringToJSON = {...stringToJSON, promo: this.cart.promo, idPromo: this.idPromo}
+        stringToJSON = {
+          ...stringToJSON,
+          promo: this.cart.promo,
+          idPromo: this.idPromo
+        };
         localStorage.setItem("datas", JSON.stringify(stringToJSON));
       }
       this.getIdUserCurrent();
@@ -268,7 +332,7 @@ export default {
         this.totalPrice.drink +
         this.totalPrice.dessert +
         this.totalPrice.ingrediant;
-      console.log(e)
+      console.log(e);
     },
     totalDrink(e) {
       this.totalPrice.drink = e;
@@ -297,10 +361,9 @@ export default {
         total: this.totalPrice,
         idPromo: this.idPromo
       };
-      console.log(newJson)
+      console.log(newJson);
       const JSONtostring = JSON.stringify(newJson);
       localStorage.setItem("datas", JSONtostring);
-      
     },
     ingrediantRemove(ingrediantRemove, total) {
       const { id } = ingrediantRemove;
@@ -315,22 +378,20 @@ export default {
 
       const JSONtostring = JSON.stringify(newJson);
       localStorage.setItem("datas", JSONtostring);
-      
     },
-    deletePizza(key){
-      this.cart.contents.pizzas.splice(key,1);
+    deletePizza(key) {
+      this.cart.contents.pizzas.splice(key, 1);
       this.totalIngrediantAllPizza();
       this.getTotalPizza();
-      
-      this.updateLocalStorage();
 
+      this.updateLocalStorage();
     },
-    deleteDrink(key){
+    deleteDrink(key) {
       this.cart.contents.drinks.splice(key, 1);
       this.getTotalDrink();
       this.updateLocalStorage();
     },
-    deleteDessert(key){
+    deleteDessert(key) {
       this.cart.contents.desserts.splice(key, 1);
       this.getTotalDessert();
       this.updateLocalStorage();
@@ -341,10 +402,10 @@ export default {
         promo: this.promo,
         total: this.totalPrice,
         idPromo: this.idPromo
-      }
+      };
 
       const JSONtostring = JSON.stringify(newLocalStorage);
-      localStorage.setItem("datas",JSONtostring);
+      localStorage.setItem("datas", JSONtostring);
     },
     getTotalPizza() {
       let pizzaTotal = 0;
@@ -368,23 +429,47 @@ export default {
       this.totalDessert(dessertTotal);
     },
     totalIngrediantAllPizza() {
-      let countTotal= 0;
+      let countTotal = 0;
 
-      for(let element of this.cart.contents.pizzas){
-        if(element.ingrediantAdded){
-          const { viande, sauce, legume, fromage, epice } = element.ingrediantAdded;
-          countTotal = countTotal + viande.length + sauce.length + legume.length + fromage.length + epice.length;
+      for (let element of this.cart.contents.pizzas) {
+        if (element.ingrediantAdded) {
+          const {
+            viande,
+            sauce,
+            legume,
+            fromage,
+            epice
+          } = element.ingrediantAdded;
+          countTotal =
+            countTotal +
+            viande.length +
+            sauce.length +
+            legume.length +
+            fromage.length +
+            epice.length;
         }
       }
       this.totalIngrediant(countTotal);
     },
     totalIngrediantByPizza(contents) {
-      let countTotal= 0;
+      let countTotal = 0;
 
-      for(let element of contents.pizzas){
-        if(element.ingrediantAdded){
-          const { viande, sauce, legume, fromage, epice } = element.ingrediantAdded;
-          countTotal = countTotal + viande.length + sauce.length + legume.length + fromage.length + epice.length;
+      for (let element of contents.pizzas) {
+        if (element.ingrediantAdded) {
+          const {
+            viande,
+            sauce,
+            legume,
+            fromage,
+            epice
+          } = element.ingrediantAdded;
+          countTotal =
+            countTotal +
+            viande.length +
+            sauce.length +
+            legume.length +
+            fromage.length +
+            epice.length;
         }
       }
       this.totalIngrediant(countTotal);
