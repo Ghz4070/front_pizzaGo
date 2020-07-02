@@ -14,26 +14,13 @@
           <v-container>
             <v-row>
               <v-col cols="12" md="6">
-                <v-text-field
-                  v-model="params.name"
-                  clearable
-                  label="Nom de la boisson"
-                ></v-text-field>
+                <v-text-field v-model="params.name" clearable label="Nom de la boisson"></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
-                <v-text-field
-                  v-model="params.price"
-                  type="number"
-                  label="Prix"
-                  suffix="€"
-                ></v-text-field>
+                <v-text-field v-model="params.price" type="number" label="Prix" suffix="€"></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
-                <v-text-field
-                  v-model="params.oz"
-                  label="Volume"
-                  suffix="cL"
-                ></v-text-field>
+                <v-text-field v-model="params.oz" label="Volume" suffix="cL"></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
                 <v-tooltip bottom>
@@ -57,12 +44,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" class="ma-2" text @click="dialog = false"
-            >Annuler</v-btn
-          >
-          <v-btn color="blue darken-1" class="ma-2" text @click="addDrink"
-            >Sauvegarder</v-btn
-          >
+          <v-btn color="blue darken-1" class="ma-2" text @click="dialog = false">Annuler</v-btn>
+          <v-btn color="blue darken-1" class="ma-2" text @click="addDrink">Sauvegarder</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -84,7 +67,7 @@ export default {
       this.params.price = Number(this.params.price);
       this.params.oz = Number(this.params.oz);
       return this.$axios
-        .post(`http://localhost:4000/api/v1/admin/drink/add`, this.params, {
+        .post(`https://server-api-pizzago.herokuapp.com/api/v1/admin/drink/add`, this.params, {
           headers: {
             "x-access-token": localStorage.getItem("x-access-token")
           }

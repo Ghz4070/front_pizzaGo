@@ -14,26 +14,13 @@
           <v-container>
             <v-row>
               <v-col cols="12" md="6">
-                <v-text-field
-                  v-model="params.name"
-                  clearable
-                  label="Nom de la boisson"
-                ></v-text-field>
+                <v-text-field v-model="params.name" clearable label="Nom de la boisson"></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
-                <v-text-field
-                  label="Prix"
-                  type="number"
-                  v-model="params.price"
-                  suffix="€"
-                ></v-text-field>
+                <v-text-field label="Prix" type="number" v-model="params.price" suffix="€"></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
-                <v-text-field
-                  label="Volume"
-                  v-model="params.oz"
-                  suffix="cL"
-                ></v-text-field>
+                <v-text-field label="Volume" v-model="params.oz" suffix="cL"></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
                 <v-tooltip bottom>
@@ -57,16 +44,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-            color="orange darken-2"
-            class="ma-2"
-            text
-            @click="dialog = false"
-            >Annuler</v-btn
-          >
-          <v-btn color="orange darken-2" class="ma-2" text @click="saveDrink"
-            >Sauvegarder</v-btn
-          >
+          <v-btn color="orange darken-2" class="ma-2" text @click="dialog = false">Annuler</v-btn>
+          <v-btn color="orange darken-2" class="ma-2" text @click="saveDrink">Sauvegarder</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -97,7 +76,7 @@ export default {
       this.params.price = Number(this.params.price);
       this.params.oz = Number(this.params.oz);
       return this.$axios
-        .put(`http://localhost:4000/api/v1/admin/drink/update`, this.params, {
+        .put(`https://server-api-pizzago.herokuapp.com/api/v1/admin/drink/update`, this.params, {
           headers: {
             "x-access-token": localStorage.getItem("x-access-token")
           }

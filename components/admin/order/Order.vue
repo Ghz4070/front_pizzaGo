@@ -27,7 +27,7 @@ export default {
     async getOrder() {
       try {
         const response = await this.$axios.get(
-          "http://localhost:4000/api/v1/admin/order",
+          "https://server-api-pizzago.herokuapp.com/api/v1/admin/order",
           {
             headers: {
               "x-access-token": localStorage.getItem("x-access-token")
@@ -38,7 +38,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-    },
+    }
   }
 };
 </script>

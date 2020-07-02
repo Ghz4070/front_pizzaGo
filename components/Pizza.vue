@@ -12,11 +12,7 @@
       <v-divider style="margin:0 15px"></v-divider>
       <!-- load spinner -->
       <div v-if="pizzas.length == 0" class="center">
-        <v-progress-circular
-          :size="50"
-          color="primary"
-          indeterminate
-        ></v-progress-circular>
+        <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
       </div>
       <v-row>
         <v-col
@@ -41,41 +37,34 @@
               <span
                 v-for="compo in pizza.composition.sauces.items"
                 :key="compo.label"
-                >{{ compo + " " }}</span
-              >
-              <br />
-              Fromages :<span
+              >{{ compo + " " }}</span>
+              <br />Fromages :
+              <span
                 v-for="compo in pizza.composition.fromages.items"
                 :key="compo.label"
-              >
-                {{ compo + " " }}</span
-              >
-              <br />
-              Viandes :<span
+              >{{ compo + " " }}</span>
+              <br />Viandes :
+              <span
                 v-for="compo in pizza.composition.viandes.items"
                 :key="compo.label"
-              >
-                {{ compo + " " }}</span
-              >
-              <br />
-              Legumes :<span
+              >{{ compo + " " }}</span>
+              <br />Legumes :
+              <span
                 v-for="compo in pizza.composition.legumes.items"
                 :key="compo.label"
-              >
-                {{ compo + " " }}</span
-              >
-              <br />
-              Epices :<span
+              >{{ compo + " " }}</span>
+              <br />Epices :
+              <span
                 v-for="compo in pizza.composition.epices.items"
                 :key="compo.label"
-              >
-                {{ compo + " " }}</span
-              >
+              >{{ compo + " " }}</span>
             </v-tooltip>
 
-            <v-card-subtitle class="pb-0 pizza_name pacifico-font">{{
+            <v-card-subtitle class="pb-0 pizza_name pacifico-font">
+              {{
               pizza.name
-            }}</v-card-subtitle>
+              }}
+            </v-card-subtitle>
 
             <v-card-text class="text--primary center">
               <v-select
@@ -105,12 +94,7 @@
                   ></v-text-field>
                 </v-col>
                 <v-col v-if="hackReload" cols="12" sm="6" md="6">
-                  <v-text-field
-                    disabled
-                    label
-                    :value="pizza.price * pizza.quantity + ' €'"
-                    solo
-                  ></v-text-field>
+                  <v-text-field disabled label :value="pizza.price * pizza.quantity + ' €'" solo></v-text-field>
                 </v-col>
               </v-row>
             </v-card-text>
@@ -123,8 +107,7 @@
                 class="ma-2"
                 outlined
                 color="indigo"
-                >Ajouter</v-btn
-              >
+              >Ajouter</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -133,13 +116,7 @@
     <v-snackbar v-model="pizza_toast.snackbar">
       {{ pizza_toast.text }}
       <template v-slot:action="{ attrs }">
-        <v-btn
-          color="pink"
-          text
-          v-bind="attrs"
-          @click="pizza_toast.snackbar = false"
-          >X</v-btn
-        >
+        <v-btn color="pink" text v-bind="attrs" @click="pizza_toast.snackbar = false">X</v-btn>
       </template>
     </v-snackbar>
   </v-row>
@@ -176,7 +153,7 @@ export default {
   methods: {
     getPizzas() {
       return axios
-        .get(`http://localhost:4000/api/v1/pizza`)
+        .get(`https://server-api-pizzago.herokuapp.com/api/v1/pizza`)
         .then(res => {
           this.pizzas = res.data.result;
         })
@@ -215,7 +192,7 @@ export default {
     },
     getCategories() {
       return axios
-        .get(`http://localhost:4000/api/v1/category`)
+        .get(`https://server-api-pizzago.herokuapp.com/api/v1/category`)
         .then(res => {
           this.categories = res.data.result;
         })

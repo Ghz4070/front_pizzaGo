@@ -12,13 +12,7 @@
             <div class="text-center">
               <v-menu offset-y>
                 <template v-slot:activator="{ on, attrs }">
-                  <img
-                    src="~/static/user.svg"
-                    height="30"
-                    width="30"
-                    v-bind="attrs"
-                    v-on="on"
-                  />
+                  <img src="~/static/user.svg" height="30" width="30" v-bind="attrs" v-on="on" />
                 </template>
                 <v-list>
                   <v-list-item @click.stop="profil">
@@ -61,13 +55,7 @@
                 transition="dialog-bottom-transition"
               >
                 <template v-slot:activator="{ on, attrs }">
-                  <img
-                    v-bind="attrs"
-                    v-on="on"
-                    src="~/static/menu.png"
-                    height="25"
-                    width="25"
-                  />
+                  <img v-bind="attrs" v-on="on" src="~/static/menu.png" height="25" width="25" />
                 </template>
                 <v-card>
                   <v-btn class="close-btn" icon dark @click="dialog = false">
@@ -79,9 +67,7 @@
                         <nuxt-link to="/">Accueil</nuxt-link>
                         <nuxt-link v-if="admin" to="/admin">Admin</nuxt-link>
                         <nuxt-link to="/order">Commander</nuxt-link>
-                        <a @click.stop="profil">
-                          Profile
-                        </a>
+                        <a @click.stop="profil">Profile</a>
                         <v-dialog v-model="display" max-width="600">
                           <User />
                         </v-dialog>
@@ -100,11 +86,7 @@
                     </template>
                   </v-list>
                   <div class="center">
-                    <img
-                      src="~/static/PizzaGo_final.png"
-                      height="150"
-                      width="150"
-                    />
+                    <img src="~/static/PizzaGo_final.png" height="150" width="150" />
                   </div>
                 </v-card>
               </v-dialog>
@@ -120,7 +102,7 @@
 import { EventBus } from "../bus.js";
 import KJUR from "jsrsasign";
 import axios from "axios";
-import User from "~/components/user/User.vue";
+import User from "@/components/users/User.vue";
 
 export default {
   components: {
@@ -179,7 +161,7 @@ export default {
       this.display = true;
       const getToken = localStorage.getItem("x-access-token");
       const getUser = await axios.get(
-        "http://localhost:4000/api/v1/admin/user/currentUser",
+        "https://server-api-pizzago.herokuapp.com/api/v1/admin/user/currentUser",
         { headers: { "x-access-token": getToken } }
       );
       const getUserObject = getUser.data.result.users[0];
@@ -191,7 +173,7 @@ export default {
     async checkAdmin() {
       const getToken = localStorage.getItem("x-access-token");
       const check = await axios.get(
-        "http://localhost:4000/api/v1/user/checkuser",
+        "https://server-api-pizzago.herokuapp.com/api/v1/user/checkuser",
         { headers: { "x-access-token": getToken } }
       );
       check.data.role.forEach(el => {

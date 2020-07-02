@@ -13,7 +13,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="order in orders" :key="orders.id">
+          <tr v-for="(order) in orders" :key="order.id">
             <td>{{ order.date | formatDate }}</td>
             <td>{{ order.price }} €</td>
             <td>{{ getLabelStatus(order.status) }}</td>
@@ -21,23 +21,22 @@
             <td>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
-                  <img
-                    src="~/static/eye.png"
-                    height="25"
-                    width="25"
-                    v-bind="attrs"
-                    v-on="on"
-                  />
+                  <img src="~/static/eye.png" height="25" width="25" v-bind="attrs" v-on="on" />
                 </template>
-                <span v-for="pizza in order.content.contents.pizzas">
-                  {{ pizza.name }} - </span
-                ><br />
-                <span v-for="drink in order.content.contents.drinks">
-                  {{ drink.name }} - </span
-                ><br />
-                <span v-for="dessert in order.content.contents.desserts">
-                  {{ dessert.name }} -
-                </span>
+                <span
+                  v-for="pizza in order.content.contents.pizzas"
+                  :key="pizza.id"
+                >{{ pizza.name }} -</span>
+                <br />
+                <span
+                  v-for="drink in order.content.contents.drinks"
+                  :key="drink.id"
+                >{{ drink.name }} -</span>
+                <br />
+                <span
+                  v-for="dessert in order.content.contents.desserts"
+                  :key="dessert.id"
+                >{{ dessert.name }} -</span>
               </v-tooltip>
             </td>
           </tr>
@@ -75,7 +74,7 @@ export default {
     },
     getOrders() {
       return axios
-        .get("http://localhost:4000/api/v1/order/user/" + this.userId)
+        .get("https://server-api-pizzago.herokuapp.com/api/v1/order/user/" + this.userId)
         .then(res => {
           this.orders = res.data.result.orders;
         })
@@ -86,7 +85,7 @@ export default {
     getUserId() {
       const getToken = localStorage.getItem("x-access-token");
       return axios
-        .get("http://localhost:4000/api/v1/user/checkuser", {
+        .get("https://server-api-pizzago.herokuapp.com/api/v1/user/checkuser", {
           headers: { "x-access-token": getToken }
         })
         .then(res => {

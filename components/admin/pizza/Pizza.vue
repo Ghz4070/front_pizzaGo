@@ -93,7 +93,7 @@ export default {
   methods: {
     getPizzas() {
       return axios
-        .get("http://localhost:4000/api/v1/pizza")
+        .get("https://server-api-pizzago.herokuapp.com/api/v1/pizza")
         .then(res => {
           this.pizzas = res.data.result;
         })
@@ -103,7 +103,7 @@ export default {
     },
     deletePizza(id) {
       this.$axios
-        .delete(`http://localhost:4000/api/v1/admin/pizza/delete/${id}`, {
+        .delete(`https://server-api-pizzago.herokuapp.com/api/v1/admin/pizza/delete/${id}`, {
           headers: {
             "x-access-token": localStorage.getItem("x-access-token")
           }

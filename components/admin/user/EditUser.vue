@@ -10,9 +10,11 @@
       ></v-skeleton-loader>
       <v-expansion-panels v-else popout inset multiple focusable hover>
         <v-expansion-panel>
-          <v-expansion-panel-header>{{
+          <v-expansion-panel-header>
+            {{
             params.firstname
-          }}</v-expansion-panel-header>
+            }}
+          </v-expansion-panel-header>
           <v-expansion-panel-content>
             <v-container>
               <v-row>
@@ -87,20 +89,8 @@
               </v-row>
             </v-container>
             <v-row align="end" justify="end">
-              <v-btn
-                outlined
-                color="green"
-                class="ma-1"
-                @click="updateUser(user.id)"
-                >Sauvegarder</v-btn
-              >
-              <v-btn
-                outlined
-                color="red"
-                class="ma-1"
-                @click="deleteUser(user.id)"
-                >Supprimer</v-btn
-              >
+              <v-btn outlined color="green" class="ma-1" @click="updateUser(user.id)">Sauvegarder</v-btn>
+              <v-btn outlined color="red" class="ma-1" @click="deleteUser(user.id)">Supprimer</v-btn>
             </v-row>
           </v-expansion-panel-content>
         </v-expansion-panel>
@@ -160,7 +150,7 @@ export default {
     async deleteUser(id) {
       try {
         const response = await this.$axios.delete(
-          `http://localhost:4000/api/v1/admin/user/delete/${id}`,
+          `https://server-api-pizzago.herokuapp.com/api/v1/admin/user/delete/${id}`,
           {
             headers: {
               "x-access-token": localStorage.getItem("x-access-token")
@@ -174,7 +164,7 @@ export default {
     async updateUser(id) {
       try {
         const response = await this.$axios.put(
-          `http://localhost:4000/api/v1/admin/user/update/${id}`,
+          `https://server-api-pizzago.herokuapp.com/api/v1/admin/user/update/${id}`,
           this.params,
           {
             headers: {
