@@ -10,7 +10,7 @@
         <template v-if="pizza && Thead[0] === 'Pizza' ">
           <template v-for="(element, key) in pizza.pizzas">
             <tr :key="key">
-              <td :key="element.name">{{element.name}}</td>
+              <td @click="() => deletePizzaCart(key)" class="border-element-cart" :key="element.name">{{element.name}}</td>
               <td :key="element.size">{{element.size}}</td>
               <td :key="element.price">{{element.price}} €</td>
               <td style="cursor:pointer" @click="getId(key)">Modifier</td>
@@ -282,7 +282,7 @@
         <template v-if="drinks && Thead[0] === 'Boissons'">
           <template v-for="(element, key) in drinks.drinks">
             <tr :key="key">
-              <td :key="element.name">{{element.name}}</td>
+              <td @click="() => deleteDrinkCart(key)" class="border-element-cart" :key="element.name">{{element.name}}</td>
               <td :key="element.price">{{element.price}} €</td>
             </tr>
           </template>
@@ -290,7 +290,7 @@
         <template v-if="dessert && Thead[0] === 'Desserts'">
           <template v-for="(element, key) in dessert.desserts">
             <tr :key="key">
-              <td :key="element.name">{{element.name}}</td>
+              <td @click="() => deleteDessertCart(key)" class="border-element-cart" :key="element.name">{{element.name}}</td>
               <td :key="element.price">{{element.price}} €</td>
             </tr>
           </template>
@@ -706,7 +706,16 @@ export default {
         default:
           break;
       }
-    }
+    },
+    deletePizzaCart(key) {
+      this.$emit('deletePizzaCart', key);
+    },
+    deleteDrinkCart(key) {
+      this.$emit('deleteDrinkCart', key);
+    },
+    deleteDessertCart(key) {
+      this.$emit('deleteDessertCart', key);
+    },
 
   },
   computed: {
@@ -737,5 +746,10 @@ export default {
 
 .deleteElement {
     color:red;
+}
+
+.border-element-cart:hover {
+  border: 1px solid black;
+  border-radius: 10px
 }
 </style>

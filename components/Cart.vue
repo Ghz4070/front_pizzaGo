@@ -17,18 +17,21 @@
           @totalIngrediant="totalIngrediant"
           @ingrediantAdded="ingrediantAdded"
           @ingrediantRemove="ingrediantRemove"
+          @deletePizzaCart="deletePizza"
           :Thead="tablePizza"
           :pizza="cart.contents"
           class="d-flex flex-row flex-wrap justify-space-around max-width"
         />
         <TableCart
           @totalDrink="totalDrink"
+          @deleteDrinkCart="deleteDrink"
           :Thead="tableBoisson"
           :drinks="cart.contents"
           class="d-flex flex-row flex-wrap justify-space-around max-width"
         />
         <TableCart
           @totalDessert="totalDessert"
+          @deleteDessertCart="deleteDessert"
           :Thead="tableDessert"
           :dessert="cart.contents"
           class="d-flex flex-row flex-wrap justify-space-around max-width"
@@ -44,12 +47,12 @@
           <p>Total :</p>
           <template v-if="promo">
             <p>{{promo}}%</p>
-            <p>{{(cart.total.total - ( cart.total.total * (promo/100) ) + cart.total.ingrediant)}} €</p>
+            <p>{{(cart.total.total - ( cart.total.total * (promo/100) ))}} €</p>
             
-            <p>{{cart.total.total + cart.total.ingrediant}} €</p>
+            <p>{{cart.total.total}} €</p>
           </template>
           <template v-else>
-            <p>{{cart.total.total + cart.total.ingrediant}} €</p>
+            <p>{{cart.total.total}} €</p>
           </template>
         </div>
       </div>
@@ -61,7 +64,7 @@
             class="buy-button center"
             v-bind="attrs"
             v-on="on"
-          >Paiement - {{ promo ? (cart.total.total - ( cart.total.total * (promo/100) ) + cart.total.ingrediant) : cart.total.total + cart.total.ingrediant}} €</a>
+          >Paiement - {{ promo ? (cart.total.total - ( cart.total.total * (promo/100) )) : cart.total.total }} €</a>
         </template>
         <v-card>
           <v-card-title class="headline">Paiement de votre commande</v-card-title>
@@ -119,6 +122,22 @@ export default {
       const local = localStorage.getItem("datas");
       let stringToJSON = JSON.parse(local);
       stringToJSON = {...stringToJSON, total: this.totalPrice, promo: this.promo}
+
+      let countTotal= 0;
+
+      for(let element of stringToJSON.contents.pizzas){
+        if(element.ingrediantAdded){
+          const { viande, sauce, legume, fromage, epice } = element.ingrediantAdded;
+          countTotal = countTotal + viande.length + sauce.length + legume.length + fromage.length + epice.length;
+        }
+      }
+      this.totalIngrediant(countTotal);
+      
+    
+    
+      console.log(stringToJSON);
+      
+      
       localStorage.setItem("datas", JSON.stringify(stringToJSON));
       return (this.cart = stringToJSON);
     }
@@ -223,6 +242,7 @@ export default {
         this.totalPrice.drink +
         this.totalPrice.dessert +
         this.totalPrice.ingrediant;
+      console.log(e)
     },
     totalDrink(e) {
       this.totalPrice.drink = e;
@@ -268,6 +288,77 @@ export default {
       const JSONtostring = JSON.stringify(newJson);
       localStorage.setItem("datas", JSONtostring);
       
+    },
+    deletePizza(key){
+      this.cart.contents.pizzas.splice(key,1);
+      this.totalIngrediantAllPizza();
+      this.getTotalPizza();
+      
+      this.updateLocalStorage();
+
+    },
+    deleteDrink(key){
+      this.cart.contents.drinks.splice(key, 1);
+      this.getTotalDrink();
+      this.updateLocalStorage();
+    },
+    deleteDessert(key){
+      this.cart.contents.desserts.splice(key, 1);
+      this.getTotalDessert();
+      this.updateLocalStorage();
+    },
+    updateLocalStorage() {
+      const newLocalStorage = {
+        contents: this.cart.contents,
+        promo: this.promo,
+        total: this.totalPrice
+      }
+
+      const JSONtostring = JSON.stringify(newLocalStorage);
+      localStorage.setItem("datas",JSONtostring);
+    },
+    getTotalPizza() {
+      let pizzaTotal = 0;
+      for (let element of this.cart.contents.pizzas) {
+        pizzaTotal = pizzaTotal + element.price;
+      }
+      this.totalPizza(pizzaTotal);
+    },
+    getTotalDrink() {
+      let drinkTotal = 0;
+      for (let element of this.cart.contents.drinks) {
+        drinkTotal = drinkTotal + element.price;
+      }
+      this.totalDrink(drinkTotal);
+    },
+    getTotalDessert() {
+      let dessertTotal = 0;
+      for (let element of this.cart.contents.desserts) {
+        dessertTotal = dessertTotal + element.price;
+      }
+      this.totalDessert(dessertTotal);
+    },
+    totalIngrediantAllPizza() {
+      let countTotal= 0;
+
+      for(let element of this.cart.contents.pizzas){
+        if(element.ingrediantAdded){
+          const { viande, sauce, legume, fromage, epice } = element.ingrediantAdded;
+          countTotal = countTotal + viande.length + sauce.length + legume.length + fromage.length + epice.length;
+        }
+      }
+      this.totalIngrediant(countTotal);
+    },
+    totalIngrediantByPizza(contents) {
+      let countTotal= 0;
+
+      for(let element of contents.pizzas){
+        if(element.ingrediantAdded){
+          const { viande, sauce, legume, fromage, epice } = element.ingrediantAdded;
+          countTotal = countTotal + viande.length + sauce.length + legume.length + fromage.length + epice.length;
+        }
+      }
+      this.totalIngrediant(countTotal);
     }
   }
 };
