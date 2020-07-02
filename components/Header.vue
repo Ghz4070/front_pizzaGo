@@ -120,7 +120,7 @@
 import { EventBus } from "../bus.js";
 import KJUR from "jsrsasign";
 import axios from "axios";
-import User from "~/components/user/User.vue";
+import User from "@/components/user/User.vue";
 
 export default {
   components: {
