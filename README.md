@@ -6,7 +6,7 @@
     <img src="./static/nuxtjs_logo.png" alt="PizzaGo" height="200">
   </a>
   <br>
-  PizzaGo - API with Prisma
+  PizzaGo - Interface client
   <br>
 </h1>
 
