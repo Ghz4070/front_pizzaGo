@@ -206,6 +206,7 @@ export default {
       for (let i = 0; i < pizza.quantity; i++) {
         cart.contents.pizzas = [...cart.contents.pizzas, pizza];
       }
+      console.log(this.add.price)
       localStorage.setItem("datas", JSON.stringify(cart));
       this.$emit("changeLocalStorage");
       //this.setTotalPrice(cart);
