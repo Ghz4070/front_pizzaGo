@@ -11,7 +11,7 @@
           :key="key"
           required
         />
-        <button>Modifier</button>
+        <button class="edit_btn">Modifier</button>
       </v-form>
     </template>
     <v-snackbar v-model="fieldValide_toast.snackbar">
@@ -123,4 +123,11 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.edit_btn {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 10px;
+}
+</style>
