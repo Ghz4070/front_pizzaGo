@@ -106,6 +106,7 @@ export default {
       tablePizza: ["Pizza", "Taille", "Prix"],
       tableBoisson: ["Boissons", "Prix"],
       tableDessert: ["Desserts", "Prix"],
+      idPromo:'',
       promo: null,
       cart: { content: {}, total : {pizza: 0, drink: 0, dessert: 0, ingrediant: 0, total: 0 }},
       totalPrice: { pizza: 0, drink: 0, dessert: 0, ingrediant: 0, total: 0 },
@@ -115,7 +116,7 @@ export default {
       stripe: "",
       elements: "",
       card: "",
-      amount: 250
+      amount: 0,
     };
   },
   watch: {
@@ -150,6 +151,7 @@ export default {
         "js.stripe.com/v3/",
         function() {
           this.configureStripe();
+          
         }.bind(this)
       );
     },
@@ -158,24 +160,26 @@ export default {
       this.elements = this.stripe.elements();
       this.card = this.elements.create("card");
       this.card.mount("#card-element");
+      this.amount = this.cart.total.total
     },
     includeStripe(URL, callback) {
       let documentTag = document,
         tag = "script",
         object = documentTag.createElement(tag),
         scriptTag = documentTag.getElementsByTagName(tag)[0];
-      object.src = "//" + URL;
-      object.setAttribute("defer", "defer");
-      if (callback) {
-        object.addEventListener(
-          "load",
-          function(e) {
-            callback(null, e);
-          },
-          false
-        );
-      }
-      scriptTag.parentNode.insertBefore(object, scriptTag);
+        object.src = "//" + URL;
+        object.setAttribute("defer", "defer");
+        if (callback) {
+          object.addEventListener(
+            "load",
+            function(e) {
+              callback(null, e);
+            },
+            false
+          );
+          this.saveOrder()
+        }
+        scriptTag.parentNode.insertBefore(object, scriptTag);
     },
 
     // END METHOD FOR STRIPE //
@@ -189,6 +193,7 @@ export default {
         promo: null,
         charge: charge
       };
+      
       return axios
         .post(`http://localhost:4000/api/v1/order/add`, params)
         .then(res => {
@@ -217,13 +222,14 @@ export default {
       const { result } = getPromo.data;
       if (result === "No Promo found for this Name")
         return console.log("pas de promo");
+      console.log(result.promoes[0]);
       this.promo = result.promoes[0].amount;
       this.cart.promo = this.promo;
-      
+      this.idPromo = result.promoes[0].id;
       if(this.cart.contents) {
         const local = localStorage.getItem("datas");
         let stringToJSON = JSON.parse(local);
-        stringToJSON = {...stringToJSON, promo: this.cart.promo}
+        stringToJSON = {...stringToJSON, promo: this.cart.promo, idPromo: this.idPromo}
         localStorage.setItem("datas", JSON.stringify(stringToJSON));
       }
     },
@@ -270,6 +276,7 @@ export default {
         contents: this.cart.contents,
         promo: this.promo,
         total: this.totalPrice,
+        idPromo: this.idPromo
       };
       console.log(newJson)
       const JSONtostring = JSON.stringify(newJson);
@@ -284,6 +291,7 @@ export default {
         contents: this.cart.contents,
         promo: this.promo,
         total: this.totalPrice,
+        idPromo: this.idPromo
       };
 
       const JSONtostring = JSON.stringify(newJson);
@@ -312,7 +320,8 @@ export default {
       const newLocalStorage = {
         contents: this.cart.contents,
         promo: this.promo,
-        total: this.totalPrice
+        total: this.totalPrice,
+        idPromo: this.idPromo
       }
 
       const JSONtostring = JSON.stringify(newLocalStorage);
