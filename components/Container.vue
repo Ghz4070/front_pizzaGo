@@ -245,6 +245,7 @@ export default {
 @media all and (max-width: 980px) {
   .banner {
     padding-top: 0;
+    height: 235px;
   }
 }
 .button {

@@ -3,13 +3,13 @@
     <v-col cols="12" sm="12" md="9">
       <v-card class="mx-auto container-card" outlined>
         <v-row justify="space-between">
-          <v-col md="6">
+          <v-col md="6" sm="6">
             <p class="localisation-info">
               Les Menus de votre<br />
               <b>PizzGo {{ localisation }}</b>
             </p>
           </v-col>
-          <v-col md="6">
+          <v-col md="6" sm="6">
             <a v-on:click="getPosition()" class="localisation-info right"
               ><img width="20px" src="~/static/position.png" />Changer de
               PizzaGo ?</a
@@ -134,5 +134,22 @@ export default {
   float: right;
   width: 50%;
   color: #895c5c;
+}
+
+@media only screen and (max-device-width: 640px) {
+  .localisation-info.right {
+    display: block;
+    float: right;
+    width: 75%;
+    color: #895c5c;
+  }
+  .localisation-info {
+    font-family: cursive;
+    font-size: 14px;
+    margin-left: 10px;
+  }
+  .resume {
+    font-size: 16px;
+  }
 }
 </style>
