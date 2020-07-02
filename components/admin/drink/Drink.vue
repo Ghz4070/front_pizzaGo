@@ -37,10 +37,10 @@
                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                 height="200px"
               >
-                <v-card-title
-                  >{{ drink.name }} {{ drink.oz | volumeSign }} -
-                  {{ drink.price | euroSign }}</v-card-title
-                >
+                <v-card-title>
+                  {{ drink.name }} {{ drink.oz | volumeSign }} -
+                  {{ drink.price | euroSign }}
+                </v-card-title>
               </v-img>
               <v-card-actions>
                 <v-spacer></v-spacer>

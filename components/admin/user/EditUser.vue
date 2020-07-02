@@ -10,9 +10,11 @@
       ></v-skeleton-loader>
       <v-expansion-panels v-else popout inset multiple focusable hover>
         <v-expansion-panel>
-          <v-expansion-panel-header>{{
+          <v-expansion-panel-header>
+            {{
             params.firstname
-          }}</v-expansion-panel-header>
+            }}
+          </v-expansion-panel-header>
           <v-expansion-panel-content>
             <v-container>
               <v-row>
@@ -87,20 +89,8 @@
               </v-row>
             </v-container>
             <v-row align="end" justify="end">
-              <v-btn
-                outlined
-                color="green"
-                class="ma-1"
-                @click="updateUser(user.id)"
-                >Sauvegarder</v-btn
-              >
-              <v-btn
-                outlined
-                color="red"
-                class="ma-1"
-                @click="deleteUser(user.id)"
-                >Supprimer</v-btn
-              >
+              <v-btn outlined color="green" class="ma-1" @click="updateUser(user.id)">Sauvegarder</v-btn>
+              <v-btn outlined color="red" class="ma-1" @click="deleteUser(user.id)">Supprimer</v-btn>
             </v-row>
           </v-expansion-panel-content>
         </v-expansion-panel>

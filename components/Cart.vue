@@ -58,25 +58,19 @@
 
       <v-dialog v-if="userLogged" v-model="paiement" persistent max-width="550">
         <template v-slot:activator="{ on, attrs }">
-          <a
-            @click="loadStripe"
-            class="buy-button center"
-            v-bind="attrs"
-            v-on="on"
-            >Paiement -
+          <a @click="loadStripe" class="buy-button center" v-bind="attrs" v-on="on">
+            Paiement -
             {{
-              promo
-                ? cart.total.total - cart.total.total * (promo / 100)
-                : cart.total.total
+            promo
+            ? cart.total.total - cart.total.total * (promo / 100)
+            : cart.total.total
             }}
-            €</a
-          >
+            €
+          </a>
         </template>
 
         <v-card>
-          <v-card-title class="headline"
-            >Paiement de votre commande</v-card-title
-          >
+          <v-card-title class="headline">Paiement de votre commande</v-card-title>
           <v-card-text>
             <div class="pay-logo">
               <img src="http://i76.imgup.net/accepted_c22e0.png" />
@@ -92,21 +86,13 @@
             </div>
             <!-- load spinner -->
             <div v-if="checkPay" class="center">
-              <v-progress-circular
-                :size="50"
-                color="primary"
-                indeterminate
-              ></v-progress-circular>
+              <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
             </div>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="green darken-1" text @click="paiement = false"
-              >Annuler</v-btn
-            >
-            <v-btn color="green darken-1" @click="saveOrder" text
-              >Payer {{ amount }} €</v-btn
-            >
+            <v-btn color="green darken-1" text @click="paiement = false">Annuler</v-btn>
+            <v-btn color="green darken-1" @click="saveOrder" text>Payer {{ amount }} €</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -115,13 +101,7 @@
     <v-snackbar v-model="pay_toast.snackbar">
       {{ pay_toast.text }}
       <template v-slot:action="{ attrs }">
-        <v-btn
-          color="pink"
-          text
-          v-bind="attrs"
-          @click="pay_toast.snackbar = false"
-          >X</v-btn
-        >
+        <v-btn color="pink" text v-bind="attrs" @click="pay_toast.snackbar = false">X</v-btn>
       </template>
     </v-snackbar>
   </div>

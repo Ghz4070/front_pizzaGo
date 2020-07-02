@@ -21,7 +21,7 @@
                 <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
               </div>
               <v-btn
-              v-if="!check"
+                v-if="!check"
                 :disabled="!valid || check"
                 color="success"
                 class="center"
@@ -43,7 +43,7 @@
 
 <script>
 import axios from "axios";
-import { EventBus } from '../../bus.js';
+import { EventBus } from "../../bus.js";
 
 export default {
   data: function() {
@@ -55,37 +55,38 @@ export default {
       emailRules: [
         v => !!v || "Adresse mail requis.",
         v => /.+@.+/.test(v) || "Format invalide"
-      ],
+      ]
     };
   },
   async mounted() {},
   methods: {
     resetMdp() {
       this.check = true;
-      let params = { email : this.email }
+      let params = { email: this.email };
       return axios
         .post(`http://localhost:4000/api/v1/user/forgetPassword`, params)
         .then(res => {
-          if(res.data.status == "success") {
-            this.login_toast.text = 'Un mail viens de vous être envoyer avec les instructions.'
+          if (res.data.status == "success") {
+            this.login_toast.text =
+              "Un mail viens de vous être envoyer avec les instructions.";
             this.login_toast.snackbar = true;
             this.check = false;
             setTimeout(() => {
-              this.$router.push({ name: 'index' });
+              this.$router.push({ name: "index" });
             }, 1500);
           } else {
             this.check = false;
-            this.login_toast.text = 'Aucun mail correspondant.'
+            this.login_toast.text = "Aucun mail correspondant.";
             this.login_toast.snackbar = true;
           }
-
         })
         .catch(e => {
           console.log("catch");
-          this.login_toast.text = 'Une erreur est survenue. Veuillez réessayer ultèrieurement.'
+          this.login_toast.text =
+            "Une erreur est survenue. Veuillez réessayer ultèrieurement.";
           this.login_toast.snackbar = true;
         });
-    },
+    }
   }
 };
 </script>

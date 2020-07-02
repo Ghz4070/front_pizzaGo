@@ -4,13 +4,9 @@
       <div class="banner__overlay">
         <div class="banner__container">
           <h1 class="banner__hero">PizzaGo</h1>
-          <p class="banner__text">
-            Obtenez la pizza la plus délicieuse de tous les temps !
-          </p>
+          <p class="banner__text">Obtenez la pizza la plus délicieuse de tous les temps !</p>
           <div>
-            <nuxt-link to="/order" class="button button--primary"
-              >Commander maintenant 🍕</nuxt-link
-            >
+            <nuxt-link to="/order" class="button button--primary">Commander maintenant 🍕</nuxt-link>
           </div>
         </div>
       </div>
@@ -20,7 +16,8 @@
     <main>
       <section class="welcome">
         <h2 class="cursive-font center top_title">
-          Bienvenue <br />chez PizzaGo
+          Bienvenue
+          <br />chez PizzaGo
         </h2>
         <img class="home_img" src="~/static/pizzago_home.png" />
         <p class="home_resume">
@@ -39,10 +36,10 @@
         <v-row>
           <v-col cols="12" sm="12" md="4">
             <v-card class="mx-auto" max-width="400" min-height="400">
-              <v-img class="white--text align-end" :src="firstImg"> </v-img>
-              <v-card-subtitle class="pb-0 center home_title"
-                >La pizza au four à bois est le meilleur</v-card-subtitle
-              >
+              <v-img class="white--text align-end" :src="firstImg"></v-img>
+              <v-card-subtitle
+                class="pb-0 center home_title"
+              >La pizza au four à bois est le meilleur</v-card-subtitle>
               <v-card-text class="text--primary">
                 <div>
                   La qualité étant au centre de nos préoccupations, chez PizzaGo
@@ -55,10 +52,8 @@
 
           <v-col cols="12" sm="12" md="4">
             <v-card class="mx-auto" max-width="400" min-height="400">
-              <v-img class="white--text align-end" :src="secondImg"> </v-img>
-              <v-card-subtitle class="pb-0 center home_title"
-                >Une pâte fraiche</v-card-subtitle
-              >
+              <v-img class="white--text align-end" :src="secondImg"></v-img>
+              <v-card-subtitle class="pb-0 center home_title">Une pâte fraiche</v-card-subtitle>
               <v-card-text class="text--primary">
                 <div>
                   Nous élaborons la pâte à pizza dans nos propres ateliers de
@@ -71,10 +66,8 @@
           </v-col>
           <v-col cols="12" sm="12" md="4">
             <v-card class="mx-auto" max-width="400" min-height="400">
-              <v-img class="white--text align-end" :src="thirdImg"> </v-img>
-              <v-card-subtitle class="pb-0 center home_title"
-                >Une préparation à la commande
-              </v-card-subtitle>
+              <v-img class="white--text align-end" :src="thirdImg"></v-img>
+              <v-card-subtitle class="pb-0 center home_title">Une préparation à la commande</v-card-subtitle>
               <v-card-text class="text--primary">
                 <div>
                   Aujourd'hui comme hier, nous faisons nos pizzas à la main et à
@@ -90,11 +83,11 @@
         <v-divider style="margin-top:25px"></v-divider>
 
         <v-row>
-          <v-col cols="12" sm="12" md="2"> </v-col>
+          <v-col cols="12" sm="12" md="2"></v-col>
           <v-col cols="12" sm="12" md="6">
-            <h3 class="cursive-font center mobile_info">
-              L'application PizzaGo bientôt disponible sur vos mobiles.
-            </h3>
+            <h3
+              class="cursive-font center mobile_info"
+            >L'application PizzaGo bientôt disponible sur vos mobiles.</h3>
             <div>
               <p>
                 Parce que vous nous l'avez réclamé. Grâce à notre communauté,

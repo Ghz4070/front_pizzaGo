@@ -1,66 +1,70 @@
 <template>
-<div>
-  <h1 class="title-subscribe">
-    Inscription
-  </h1>
-    <p class="content-subscribe">
-          En vous inscrivant vous bénéficierez d'offre promotionnelle exclusive.
-    </p>
-  <v-row align="center" justify="center">
-    <v-col cols="12" md="12">
-      <v-card class="mx-auto subscribe-card" max-width="600" outlined>
-        <v-card-text>
-          <v-form ref="form" v-model="valid">
-            <v-text-field v-model="firstname" :rules="lengthRules" label="Prénom*" required></v-text-field>
+  <div>
+    <h1 class="title-subscribe">Inscription</h1>
+    <p
+      class="content-subscribe"
+    >En vous inscrivant vous bénéficierez d'offre promotionnelle exclusive.</p>
+    <v-row align="center" justify="center">
+      <v-col cols="12" md="12">
+        <v-card class="mx-auto subscribe-card" max-width="600" outlined>
+          <v-card-text>
+            <v-form ref="form" v-model="valid">
+              <v-text-field v-model="firstname" :rules="lengthRules" label="Prénom*" required></v-text-field>
 
-            <v-text-field v-model="lastname" :rules="lengthRules" label="Nom*" required></v-text-field>
+              <v-text-field v-model="lastname" :rules="lengthRules" label="Nom*" required></v-text-field>
 
-            <v-text-field v-model="address" :rules="lengthRules" label="Adresse*" required></v-text-field>
+              <v-text-field v-model="address" :rules="lengthRules" label="Adresse*" required></v-text-field>
 
-            <v-text-field v-model="zip" :rules="lengthRules" label="Code postal*" required></v-text-field>
+              <v-text-field v-model="zip" :rules="lengthRules" label="Code postal*" required></v-text-field>
 
-            <v-text-field v-model="city" :rules="lengthRules" label="Ville*" required></v-text-field>
+              <v-text-field v-model="city" :rules="lengthRules" label="Ville*" required></v-text-field>
 
-            <v-text-field v-model="number" :rules="lengthRules" label="N° téléphone*" required></v-text-field>
+              <v-text-field v-model="number" :rules="lengthRules" label="N° téléphone*" required></v-text-field>
 
-            <v-text-field
-              v-model="email"
-              :rules="emailRules"
-              label="Adresse mail*"
-              type="email"
-              required
-            ></v-text-field>
+              <v-text-field
+                v-model="email"
+                :rules="emailRules"
+                label="Adresse mail*"
+                type="email"
+                required
+              ></v-text-field>
 
-            <v-text-field
-              v-model="firstPassword"
-              :rules="passwordRules"
-              label="Mot de passe*"
-              type="password"
-              required
-            ></v-text-field>
+              <v-text-field
+                v-model="firstPassword"
+                :rules="passwordRules"
+                label="Mot de passe*"
+                type="password"
+                required
+              ></v-text-field>
 
-            <v-text-field
-              v-model="secondPassword"
-              :rules="passwordRules"
-              type="password"
-              label="Confirmation du mot de passe*"
-              required
-            ></v-text-field>
+              <v-text-field
+                v-model="secondPassword"
+                :rules="passwordRules"
+                type="password"
+                label="Confirmation du mot de passe*"
+                required
+              ></v-text-field>
 
-            <v-btn :disabled="!valid" color="success" class="mr-4" @click="inscription">Inscription</v-btn>
-          </v-form>
-        </v-card-text><br>
-      </v-card>
+              <v-btn
+                :disabled="!valid"
+                color="success"
+                class="mr-4"
+                @click="inscription"
+              >Inscription</v-btn>
+            </v-form>
+          </v-card-text>
+          <br />
+        </v-card>
 
-      <v-snackbar v-model="login_toast.snackbar">
-        {{ login_toast.text }}
-        <template v-slot:action="{ attrs }">
-          <v-btn color="pink" text v-bind="attrs" @click="login_toast.snackbar = false">X</v-btn>
-        </template>
-      </v-snackbar>
-    </v-col>
-  </v-row>
-</div>
+        <v-snackbar v-model="login_toast.snackbar">
+          {{ login_toast.text }}
+          <template v-slot:action="{ attrs }">
+            <v-btn color="pink" text v-bind="attrs" @click="login_toast.snackbar = false">X</v-btn>
+          </template>
+        </v-snackbar>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>
@@ -137,7 +141,7 @@ export default {
   font-size: 3em;
 }
 .link-subscribe {
-  color:#f6ac00;
+  color: #f6ac00;
 }
 .content-subscribe {
   margin-bottom: 25px !important;

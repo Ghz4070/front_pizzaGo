@@ -12,7 +12,10 @@
         <v-expansion-panel-header disable-icon-rotate>
           Client : {{ dataOrders.user.firstname }} | date de commande :
           {{ dataOrders.date | formatDate }}
-          <template v-if="this.params != 1" v-slot:actions>
+          <template
+            v-if="this.params != 1"
+            v-slot:actions
+          >
             <v-icon color="teal">mdi-check</v-icon>
           </template>
           <template v-else v-slot:actions>
@@ -30,28 +33,22 @@
                 <span>Prix : {{ dataOrders.price | euroSign }}</span>
               </v-col>
               <v-col cols="12" xl="12">
-                <span
-                  >Promo : {{ dataOrders.promo.name }} -{{
-                    dataOrders.promo.amount
-                  }}%</span
-                >
+                <span>
+                  Promo : {{ dataOrders.promo.name }} -{{
+                  dataOrders.promo.amount
+                  }}%
+                </span>
               </v-col>
               <v-col cols="12" xl="12">
                 <span>Status : {{ params.status }}</span>
               </v-col>
               <v-col cols="12" xl="12">
-                <v-select
-                  v-model="params.status"
-                  :items="items"
-                  label="Status"
-                ></v-select>
+                <v-select v-model="params.status" :items="items" label="Status"></v-select>
               </v-col>
             </v-row>
           </v-container>
           <v-row align="end" justify="end">
-            <v-btn outlined color="green" class="ma-1" @click="saveOrder()"
-              >Sauvegarder</v-btn
-            >
+            <v-btn outlined color="green" class="ma-1" @click="saveOrder()">Sauvegarder</v-btn>
           </v-row>
         </v-expansion-panel-content>
       </v-expansion-panel>

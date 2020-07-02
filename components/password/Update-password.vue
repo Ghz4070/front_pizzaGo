@@ -30,7 +30,13 @@
               <div v-if="check" class="center">
                 <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
               </div>
-              <v-btn v-if="!check" :disabled="!valid || check" color="success" class="center" @click="resetMdp">Modifier</v-btn>
+              <v-btn
+                v-if="!check"
+                :disabled="!valid || check"
+                color="success"
+                class="center"
+                @click="resetMdp"
+              >Modifier</v-btn>
             </v-col>
           </v-row>
         </v-card-text>
@@ -87,10 +93,11 @@ export default {
         })
         .catch(e => {
           console.log("catch");
-          this.updatep_toast.text = "Une erreur est survenue. Veuillez réessayer ultèrieurement.";
+          this.updatep_toast.text =
+            "Une erreur est survenue. Veuillez réessayer ultèrieurement.";
           this.updatep_toast.snackbar = true;
         });
-    },
+    }
   }
 };
 </script>

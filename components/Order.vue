@@ -5,15 +5,16 @@
         <v-row justify="space-between">
           <v-col md="6" sm="6">
             <p class="localisation-info">
-              Les Menus de votre<br />
+              Les Menus de votre
+              <br />
               <b>PizzGo {{ localisation }}</b>
             </p>
           </v-col>
           <v-col md="6" sm="6">
-            <a v-on:click="getPosition()" class="localisation-info right"
-              ><img width="20px" src="~/static/position.png" />Changer de
-              PizzaGo</a
-            >
+            <a v-on:click="getPosition()" class="localisation-info right">
+              <img width="20px" src="~/static/position.png" />Changer de
+              PizzaGo
+            </a>
           </v-col>
         </v-row>
         <v-tabs
@@ -28,8 +29,7 @@
         </v-tabs>
 
         <div class="resume">
-          <h2>La carte</h2>
-          Retrouvez au menu vos pizzas, desserts, boissons, mais également nos
+          <h2>La carte</h2>Retrouvez au menu vos pizzas, desserts, boissons, mais également nos
           menus et nos offres qui arrivent prochainement.
         </div>
 
