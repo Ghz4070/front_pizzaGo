@@ -33,13 +33,6 @@
                 <span>Prix : {{ dataOrders.price | euroSign }}</span>
               </v-col>
               <v-col cols="12" xl="12">
-                <span>
-                  Promo : {{ dataOrders.promo.name }} -{{
-                  dataOrders.promo.amount
-                  }}%
-                </span>
-              </v-col>
-              <v-col cols="12" xl="12">
                 <span>Status : {{ params.status }}</span>
               </v-col>
               <v-col cols="12" xl="12">
