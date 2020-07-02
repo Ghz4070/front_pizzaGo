@@ -12,13 +12,19 @@
             <div class="text-center">
               <v-menu offset-y>
                 <template v-slot:activator="{ on, attrs }">
-                  <img src="~/static/user.svg" height="30" width="30" v-bind="attrs" v-on="on" />
+                  <img
+                    src="~/static/user.svg"
+                    height="30"
+                    width="30"
+                    v-bind="attrs"
+                    v-on="on"
+                  />
                 </template>
                 <v-list>
                   <v-list-item @click.stop="profil">
                     <v-list-item-title>Profil</v-list-item-title>
                   </v-list-item>
-                  <v-dialog v-model="display" max-width="400">
+                  <v-dialog v-model="display" max-width="800">
                     <User />
                   </v-dialog>
                   <v-list-item @click="deconnection">
@@ -55,7 +61,13 @@
                 transition="dialog-bottom-transition"
               >
                 <template v-slot:activator="{ on, attrs }">
-                  <img v-bind="attrs" v-on="on" src="~/static/menu.png" height="25" width="25" />
+                  <img
+                    v-bind="attrs"
+                    v-on="on"
+                    src="~/static/menu.png"
+                    height="25"
+                    width="25"
+                  />
                 </template>
                 <v-card>
                   <v-btn class="close-btn" icon dark @click="dialog = false">
@@ -70,7 +82,7 @@
                         <a @click.stop="profil">
                           Profile
                         </a>
-                        <v-dialog v-model="display" max-width="400">
+                        <v-dialog v-model="display" max-width="600">
                           <User />
                         </v-dialog>
                         <nuxt-link to="/contact">Contact</nuxt-link>
@@ -88,7 +100,11 @@
                     </template>
                   </v-list>
                   <div class="center">
-                    <img src="~/static/PizzaGo_final.png" height="150" width="150" />
+                    <img
+                      src="~/static/PizzaGo_final.png"
+                      height="150"
+                      width="150"
+                    />
                   </div>
                 </v-card>
               </v-dialog>
@@ -104,12 +120,12 @@
 import { EventBus } from "../bus.js";
 import KJUR from "jsrsasign";
 import axios from "axios";
-import User from '~/components/user/User.vue'
+import User from "~/components/user/User.vue";
 
 export default {
   components: {
-        User
-    },
+    User
+  },
   data() {
     return {
       img: "",
@@ -118,8 +134,7 @@ export default {
       dialog: false,
       display: false,
       userInformation: {},
-      id: "",
-      
+      id: ""
     };
   },
   created() {
@@ -179,13 +194,10 @@ export default {
         "http://localhost:4000/api/v1/user/checkuser",
         { headers: { "x-access-token": getToken } }
       );
-      (check.data).forEach(el => {
-        el == 'ROLE_ADMIN' ? this.admin = true : '';
+      check.data.role.forEach(el => {
+        el == "ROLE_ADMIN" ? (this.admin = true) : "";
       });
-      
-    },
-  
-   
+    }
   }
 };
 </script>
@@ -221,8 +233,8 @@ export default {
   margin: 30%;
 }
 
-.desktop-menu a, p
-button {
+.desktop-menu a,
+p button {
   padding: 20px 0 0 0;
   text-decoration: none;
   color: #8c5b38;
