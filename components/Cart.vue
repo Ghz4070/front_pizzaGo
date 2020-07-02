@@ -312,7 +312,7 @@ export default {
       this.getIdUserCurrent();
     },
     totalIngrediant(e) {
-      this.totalPrice.ingrediant = e;
+      this.totalPrice.ingrediant = Number(e);
       this.totalPrice.total =
         this.totalPrice.pizza +
         this.totalPrice.drink +
@@ -320,7 +320,7 @@ export default {
         this.totalPrice.ingrediant;
     },
     totalPizza(e) {
-      this.totalPrice.pizza = e;
+      this.totalPrice.pizza = Number(e);
       this.totalPrice.total =
         this.totalPrice.pizza +
         this.totalPrice.drink +
@@ -328,7 +328,7 @@ export default {
         this.totalPrice.ingrediant;
     },
     totalDrink(e) {
-      this.totalPrice.drink = e;
+      this.totalPrice.drink = Number(e);
       this.totalPrice.total =
         this.totalPrice.pizza +
         this.totalPrice.drink +
@@ -336,7 +336,7 @@ export default {
         this.totalPrice.ingrediant;
     },
     totalDessert(e) {
-      this.totalPrice.dessert = e;
+      this.totalPrice.dessert = Number(e);
       this.totalPrice.total =
         this.totalPrice.pizza +
         this.totalPrice.drink +
