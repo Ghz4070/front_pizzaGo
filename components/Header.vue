@@ -24,7 +24,7 @@
                   <v-list-item @click.stop="profil">
                     <v-list-item-title>Profil</v-list-item-title>
                   </v-list-item>
-                  <v-dialog v-model="display" max-width="600">
+                  <v-dialog v-model="display" max-width="800">
                     <User />
                   </v-dialog>
                   <v-list-item @click="deconnection">
