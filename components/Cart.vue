@@ -151,8 +151,9 @@ export default {
         "js.stripe.com/v3/",
         function() {
           this.configureStripe();
-          
+            console.log('je paye')
         }.bind(this)
+        
       );
     },
     configureStripe() {
@@ -160,7 +161,8 @@ export default {
       this.elements = this.stripe.elements();
       this.card = this.elements.create("card");
       this.card.mount("#card-element");
-      this.amount = this.cart.total.total
+      const checkPrice = this.promo ? (this.cart.total.total - ( this.cart.total.total * (this.promo/100))) : this.cart.total.total;
+      this.amount = checkPrice
     },
     includeStripe(URL, callback) {
       let documentTag = document,
@@ -174,30 +176,37 @@ export default {
             "load",
             function(e) {
               callback(null, e);
+              
             },
             false
           );
-          this.saveOrder()
+          //this.saveOrder()
         }
         scriptTag.parentNode.insertBefore(object, scriptTag);
+        this.saveOrder()
     },
 
     // END METHOD FOR STRIPE //
 
-    saveOrder(charge) {
+    async saveOrder() {
+      
+      const idUser = await this.getIdUserCurrent();
+      const local = localStorage.getItem('datas');
+      const JSONtoLocalstorage = JSON.parse(local)
       const params = {
-        price: null,
-        status: null,
-        user: null,
-        content: null,
-        promo: null,
-        charge: charge
+        price: this.promo ? (this.cart.total.total - ( this.cart.total.total * (this.promo/100))) : this.cart.total.total,
+        status: 1,
+        userId: idUser,
+        content: JSONtoLocalstorage,
+        promoId: JSONtoLocalstorage.idPromo,
       };
+      //console.log(params)
       
       return axios
         .post(`http://localhost:4000/api/v1/order/add`, params)
         .then(res => {
           if (res.data.status == "success") {
+            console.log(params)
             console.log(res);
           } else {
             console.log("error");
@@ -213,6 +222,15 @@ export default {
       if (e.target[0].value.trim() === "")
         return console.log("Veuillez remplir le champs");
       await this.checkPromo(e.target[0].value);
+    },
+
+    async getIdUserCurrent () {
+      const getToken = localStorage.getItem("x-access-token");
+      const check = await axios.get(
+        "http://localhost:4000/api/v1/user/checkuser",
+        { headers: { "x-access-token": getToken } }
+      );
+      return check.data.id;
     },
 
     async checkPromo(namePromo) {
@@ -232,6 +250,7 @@ export default {
         stringToJSON = {...stringToJSON, promo: this.cart.promo, idPromo: this.idPromo}
         localStorage.setItem("datas", JSON.stringify(stringToJSON));
       }
+      this.getIdUserCurrent();
     },
     totalIngrediant(e) {
       console.log(e);
