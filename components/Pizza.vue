@@ -227,9 +227,6 @@ export default {
 .card_pizza {
   border: 0 !important;
 }
-.tabs {
-  padding-bottom: 30px;
-}
 .v-card__subtitle {
   padding: 0px;
 }
