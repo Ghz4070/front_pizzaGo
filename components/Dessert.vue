@@ -1,6 +1,13 @@
 <template>
   <v-row no-gutters>
-    <v-col v-for="(dessert) in desserts" :key="dessert.id" cols="12" sm="4" md="4" lg="4">
+    <v-col
+      v-for="(dessert, index) in desserts"
+      :key="dessert.id"
+      cols="12"
+      sm="4"
+      md="4"
+      lg="4"
+    >
       <v-card outlined class="ma-3 pa-3 card_pizza" max-width="400">
         <v-img
           height="200px"
@@ -8,14 +15,28 @@
           :src="dessert.img"
         ></v-img>
 
-        <v-card-subtitle class="pb-0 pizza_name">{{ dessert.name }}</v-card-subtitle>
+        <v-card-subtitle class="pb-0 pizza_name">{{
+          dessert.name
+        }}</v-card-subtitle>
         <v-card-text class="text--primary center">
           <v-row>
             <v-col cols="12" sm="6" md="6">
-              <v-text-field v-model="dessert.quantity" type="number" label="x1" value="1" solo></v-text-field>
+              <v-text-field
+                v-on:input="updatePrice(index, dessert.quantity, dessert.price)"
+                v-model="dessert.quantity"
+                type="number"
+                label="x1"
+                value="1"
+                solo
+              ></v-text-field>
             </v-col>
-            <v-col cols="12" sm="6" md="6">
-              <v-text-field disabled label :value="dessert.price+ ' €'" solo></v-text-field>
+            <v-col v-if="hackReload" cols="12" sm="6" md="6">
+              <v-text-field
+                disabled
+                label
+                :value="dessert.price + ' €'"
+                solo
+              ></v-text-field>
             </v-col>
           </v-row>
         </v-card-text>
@@ -28,14 +49,21 @@
             class="ma-2"
             outlined
             color="indigo"
-          >Ajouter</v-btn>
+            >Ajouter</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-col>
     <v-snackbar v-model="dessert_toast.snackbar">
       {{ dessert_toast.text }}
       <template v-slot:action="{ attrs }">
-        <v-btn color="pink" text v-bind="attrs" @click="dessert_toast.snackbar = false">X</v-btn>
+        <v-btn
+          color="pink"
+          text
+          v-bind="attrs"
+          @click="dessert_toast.snackbar = false"
+          >X</v-btn
+        >
       </template>
     </v-snackbar>
   </v-row>
@@ -47,6 +75,7 @@ import axios from "axios";
 export default {
   data: function() {
     return {
+      hackReload: true,
       dessert_toast: { snackbar: false, text: "Dessert ajouté au panier" },
       desserts: [],
       add: { quantity: 1 },
@@ -76,25 +105,12 @@ export default {
           console.log("catch");
         });
     },
-    updatePrice(i, nb, price, size) {
+    updatePrice(i, nb, price) {
+      this.hackReload = false;
       let new_price;
-      switch (size) {
-        case "S":
-          new_price = nb * 8;
-          break;
-        case "M":
-          new_price = nb * 10;
-          break;
-        case "L":
-          new_price = nb * 12;
-          break;
-        case "XL":
-          new_price = nb * 15;
-          break;
-        default:
-          break;
-      }
-      this.dessert[i].price = new_price;
+      new_price = nb * price;
+      this.desserts[i].price = new_price;
+      this.hackReload = true;
     },
     formatDatas: function(desserts) {
       this.desserts = [];

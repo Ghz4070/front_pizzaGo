@@ -1,7 +1,7 @@
 <template>
   <v-row no-gutters>
     <v-col
-      v-for="drink in drinks"
+      v-for="(drink, index) in drinks"
       :key="drink.id"
       cols="12"
       sm="4"
@@ -22,6 +22,7 @@
           <v-row>
             <v-col cols="12" sm="6" md="6">
               <v-text-field
+                v-on:input="updatePrice(index, drink.quantity, drink.price)"
                 v-model="drink.quantity"
                 type="number"
                 label="x1"
@@ -29,7 +30,7 @@
                 solo
               ></v-text-field>
             </v-col>
-            <v-col cols="12" sm="6" md="6">
+            <v-col v-if="hackReload" cols="12" sm="6" md="6">
               <v-text-field
                 disabled
                 label
@@ -74,6 +75,7 @@ import axios from "axios";
 export default {
   data: function() {
     return {
+      hackReload: true,
       drink_toast: { snackbar: false, text: "Boisson ajoutée au panier" },
       drinks: [],
       add: { quantity: 1 },
@@ -103,25 +105,12 @@ export default {
           console.log("catch");
         });
     },
-    updatePrice(i, nb, price, size) {
+    updatePrice(i, nb, price) {
+      this.hackReload = false;
       let new_price;
-      switch (size) {
-        case "S":
-          new_price = nb * 8;
-          break;
-        case "M":
-          new_price = nb * 10;
-          break;
-        case "L":
-          new_price = nb * 12;
-          break;
-        case "XL":
-          new_price = nb * 15;
-          break;
-        default:
-          break;
-      }
-      this.drink[i].price = new_price;
+      new_price = nb * price;
+      this.drinks[i].price = new_price;
+      this.hackReload = true;
     },
     formatDatas: function(drinks) {
       this.drinks = [];
