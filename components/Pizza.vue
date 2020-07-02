@@ -133,7 +133,7 @@ export default {
       pizzas: [],
       categories: null,
       size: ["S", "M", "L", "XL"],
-      add: { quantity: 1, size: "M", price: "10" },
+      add: { quantity: 1, size: "M", price: 10 },
       nb: [],
       model: {
         contents: {
@@ -181,6 +181,7 @@ export default {
           break;
       }
       this.pizzas[i].price = new_price / nb;
+      
       this.hackReload = true;
     },
     formatDatas: function(pizzas) {
@@ -206,7 +207,7 @@ export default {
       for (let i = 0; i < pizza.quantity; i++) {
         cart.contents.pizzas = [...cart.contents.pizzas, pizza];
       }
-      console.log(this.add.price)
+      
       localStorage.setItem("datas", JSON.stringify(cart));
       this.$emit("changeLocalStorage");
       //this.setTotalPrice(cart);
