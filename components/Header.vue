@@ -19,44 +19,7 @@
                     <v-list-item-title>Profil</v-list-item-title>
                   </v-list-item>
                   <v-dialog v-model="display" max-width="400">
-                    <v-card>
-                      <v-card-title class="headline">Mes informations</v-card-title>
-                      <template v-if="userInformation">
-                        <v-form @submit="updateProfil">
-                          <v-text-field
-                            class="pl-4 pr-4"
-                            v-for="(value, key) in userInformation"
-                            :label="key"
-                            :value="value"
-                            :key="key"
-                            required
-                          />
-                          <button>yes</button>
-                        </v-form>
-                      </template>
-                       <v-snackbar v-model="fieldValide_toast.snackbar">
-                              {{ fieldValide_toast.text }}
-                              <template v-slot:action="{ attrs }">
-                                <v-btn
-                                  color="pink"
-                                  text
-                                  v-bind="attrs"
-                                  @click="fieldValide_toast.snackbar = false"
-                                >X</v-btn>
-                              </template>
-                            </v-snackbar>
-                      <v-snackbar v-model="field_toast.snackbar">
-                        {{ field_toast.text }}
-                        <template v-slot:action="{ attrs }">
-                          <v-btn
-                            color="pink"
-                            text
-                            v-bind="attrs"
-                            @click="field_toast.snackbar = false"
-                          >X</v-btn>
-                        </template>
-                      </v-snackbar>
-                    </v-card>
+                    <User />
                   </v-dialog>
                   <v-list-item @click="deconnection">
                     <v-list-item-title>Déconnection</v-list-item-title>
@@ -108,45 +71,7 @@
                           Profile
                         </a>
                         <v-dialog v-model="display" max-width="400">
-                          <v-card>
-                            <v-card-title class="headline">Mes informations</v-card-title>
-                            <template v-if="userInformation">
-                              <v-form @submit="updateProfil">
-                                <v-text-field
-                                  class="pl-4 pr-4"
-                                  v-for="(value, key) in userInformation"
-                                  :label="key"
-                                  :value="value"
-                                  :key="key"
-                                  required
-                                />
-
-                                <button>yes</button>
-                              </v-form>
-                            </template>
-                            <v-snackbar v-model="fieldValide_toast.snackbar">
-                              {{ fieldValide_toast.text }}
-                              <template v-slot:action="{ attrs }">
-                                <v-btn
-                                  color="pink"
-                                  text
-                                  v-bind="attrs"
-                                  @click="fieldValide_toast.snackbar = false"
-                                >X</v-btn>
-                              </template>
-                            </v-snackbar>
-                            <v-snackbar v-model="field_toast.snackbar">
-                              {{ field_toast.text }}
-                              <template v-slot:action="{ attrs }">
-                                <v-btn
-                                  color="pink"
-                                  text
-                                  v-bind="attrs"
-                                  @click="field_toast.snackbar = false"
-                                >X</v-btn>
-                              </template>
-                            </v-snackbar>
-                          </v-card>
+                          <User />
                         </v-dialog>
                         <nuxt-link to="/contact">Contact</nuxt-link>
                         <button @click="deconnection">Déconnexion</button>
@@ -179,8 +104,12 @@
 import { EventBus } from "../bus.js";
 import KJUR from "jsrsasign";
 import axios from "axios";
+import User from '~/components/user/User.vue'
 
 export default {
+  components: {
+        User
+    },
   data() {
     return {
       img: "",
@@ -190,14 +119,7 @@ export default {
       display: false,
       userInformation: {},
       id: "",
-      field_toast: {
-        snackbar: false,
-        text: "Veuillez laisser aucun champs vide"
-      },
-      fieldValide_toast: {
-        snackbar: false,
-        text: "Votre compte a bien été mis à jour"
-      }
+      
     };
   },
   created() {
@@ -262,50 +184,8 @@ export default {
       });
       
     },
-    async updateProfil(e) {
-      e.preventDefault();
-
-      const headers = {
-        headers: {
-          "x-access-token": localStorage.getItem("x-access-token")
-        }
-      };
-
-      const userObject = {
-        city: e.target[0].value,
-        tel: e.target[1].value,
-        zip: e.target[2].value,
-        email: e.target[3].value,
-        firstname: e.target[4].value,
-        lastname: e.target[5].value,
-        address: e.target[6].value,
-        id: this.id
-      };
-
-      if (!this.checkInputEmpty(userObject)) {
-        userObject.zip = parseInt(userObject.zip, 10);
-        const updateUser = await axios.put(
-          "http://localhost:4000/api/v1/admin/user/updateCurrentUser",
-          userObject,
-          headers
-        );
-        this.fieldValide_toast.snackbar = true;
-        setTimeout(() => this.display = false, 2000);
-      }
-    },
-    checkInputEmpty(userObject) {
-      for (let element in userObject) {
-        if (
-          userObject[element].trim() === null ||
-          userObject[element].trim() === "" ||
-          userObject[element].trim() === undefined
-        ) {
-          this.field_toast.snackbar = true;
-          return true;
-        }
-      }
-      return false;
-    }
+  
+   
   }
 };
 </script>
