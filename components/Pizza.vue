@@ -12,7 +12,11 @@
       <v-divider style="margin:0 15px"></v-divider>
       <!-- load spinner -->
       <div v-if="pizzas.length == 0" class="center">
-        <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
+        <v-progress-circular
+          :size="50"
+          color="primary"
+          indeterminate
+        ></v-progress-circular>
       </div>
       <v-row>
         <v-col
@@ -33,32 +37,72 @@
                   :src="pizza.img"
                 ></v-img>
               </template>
-              Sauce : <span v-for="compo in pizza.composition.sauces.items" :key="compo.label">{{ compo + ' ' }}</span>
+              Sauce :
+              <span
+                v-for="compo in pizza.composition.sauces.items"
+                :key="compo.label"
+                >{{ compo + " " }}</span
+              >
               <br />
-              Fromages :<span v-for="compo in pizza.composition.fromages.items" :key="compo.label"> {{ compo+ ' ' }}</span>
+              Fromages :<span
+                v-for="compo in pizza.composition.fromages.items"
+                :key="compo.label"
+              >
+                {{ compo + " " }}</span
+              >
               <br />
-              Viandes :<span v-for="compo in pizza.composition.viandes.items" :key="compo.label"> {{ compo+ ' ' }}</span>
+              Viandes :<span
+                v-for="compo in pizza.composition.viandes.items"
+                :key="compo.label"
+              >
+                {{ compo + " " }}</span
+              >
               <br />
-              Legumes :<span v-for="compo in pizza.composition.legumes.items" :key="compo.label"> {{ compo+ ' ' }}</span>
+              Legumes :<span
+                v-for="compo in pizza.composition.legumes.items"
+                :key="compo.label"
+              >
+                {{ compo + " " }}</span
+              >
               <br />
-              Epices :<span v-for="compo in pizza.composition.epices.items" :key="compo.label"> {{ compo+ ' ' }}</span>
+              Epices :<span
+                v-for="compo in pizza.composition.epices.items"
+                :key="compo.label"
+              >
+                {{ compo + " " }}</span
+              >
             </v-tooltip>
 
-            <v-card-subtitle class="pb-0 pizza_name pacifico-font">{{ pizza.name }}</v-card-subtitle>
+            <v-card-subtitle class="pb-0 pizza_name pacifico-font">{{
+              pizza.name
+            }}</v-card-subtitle>
 
             <v-card-text class="text--primary center">
               <v-select
-                :change="updatePrice(index,pizza.quantity, pizza.price, pizza.size)"
+                :change="
+                  updatePrice(index, pizza.quantity, pizza.price, pizza.size)
+                "
                 v-model="pizza.size"
                 :items="size"
                 label="Taille"
               ></v-select>
               <v-row>
                 <v-col cols="12" sm="6" md="6">
-                  <v-text-field v-model="pizza.quantity" type="number" label="x1" value="1" solo></v-text-field>
+                  <v-text-field
+                    v-model="pizza.quantity"
+                    type="number"
+                    label="x1"
+                    value="1"
+                    solo
+                  ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6" md="6">
-                  <v-text-field disabled label :value="pizza.price+ ' €'" solo></v-text-field>
+                  <v-text-field
+                    disabled
+                    label
+                    :value="pizza.price + ' €'"
+                    solo
+                  ></v-text-field>
                 </v-col>
               </v-row>
             </v-card-text>
@@ -71,7 +115,8 @@
                 class="ma-2"
                 outlined
                 color="indigo"
-              >Ajouter</v-btn>
+                >Ajouter</v-btn
+              >
             </v-card-actions>
           </v-card>
         </v-col>
@@ -80,7 +125,13 @@
     <v-snackbar v-model="pizza_toast.snackbar">
       {{ pizza_toast.text }}
       <template v-slot:action="{ attrs }">
-        <v-btn color="pink" text v-bind="attrs" @click="pizza_toast.snackbar = false">X</v-btn>
+        <v-btn
+          color="pink"
+          text
+          v-bind="attrs"
+          @click="pizza_toast.snackbar = false"
+          >X</v-btn
+        >
       </template>
     </v-snackbar>
   </v-row>
@@ -232,8 +283,5 @@ export default {
 }
 .v-progress-circular {
   margin: 1rem;
-}
-.hidden {
-  display: none;
 }
 </style>

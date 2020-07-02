@@ -56,7 +56,7 @@
         </div>
       </div>
 
-      <v-dialog v-model="paiement" persistent max-width="550">
+      <v-dialog v-if="userLogged" v-model="paiement" persistent max-width="550">
         <template v-slot:activator="{ on, attrs }">
           <a
             @click="loadStripe"
@@ -72,6 +72,7 @@
             €</a
           >
         </template>
+
         <v-card>
           <v-card-title class="headline"
             >Paiement de votre commande</v-card-title
@@ -105,6 +106,7 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+      <a v-else>Veuillez vous connectez pour procéder au paiement !</a>
     </div>
     <v-snackbar v-model="pay_toast.snackbar">
       {{ pay_toast.text }}
@@ -134,6 +136,7 @@ export default {
   },
   data() {
     return {
+      userLogged: false,
       checkPay: false,
       pay_toast: { snackbar: false, text: "" },
       tablePizza: ["Pizza", "Taille", "Prix"],
@@ -193,6 +196,9 @@ export default {
       return (this.cart = stringToJSON);
     }
   },
+  mounted() {
+    this.checkUserLogged();
+  },
   methods: {
     // START METHOD FOR STRIPE //
     loadStripe() {
@@ -232,9 +238,19 @@ export default {
       }
       scriptTag.parentNode.insertBefore(object, scriptTag);
     },
-
     // END METHOD FOR STRIPE //
 
+    async checkUserLogged() {
+      const getToken = localStorage.getItem("x-access-token");
+      const check = await axios.get(
+        "http://localhost:4000/api/v1/user/checkuser",
+        { headers: { "x-access-token": getToken } }
+      );
+      console.log(check.data.role);
+      check.data.role.forEach(el => {
+        el == "ROLE_USER" ? (this.userLogged = true) : "";
+      });
+    },
     async saveOrder() {
       this.checkPay = true;
       const idUser = await this.getIdUserCurrent();
