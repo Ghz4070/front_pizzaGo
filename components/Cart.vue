@@ -274,10 +274,12 @@ export default {
         .then(res => {
           if (res.data.status == "success") {
             setTimeout(() => {
+              localStorage.removeItem("datas");
               this.checkPay = false;
               this.pay_toast.text = "Paiement réaliser avec succées.";
               this.pay_toast.snackbar = true;
               this.paiement = false;
+              this.$router.go();
             }, 2500);
           } else {
             setTimeout(() => {
