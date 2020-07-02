@@ -108,7 +108,7 @@
                   <v-text-field
                     disabled
                     label
-                    :value="pizza.price + ' €'"
+                    :value="pizza.price * pizza.quantity + ' €'"
                     solo
                   ></v-text-field>
                 </v-col>
@@ -203,7 +203,7 @@ export default {
         default:
           break;
       }
-      this.pizzas[i].price = new_price;
+      this.pizzas[i].price = new_price / nb;
       this.hackReload = true;
     },
     formatDatas: function(pizzas) {
