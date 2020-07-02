@@ -194,8 +194,6 @@ export default {
       }
       this.totalIngrediant(countTotal);
 
-      console.log(stringToJSON);
-
       localStorage.setItem("datas", JSON.stringify(stringToJSON));
       return (this.cart = stringToJSON);
     }
@@ -210,7 +208,6 @@ export default {
         "js.stripe.com/v3/",
         function() {
           this.configureStripe();
-          console.log("je paye");
         }.bind(this)
       );
     },
@@ -250,7 +247,6 @@ export default {
         "http://localhost:4000/api/v1/user/checkuser",
         { headers: { "x-access-token": getToken } }
       );
-      console.log(check.data.role);
       check.data.role.forEach(el => {
         el == "ROLE_USER" ? (this.userLogged = true) : "";
       });
@@ -301,8 +297,7 @@ export default {
 
     async submitPromo(e) {
       e.preventDefault();
-      if (e.target[0].value.trim() === "")
-        return console.log("Veuillez remplir le champs");
+      if (e.target[0].value.trim() === "") return;
       await this.checkPromo(e.target[0].value);
     },
 
@@ -320,9 +315,7 @@ export default {
         `http://localhost:4000/api/v1/promo/name/${namePromo}`
       );
       const { result } = getPromo.data;
-      if (result === "No Promo found for this Name")
-        return console.log("pas de promo");
-      console.log(result.promoes[0]);
+      if (result === "No Promo found for this Name") return;
       this.promo = result.promoes[0].amount;
       this.cart.promo = this.promo;
       this.idPromo = result.promoes[0].id;
@@ -339,7 +332,6 @@ export default {
       this.getIdUserCurrent();
     },
     totalIngrediant(e) {
-      console.log(e);
       this.totalPrice.ingrediant = e;
       this.totalPrice.total =
         this.totalPrice.pizza +
@@ -354,7 +346,6 @@ export default {
         this.totalPrice.drink +
         this.totalPrice.dessert +
         this.totalPrice.ingrediant;
-      console.log(e);
     },
     totalDrink(e) {
       this.totalPrice.drink = e;
@@ -383,7 +374,6 @@ export default {
         total: this.totalPrice,
         idPromo: this.idPromo
       };
-      console.log(newJson);
       const JSONtostring = JSON.stringify(newJson);
       localStorage.setItem("datas", JSONtostring);
     },

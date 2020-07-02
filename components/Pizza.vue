@@ -200,7 +200,6 @@ export default {
         let el = Object.assign(element, this.add);
         this.pizzas = [...this.pizzas, el];
       });
-      console.log(this.pizzas);
     },
     getCategories() {
       return axios
@@ -227,7 +226,6 @@ export default {
       cart.contents.pizzas.forEach(element => {
         price += element.price;
       });
-      console.log(price);
       cart.total_price = price;
       localStorage.setItem("datas", JSON.stringify(cart));
       this.$emit("changeLocalStorage");

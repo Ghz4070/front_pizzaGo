@@ -96,7 +96,6 @@ export default {
         .get("http://localhost:4000/api/v1/pizza")
         .then(res => {
           this.pizzas = res.data.result;
-          console.log(pizzas);
         })
         .catch(e => {
           console.log("catch");
@@ -106,16 +105,13 @@ export default {
       this.$axios
         .delete(`http://localhost:4000/api/v1/admin/pizza/delete/${id}`, {
           headers: {
-            "x-access-token": localStorage.getItem('x-access-token')
+            "x-access-token": localStorage.getItem("x-access-token")
           }
         })
-        .then(res => {
-          console.log(res);
-        });
+        .then(res => {});
     }
   }
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

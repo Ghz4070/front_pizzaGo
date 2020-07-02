@@ -14,13 +14,26 @@
           <v-container>
             <v-row>
               <v-col cols="12" md="6">
-                <v-text-field v-model="params.name" clearable label="Nom de la boisson"></v-text-field>
+                <v-text-field
+                  v-model="params.name"
+                  clearable
+                  label="Nom de la boisson"
+                ></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
-                <v-text-field v-model="params.price" type="number" label="Prix" suffix="€"></v-text-field>
+                <v-text-field
+                  v-model="params.price"
+                  type="number"
+                  label="Prix"
+                  suffix="€"
+                ></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
-                <v-text-field v-model="params.oz" label="Volume" suffix="cL"></v-text-field>
+                <v-text-field
+                  v-model="params.oz"
+                  label="Volume"
+                  suffix="cL"
+                ></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
                 <v-tooltip bottom>
@@ -44,8 +57,12 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" class="ma-2" text @click="dialog = false">Annuler</v-btn>
-          <v-btn color="blue darken-1" class="ma-2" text @click="addDrink">Sauvegarder</v-btn>
+          <v-btn color="blue darken-1" class="ma-2" text @click="dialog = false"
+            >Annuler</v-btn
+          >
+          <v-btn color="blue darken-1" class="ma-2" text @click="addDrink"
+            >Sauvegarder</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -74,11 +91,8 @@ export default {
         })
         .then(res => {
           if (res.data.status == "success") {
-            console.log(res);
             this.dialog = false;
           } else {
-            console.log(res);
-            console.log("not admin");
           }
         })
         .catch(e => {
@@ -89,5 +103,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

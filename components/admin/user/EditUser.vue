@@ -10,7 +10,9 @@
       ></v-skeleton-loader>
       <v-expansion-panels v-else popout inset multiple focusable hover>
         <v-expansion-panel>
-          <v-expansion-panel-header>{{ params.firstname }}</v-expansion-panel-header>
+          <v-expansion-panel-header>{{
+            params.firstname
+          }}</v-expansion-panel-header>
           <v-expansion-panel-content>
             <v-container>
               <v-row>
@@ -85,8 +87,20 @@
               </v-row>
             </v-container>
             <v-row align="end" justify="end">
-              <v-btn outlined color="green" class="ma-1" @click="updateUser(user.id)">Sauvegarder</v-btn>
-              <v-btn outlined color="red" class="ma-1" @click="deleteUser(user.id)">Supprimer</v-btn>
+              <v-btn
+                outlined
+                color="green"
+                class="ma-1"
+                @click="updateUser(user.id)"
+                >Sauvegarder</v-btn
+              >
+              <v-btn
+                outlined
+                color="red"
+                class="ma-1"
+                @click="deleteUser(user.id)"
+                >Supprimer</v-btn
+              >
             </v-row>
           </v-expansion-panel-content>
         </v-expansion-panel>
@@ -110,7 +124,7 @@ export default {
         zip: null,
         city: null,
         tel: null,
-        email: null,
+        email: null
         // roles: []
       }
     };
@@ -139,7 +153,7 @@ export default {
         zip: Number(this.user.zip),
         city: this.user.city,
         tel: this.user.tel,
-        email: this.user.email,
+        email: this.user.email
         // roles: this.user.role
       };
     },
@@ -153,7 +167,6 @@ export default {
             }
           }
         );
-        console.log(response.status);
       } catch (error) {
         console.log(error);
       }
@@ -170,9 +183,6 @@ export default {
           }
         );
 
-        console.log(this.params);
-        console.log(reponse);
-
         this.params = response.data.result;
         return this.params;
       } catch (error) {
@@ -183,5 +193,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

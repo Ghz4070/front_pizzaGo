@@ -14,10 +14,18 @@
           <v-container>
             <v-row>
               <v-col cols="12" md="6">
-                <v-text-field clearable label="Nom de la boisson" v-model="params.name"></v-text-field>
+                <v-text-field
+                  clearable
+                  label="Nom de la boisson"
+                  v-model="params.name"
+                ></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
-                <v-text-field label="Prix" v-model="params.price" suffix="€"></v-text-field>
+                <v-text-field
+                  label="Prix"
+                  v-model="params.price"
+                  suffix="€"
+                ></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
                 <v-tooltip bottom>
@@ -41,8 +49,12 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" class="ma-2" text @click="dialog = false">Close</v-btn>
-          <v-btn color="blue darken-1" class="ma-2" text @click="saveDessert">Save</v-btn>
+          <v-btn color="blue darken-1" class="ma-2" text @click="dialog = false"
+            >Close</v-btn
+          >
+          <v-btn color="blue darken-1" class="ma-2" text @click="saveDessert"
+            >Save</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -82,13 +94,11 @@ export default {
             }
           }
         );
-        this.params = response.data.result
-        this.$emit('updateDessert', this.params)
+        this.params = response.data.result;
+        this.$emit("updateDessert", this.params);
         this.dialog = false;
-
       } catch (error) {
         console.log(error);
-        console.log("not admin");
       }
     },
     getDatas() {
@@ -103,5 +113,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

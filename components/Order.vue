@@ -12,7 +12,7 @@
           <v-col md="6" sm="6">
             <a v-on:click="getPosition()" class="localisation-info right"
               ><img width="20px" src="~/static/position.png" />Changer de
-              PizzaGo ?</a
+              PizzaGo</a
             >
           </v-col>
         </v-row>
@@ -97,10 +97,6 @@ export default {
         .catch(e => {
           console.log("catch");
         });
-      /* let pt = navigator.geolocation.getCurrentPosition((resp) => {
-        console.log(resp.coords.longitude);
-        console.log(resp.coords.latitude);
-      }); */
     }
   }
 };
