@@ -67,7 +67,7 @@ export default {
       this.display = true;
       const getToken = localStorage.getItem("x-access-token");
       const getUser = await axios.get(
-        "http://localhost:4000/api/v1/admin/user/currentUser",
+        "https://server-api-pizzago.herokuapp.com/api/v1/admin/user/currentUser",
         { headers: { "x-access-token": getToken } }
       );
       const getUserObject = getUser.data.result.users[0];
@@ -98,7 +98,7 @@ export default {
       if (!this.checkInputEmpty(userObject)) {
         userObject.zip = parseInt(userObject.zip, 10);
         const updateUser = await axios.put(
-          "http://localhost:4000/api/v1/admin/user/updateCurrentUser",
+          "https://server-api-pizzago.herokuapp.com/api/v1/admin/user/updateCurrentUser",
           userObject,
           headers
         );

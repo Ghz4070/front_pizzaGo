@@ -153,7 +153,7 @@ export default {
   methods: {
     getPizzas() {
       return axios
-        .get(`http://localhost:4000/api/v1/pizza`)
+        .get(`https://server-api-pizzago.herokuapp.com/api/v1/pizza`)
         .then(res => {
           this.pizzas = res.data.result;
         })
@@ -192,7 +192,7 @@ export default {
     },
     getCategories() {
       return axios
-        .get(`http://localhost:4000/api/v1/category`)
+        .get(`https://server-api-pizzago.herokuapp.com/api/v1/category`)
         .then(res => {
           this.categories = res.data.result;
         })

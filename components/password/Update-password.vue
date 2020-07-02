@@ -76,7 +76,7 @@ export default {
         secondPassword: this.password2
       };
       return axios
-        .post(`http://localhost:4000/api/v1/user/resetPassword/` + id, params)
+        .post(`https://server-api-pizzago.herokuapp.com/api/v1/user/resetPassword/` + id, params)
         .then(res => {
           if (res.data.status == "success") {
             this.updatep_toast.text = "Mot de passe modifier.";

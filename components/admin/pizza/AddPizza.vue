@@ -160,7 +160,7 @@ export default {
       });
       try {
         const repsonse = this.$axios.post(
-          `http://localhost:4000/api/v1/admin/pizza/add`,
+          `https://server-api-pizzago.herokuapp.com/api/v1/admin/pizza/add`,
           this.params,
           {
             headers: {
@@ -177,7 +177,7 @@ export default {
       try {
         this.labelCategories = [];
         const response = await this.$axios.get(
-          "http://localhost:4000/api/v1/category"
+          "https://server-api-pizzago.herokuapp.com/api/v1/category"
         );
 
         response.data.result.forEach(element => {

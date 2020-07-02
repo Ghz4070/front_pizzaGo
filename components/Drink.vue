@@ -76,7 +76,7 @@ export default {
   methods: {
     getDrinks() {
       return axios
-        .get(`http://localhost:4000/api/v1/drink`)
+        .get(`https://server-api-pizzago.herokuapp.com/api/v1/drink`)
         .then(res => {
           this.drinks = res.data.result;
         })

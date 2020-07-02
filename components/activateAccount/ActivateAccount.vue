@@ -20,7 +20,7 @@ export default {
     async activate() {
       let route = this.removeSlash();
       const activateAccount = await axios.get(
-        `http://localhost:4000/api/v1/user/activateAccount/${route}`
+        `https://server-api-pizzago.herokuapp.com/api/v1/user/activateAccount/${route}`
       );
       if (activateAccount.data.status === "error") {
         this.msg = "error token";

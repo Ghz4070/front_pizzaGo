@@ -67,7 +67,7 @@ export default {
       this.params.price = Number(this.params.price);
       this.params.oz = Number(this.params.oz);
       return this.$axios
-        .post(`http://localhost:4000/api/v1/admin/drink/add`, this.params, {
+        .post(`https://server-api-pizzago.herokuapp.com/api/v1/admin/drink/add`, this.params, {
           headers: {
             "x-access-token": localStorage.getItem("x-access-token")
           }

@@ -109,7 +109,7 @@ export default {
       };
 
       const addUser = await axios.post(
-        "http://localhost:4000/api/v1/user/add",
+        "https://server-api-pizzago.herokuapp.com/api/v1/user/add",
         body
       );
 

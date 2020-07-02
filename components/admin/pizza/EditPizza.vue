@@ -159,7 +159,7 @@ export default {
   methods: {
     getAllCategories() {
       return axios
-        .get("http://localhost:4000/api/v1/category")
+        .get("https://server-api-pizzago.herokuapp.com/api/v1/category")
         .then(res => {
           res.data.result.forEach(element => {
             this.allCategories = [...this.allCategories, element.name];
@@ -172,7 +172,7 @@ export default {
     editPizza() {
       this.params.categoryId = this.dataPizza.category.id; // changer le name par son id
       return this.$axios
-        .put(`http://localhost:4000/api/v1/admin/pizza/update`, this.params, {
+        .put(`https://server-api-pizzago.herokuapp.com/api/v1/admin/pizza/update`, this.params, {
           headers: {
             "x-access-token": localStorage.getItem("x-access-token")
           }

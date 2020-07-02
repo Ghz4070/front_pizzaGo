@@ -224,7 +224,7 @@ export default {
     async checkUserLogged() {
       const getToken = localStorage.getItem("x-access-token");
       const check = await axios.get(
-        "http://localhost:4000/api/v1/user/checkuser",
+        "https://server-api-pizzago.herokuapp.com/api/v1/user/checkuser",
         { headers: { "x-access-token": getToken } }
       );
       check.data.role.forEach(el => {
@@ -246,7 +246,7 @@ export default {
       };
 
       return axios
-        .post(`http://localhost:4000/api/v1/order/add`, params)
+        .post(`https://server-api-pizzago.herokuapp.com/api/v1/order/add`, params)
         .then(res => {
           if (res.data.status == "success") {
             setTimeout(() => {
@@ -284,7 +284,7 @@ export default {
     async getIdUserCurrent() {
       const getToken = localStorage.getItem("x-access-token");
       const check = await axios.get(
-        "http://localhost:4000/api/v1/user/checkuser",
+        "https://server-api-pizzago.herokuapp.com/api/v1/user/checkuser",
         { headers: { "x-access-token": getToken } }
       );
       return check.data.id;
@@ -292,7 +292,7 @@ export default {
 
     async checkPromo(namePromo) {
       const getPromo = await axios.get(
-        `http://localhost:4000/api/v1/promo/name/${namePromo}`
+        `https://server-api-pizzago.herokuapp.com/api/v1/promo/name/${namePromo}`
       );
       const { result } = getPromo.data;
       if (result === "No Promo found for this Name") return;

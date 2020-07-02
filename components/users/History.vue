@@ -74,7 +74,7 @@ export default {
     },
     getOrders() {
       return axios
-        .get("http://localhost:4000/api/v1/order/user/" + this.userId)
+        .get("https://server-api-pizzago.herokuapp.com/api/v1/order/user/" + this.userId)
         .then(res => {
           this.orders = res.data.result.orders;
         })
@@ -85,7 +85,7 @@ export default {
     getUserId() {
       const getToken = localStorage.getItem("x-access-token");
       return axios
-        .get("http://localhost:4000/api/v1/user/checkuser", {
+        .get("https://server-api-pizzago.herokuapp.com/api/v1/user/checkuser", {
           headers: { "x-access-token": getToken }
         })
         .then(res => {

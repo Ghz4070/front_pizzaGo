@@ -150,7 +150,7 @@ export default {
     async deleteUser(id) {
       try {
         const response = await this.$axios.delete(
-          `http://localhost:4000/api/v1/admin/user/delete/${id}`,
+          `https://server-api-pizzago.herokuapp.com/api/v1/admin/user/delete/${id}`,
           {
             headers: {
               "x-access-token": localStorage.getItem("x-access-token")
@@ -164,7 +164,7 @@ export default {
     async updateUser(id) {
       try {
         const response = await this.$axios.put(
-          `http://localhost:4000/api/v1/admin/user/update/${id}`,
+          `https://server-api-pizzago.herokuapp.com/api/v1/admin/user/update/${id}`,
           this.params,
           {
             headers: {

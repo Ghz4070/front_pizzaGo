@@ -78,7 +78,7 @@ export default {
     login() {
       let params = { email: this.email, password: this.password };
       return axios
-        .post(`http://localhost:4000/api/v1/user/connection`, params)
+        .post(`https://server-api-pizzago.herokuapp.com/api/v1/user/connection`, params)
         .then(res => {
           if (res.data.status == "success") {
             this.login_toast.text = "Connexion réaliser avec succées.";

@@ -64,7 +64,7 @@ export default {
       this.check = true;
       let params = { email: this.email };
       return axios
-        .post(`http://localhost:4000/api/v1/user/forgetPassword`, params)
+        .post(`https://server-api-pizzago.herokuapp.com/api/v1/user/forgetPassword`, params)
         .then(res => {
           if (res.data.status == "success") {
             this.login_toast.text =

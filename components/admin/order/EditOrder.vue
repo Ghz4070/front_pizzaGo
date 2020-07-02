@@ -94,7 +94,7 @@ export default {
       this.getDatas();
       try {
         const response = await this.$axios.put(
-          `http://localhost:4000/api/v1/admin/order/update`,
+          `https://server-api-pizzago.herokuapp.com/api/v1/admin/order/update`,
           this.params,
           {
             headers: {

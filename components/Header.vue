@@ -161,7 +161,7 @@ export default {
       this.display = true;
       const getToken = localStorage.getItem("x-access-token");
       const getUser = await axios.get(
-        "http://localhost:4000/api/v1/admin/user/currentUser",
+        "https://server-api-pizzago.herokuapp.com/api/v1/admin/user/currentUser",
         { headers: { "x-access-token": getToken } }
       );
       const getUserObject = getUser.data.result.users[0];
@@ -173,7 +173,7 @@ export default {
     async checkAdmin() {
       const getToken = localStorage.getItem("x-access-token");
       const check = await axios.get(
-        "http://localhost:4000/api/v1/user/checkuser",
+        "https://server-api-pizzago.herokuapp.com/api/v1/user/checkuser",
         { headers: { "x-access-token": getToken } }
       );
       check.data.role.forEach(el => {

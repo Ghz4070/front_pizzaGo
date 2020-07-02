@@ -74,7 +74,7 @@ export default {
       try {
         this.params.price = Number(this.params.price);
         const response = await this.$axios.put(
-          `http://localhost:4000/api/v1/admin/dessert/update`,
+          `https://server-api-pizzago.herokuapp.com/api/v1/admin/dessert/update`,
           this.params,
           {
             headers: {
