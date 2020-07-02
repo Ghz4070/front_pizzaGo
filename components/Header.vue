@@ -7,7 +7,8 @@
           <template v-if="img">
             <nuxt-link to="/">Accueil</nuxt-link>
             <nuxt-link to="/order">Commander</nuxt-link>
-            <nuxt-link to>Contact</nuxt-link>
+            <nuxt-link v-if="admin" to="/admin">Admin</nuxt-link>
+            <nuxt-link to="/contact">Contact</nuxt-link>
             <div class="text-center">
               <v-menu offset-y>
                 <template v-slot:activator="{ on, attrs }">
@@ -18,44 +19,7 @@
                     <v-list-item-title>Profil</v-list-item-title>
                   </v-list-item>
                   <v-dialog v-model="display" max-width="400">
-                    <v-card>
-                      <v-card-title class="headline">Mes informations</v-card-title>
-                      <template v-if="userInformation">
-                        <v-form @submit="updateProfil">
-                          <v-text-field
-                            class="pl-4 pr-4"
-                            v-for="(value, key) in userInformation"
-                            :label="key"
-                            :value="value"
-                            :key="key"
-                            required
-                          />
-                          <button>yes</button>
-                        </v-form>
-                      </template>
-                       <v-snackbar v-model="fieldValide_toast.snackbar">
-                              {{ fieldValide_toast.text }}
-                              <template v-slot:action="{ attrs }">
-                                <v-btn
-                                  color="pink"
-                                  text
-                                  v-bind="attrs"
-                                  @click="fieldValide_toast.snackbar = false"
-                                >X</v-btn>
-                              </template>
-                            </v-snackbar>
-                      <v-snackbar v-model="field_toast.snackbar">
-                        {{ field_toast.text }}
-                        <template v-slot:action="{ attrs }">
-                          <v-btn
-                            color="pink"
-                            text
-                            v-bind="attrs"
-                            @click="field_toast.snackbar = false"
-                          >X</v-btn>
-                        </template>
-                      </v-snackbar>
-                    </v-card>
+                    <User />
                   </v-dialog>
                   <v-list-item @click="deconnection">
                     <v-list-item-title>Déconnection</v-list-item-title>
@@ -70,9 +34,6 @@
             <nuxt-link to="/inscription">Inscription</nuxt-link>
             <nuxt-link to="/order">Commander</nuxt-link>
             <nuxt-link to="/contact">Contact</nuxt-link>
-            <!-- v-if="ROLE == ADMIN" -->
-            <nuxt-link to="/admin">Admin</nuxt-link>
-            <!-- ROLE == ADMIN -->
           </template>
         </nav>
       </div>
@@ -104,52 +65,15 @@
                     <template v-if="img">
                       <div @click="dialog = false" class="mobile-menu">
                         <nuxt-link to="/">Accueil</nuxt-link>
-                        <nuxt-link to="order">Commander</nuxt-link>
+                        <nuxt-link v-if="admin" to="/admin">Admin</nuxt-link>
+                        <nuxt-link to="/order">Commander</nuxt-link>
                         <a @click.stop="profil">
                           Profile
                         </a>
                         <v-dialog v-model="display" max-width="400">
-                          <v-card>
-                            <v-card-title class="headline">Mes informations</v-card-title>
-                            <template v-if="userInformation">
-                              <v-form @submit="updateProfil">
-                                <v-text-field
-                                  class="pl-4 pr-4"
-                                  v-for="(value, key) in userInformation"
-                                  :label="key"
-                                  :value="value"
-                                  :key="key"
-                                  required
-                                />
-
-                                <button>yes</button>
-                              </v-form>
-                            </template>
-                            <v-snackbar v-model="fieldValide_toast.snackbar">
-                              {{ fieldValide_toast.text }}
-                              <template v-slot:action="{ attrs }">
-                                <v-btn
-                                  color="pink"
-                                  text
-                                  v-bind="attrs"
-                                  @click="fieldValide_toast.snackbar = false"
-                                >X</v-btn>
-                              </template>
-                            </v-snackbar>
-                            <v-snackbar v-model="field_toast.snackbar">
-                              {{ field_toast.text }}
-                              <template v-slot:action="{ attrs }">
-                                <v-btn
-                                  color="pink"
-                                  text
-                                  v-bind="attrs"
-                                  @click="field_toast.snackbar = false"
-                                >X</v-btn>
-                              </template>
-                            </v-snackbar>
-                          </v-card>
+                          <User />
                         </v-dialog>
-                        <nuxt-link to="contact">Contact</nuxt-link>
+                        <nuxt-link to="/contact">Contact</nuxt-link>
                         <button @click="deconnection">Déconnexion</button>
                       </div>
                     </template>
@@ -180,24 +104,22 @@
 import { EventBus } from "../bus.js";
 import KJUR from "jsrsasign";
 import axios from "axios";
+import User from '~/components/user/User.vue'
 
 export default {
+  components: {
+        User
+    },
   data() {
     return {
       img: "",
+      admin: false,
       dialogFullScreen: false,
       dialog: false,
       display: false,
       userInformation: {},
       id: "",
-      field_toast: {
-        snackbar: false,
-        text: "Veuillez laisser aucun champs vide"
-      },
-      fieldValide_toast: {
-        snackbar: false,
-        text: "Votre compte a bien été mis à jour"
-      }
+      
     };
   },
   created() {
@@ -207,10 +129,10 @@ export default {
   },
   mounted() {
     this.checkStorage();
+    this.checkAdmin();
   },
   methods: {
     checkStorage() {
-      console.log(localStorage.getItem("x-access-token"));
       if (localStorage.getItem("x-access-token") && this.checkTokenSession()) {
         this.img = true;
       } else {
@@ -250,50 +172,20 @@ export default {
       delete getUserObject.id;
       this.userInformation = getUserObject;
     },
-    async updateProfil(e) {
-      e.preventDefault();
 
-      const headers = {
-        headers: {
-          "x-access-token": localStorage.getItem("x-access-token")
-        }
-      };
-
-      const userObject = {
-        city: e.target[0].value,
-        tel: e.target[1].value,
-        zip: e.target[2].value,
-        email: e.target[3].value,
-        firstname: e.target[4].value,
-        lastname: e.target[5].value,
-        address: e.target[6].value,
-        id: this.id
-      };
-
-      if (!this.checkInputEmpty(userObject)) {
-        userObject.zip = parseInt(userObject.zip, 10);
-        const updateUser = await axios.put(
-          "http://localhost:4000/api/v1/admin/user/updateCurrentUser",
-          userObject,
-          headers
-        );
-        this.fieldValide_toast.snackbar = true;
-        setTimeout(() => this.display = false, 2000);
-      }
+    async checkAdmin() {
+      const getToken = localStorage.getItem("x-access-token");
+      const check = await axios.get(
+        "http://localhost:4000/api/v1/user/checkuser",
+        { headers: { "x-access-token": getToken } }
+      );
+      (check.data).forEach(el => {
+        el == 'ROLE_ADMIN' ? this.admin = true : '';
+      });
+      
     },
-    checkInputEmpty(userObject) {
-      for (let element in userObject) {
-        if (
-          userObject[element].trim() === null ||
-          userObject[element].trim() === "" ||
-          userObject[element].trim() === undefined
-        ) {
-          this.field_toast.snackbar = true;
-          return true;
-        }
-      }
-      return false;
-    }
+  
+   
   }
 };
 </script>
