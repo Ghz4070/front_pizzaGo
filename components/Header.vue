@@ -190,6 +190,17 @@ export default {
     },
 
     async checkAdmin() {
+
+      const getToken = localStorage.getItem("x-access-token");
+      const check = await axios.get(
+        "https://server-api-pizzago.herokuapp.com/api/v1/user/checkuser",
+        { headers: { "x-access-token": getToken } }
+      );
+      console.log(check);
+      check.data.role.forEach(el => {
+        el == "ROLE_ADMIN" ? (this.admin = true) : "";
+      });
+      /*
       if (this.getToken) {
         const check = await axios.get(
           "https://server-api-pizzago.herokuapp.com/api/v1/user/checkuser",
@@ -198,7 +209,8 @@ export default {
         if (check.data.role.indexOf("ROLE_ADMIN") != -1) {
           this.admin = true;
         }
-      }
+      }*/
+
     }
   }
 };
