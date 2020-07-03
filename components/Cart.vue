@@ -231,8 +231,8 @@ export default {
     async checkUserLogged() {
       if (this.getToken) {
         console.log("dedans");
-        const check = await axios.get(
-          "https://server-api-pizzago.herokuapp.com/user/checkuser",
+        const check = await axios.get(:
+          "https://server-api-pizzago.herokuapp.com/api/v1/user/checkuser",
           { headers: { "x-access-token": this.getToken } }
         );
         if (check.data.role.length > 0) {
