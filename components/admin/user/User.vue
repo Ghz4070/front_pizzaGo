@@ -29,7 +29,7 @@ export default {
     async getUsers() {
       try {
         const response = await this.$axios.get(
-          "http://localhost:4000/api/v1/admin/user",
+          "https://server-api-pizzago.herokuapp.com/api/v1/admin/user",
           {
             headers: {
               "x-access-token": localStorage.getItem("x-access-token")

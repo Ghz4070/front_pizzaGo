@@ -14,9 +14,7 @@
                 @click="() => deletePizzaCart(key)"
                 class="border-element-cart"
                 :key="element.name"
-              >
-                {{ element.name }}
-              </td>
+              >{{ element.name }}</td>
               <td :key="element.size">{{ element.size }}</td>
               <td :key="element.price">{{ element.price }} €</td>
               <td style="cursor:pointer" @click="getId(key)">Modifier</td>
@@ -24,37 +22,17 @@
                 <v-card class="pt-3 pr-3 pb-3 pl-3">
                   <v-expansion-panels>
                     <v-expansion-panel>
-                      <v-expansion-panel-header
-                        >Enlever les ingrédients de
-                        base</v-expansion-panel-header
-                      >
+                      <v-expansion-panel-header>
+                        Enlever les ingrédients de
+                        base
+                      </v-expansion-panel-header>
                       <v-expansion-panel-content>
                         <div class="d-flex flex-wrap flex-row">
-                          <v-switch
-                            v-model="switchSauce"
-                            class="ma-1"
-                            label="Sauce"
-                          />
-                          <v-switch
-                            v-model="switchViande"
-                            class="ma-1"
-                            label="Viande"
-                          />
-                          <v-switch
-                            v-model="switchFromage"
-                            class="ma-1"
-                            label="Fromage"
-                          />
-                          <v-switch
-                            v-model="switchLegume"
-                            class="ma-1"
-                            label="Légume"
-                          />
-                          <v-switch
-                            v-model="switchEpice"
-                            class="ma-1"
-                            label="Epice"
-                          />
+                          <v-switch v-model="switchSauce" class="ma-1" label="Sauce" />
+                          <v-switch v-model="switchViande" class="ma-1" label="Viande" />
+                          <v-switch v-model="switchFromage" class="ma-1" label="Fromage" />
+                          <v-switch v-model="switchLegume" class="ma-1" label="Légume" />
+                          <v-switch v-model="switchEpice" class="ma-1" label="Epice" />
                         </div>
                         <div id="switchSauce" v-if="switchSauce">
                           <div>
@@ -75,8 +53,7 @@
                                 "
                                 text-color="white"
                                 @click:close="chip2 = false"
-                                >{{ element }}</v-chip
-                              >
+                              >{{ element }}</v-chip>
                             </div>
                           </div>
                         </div>
@@ -99,8 +76,7 @@
                                 "
                                 text-color="white"
                                 @click:close="chip2 = false"
-                                >{{ element }}</v-chip
-                              >
+                              >{{ element }}</v-chip>
                             </div>
                           </div>
                         </div>
@@ -123,8 +99,7 @@
                                 "
                                 text-color="white"
                                 @click:close="chip2 = false"
-                                >{{ element }}</v-chip
-                              >
+                              >{{ element }}</v-chip>
                             </div>
                           </div>
                         </div>
@@ -147,8 +122,7 @@
                                 "
                                 text-color="white"
                                 @click:close="chip2 = false"
-                                >{{ element }}</v-chip
-                              >
+                              >{{ element }}</v-chip>
                             </div>
                           </div>
                         </div>
@@ -171,23 +145,19 @@
                                 "
                                 text-color="white"
                                 @click:close="chip2 = false"
-                                >{{ element }}</v-chip
-                              >
+                              >{{ element }}</v-chip>
                             </div>
                           </div>
                         </div>
                       </v-expansion-panel-content>
                     </v-expansion-panel>
                     <v-expansion-panel>
-                      <v-expansion-panel-header
-                        >L'ingrédient supplémentaire à
-                        1€</v-expansion-panel-header
-                      >
+                      <v-expansion-panel-header>
+                        L'ingrédient supplémentaire à
+                        1€
+                      </v-expansion-panel-header>
                       <v-expansion-panel-content>
-                        <div
-                          class="d-flex flex-row flex-wrap justify-space-around"
-                          id="sauce"
-                        >
+                        <div class="d-flex flex-row flex-wrap justify-space-around" id="sauce">
                           <v-select
                             v-model="currentSelect.sauce"
                             label="Sauces"
@@ -209,9 +179,7 @@
                               ].ingrediantAdded.sauce"
                               :key="id"
                               @click="e => deleteIngrediant(e, id)"
-                            >
-                              {{ sauce }}
-                            </p>
+                            >{{ sauce }}</p>
                           </template>
                           <template v-else>
                             <p
@@ -220,15 +188,10 @@
                               v-for="(sauce, id) in ingrediantSelected.sauce"
                               :key="id"
                               @click="e => deleteIngrediant(e, id)"
-                            >
-                              {{ sauce }}
-                            </p>
+                            >{{ sauce }}</p>
                           </template>
                         </div>
-                        <div
-                          class="d-flex flex-row flex-wrap justify-space-around"
-                          id="viande"
-                        >
+                        <div class="d-flex flex-row flex-wrap justify-space-around" id="viande">
                           <v-select
                             v-model="currentSelect.viande"
                             label="Viandes"
@@ -249,9 +212,7 @@
                               ].ingrediantAdded.viande"
                               :key="id"
                               @click="e => deleteIngrediant(e, id)"
-                            >
-                              {{ viande }}
-                            </p>
+                            >{{ viande }}</p>
                           </template>
                           <template v-else>
                             <p
@@ -259,16 +220,11 @@
                               v-for="(viande, id) in ingrediantSelected.viande"
                               :key="id"
                               @click="e => deleteIngrediant(e, id)"
-                            >
-                              {{ viande }}
-                            </p>
+                            >{{ viande }}</p>
                           </template>
                         </div>
 
-                        <div
-                          class="d-flex flex-row flex-wrap justify-space-around"
-                          id="legume"
-                        >
+                        <div class="d-flex flex-row flex-wrap justify-space-around" id="legume">
                           <v-select
                             v-model="currentSelect.legume"
                             label="Légumes"
@@ -290,9 +246,7 @@
                               ].ingrediantAdded.legume"
                               :key="id"
                               @click="e => deleteIngrediant(e, id)"
-                            >
-                              {{ legume }}
-                            </p>
+                            >{{ legume }}</p>
                           </template>
                           <template v-else>
                             <p
@@ -301,16 +255,11 @@
                               v-for="(legume, id) in ingrediantSelected.legume"
                               :key="id"
                               @click="e => deleteIngrediant(e, id)"
-                            >
-                              {{ legume }}
-                            </p>
+                            >{{ legume }}</p>
                           </template>
                         </div>
 
-                        <div
-                          class="d-flex flex-row flex-wrap justify-space-around"
-                          id="fromage"
-                        >
+                        <div class="d-flex flex-row flex-wrap justify-space-around" id="fromage">
                           <v-select
                             v-model="currentSelect.fromage"
                             label="Fromages"
@@ -331,9 +280,7 @@
                               ].ingrediantAdded.fromage"
                               :key="id"
                               @click="e => deleteIngrediant(e, id)"
-                            >
-                              {{ fromage }}
-                            </p>
+                            >{{ fromage }}</p>
                           </template>
                           <template v-else>
                             <p
@@ -342,16 +289,11 @@
                               id) in ingrediantSelected.fromage"
                               :key="id"
                               @click="e => deleteIngrediant(e, id)"
-                            >
-                              {{ fromage }}
-                            </p>
+                            >{{ fromage }}</p>
                           </template>
                         </div>
 
-                        <div
-                          class="d-flex flex-row flex-wrap justify-space-around"
-                          id="epice"
-                        >
+                        <div class="d-flex flex-row flex-wrap justify-space-around" id="epice">
                           <v-select
                             v-model="currentSelect.epice"
                             label="Epices"
@@ -372,9 +314,7 @@
                               ].ingrediantAdded.epice"
                               :key="id"
                               @click="e => deleteIngrediant(e, id)"
-                            >
-                              {{ epice }}
-                            </p>
+                            >{{ epice }}</p>
                           </template>
                           <template v-else>
                             <p
@@ -382,21 +322,14 @@
                               v-for="(epice, id) in ingrediantSelected.epice"
                               :key="id"
                               @click="e => deleteIngrediant(e, id)"
-                            >
-                              {{ epice }}
-                            </p>
+                            >{{ epice }}</p>
                           </template>
                         </div>
 
                         <v-card-actions>
                           <v-spacer></v-spacer>
 
-                          <v-btn
-                            color="green darken-1"
-                            text
-                            @click="getAddIngrediant(key)"
-                            >Valider</v-btn
-                          >
+                          <v-btn color="green darken-1" text @click="getAddIngrediant(key)">Valider</v-btn>
                         </v-card-actions>
                         <v-snackbar v-model="addIngrediant_alert.snackbar">
                           {{ addIngrediant_alert.text }}
@@ -406,8 +339,7 @@
                               text
                               v-bind="attrs"
                               @click="addIngrediant.snackbar = false"
-                              >X</v-btn
-                            >
+                            >X</v-btn>
                           </template>
                         </v-snackbar>
                         <v-snackbar v-model="deleteIngrediant_alert.snackbar">
@@ -418,8 +350,7 @@
                               text
                               v-bind="attrs"
                               @click="deleteIngrediant.snackbar = false"
-                              >X</v-btn
-                            >
+                            >X</v-btn>
                           </template>
                         </v-snackbar>
                       </v-expansion-panel-content>
@@ -434,8 +365,7 @@
                       text
                       v-bind="attrs"
                       @click="errorIngrediant.snackbar = false"
-                      >X</v-btn
-                    >
+                    >X</v-btn>
                   </template>
                 </v-snackbar>
               </v-dialog>
@@ -449,9 +379,7 @@
                 @click="() => deleteDrinkCart(key)"
                 class="border-element-cart"
                 :key="element.name"
-              >
-                {{ element.name }}
-              </td>
+              >{{ element.name }}</td>
               <td :key="element.price">{{ element.price }} €</td>
             </tr>
           </template>
@@ -463,9 +391,7 @@
                 @click="() => deleteDessertCart(key)"
                 class="border-element-cart"
                 :key="element.name"
-              >
-                {{ element.name }}
-              </td>
+              >{{ element.name }}</td>
               <td :key="element.price">{{ element.price }} €</td>
             </tr>
           </template>

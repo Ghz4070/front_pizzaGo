@@ -14,23 +14,14 @@
           <v-container>
             <v-row>
               <v-col cols="12" md="12">
-                <v-text-field
-                  clearable
-                  label="Nom de la pizza"
-                  v-model="params.name"
-                ></v-text-field>
+                <v-text-field clearable label="Nom de la pizza" v-model="params.name"></v-text-field>
               </v-col>
 
               <v-col cols="12" md="12">
                 <h3 class="mb-3">Ingredients</h3>
               </v-col>
 
-              <v-col
-                v-for="ingredient in ingredients"
-                :key="ingredient.label"
-                cols="12"
-                md="12"
-              >
+              <v-col v-for="ingredient in ingredients" :key="ingredient.label" cols="12" md="12">
                 <v-autocomplete
                   v-model="params.composition.sauces.items"
                   :items="ingredient.sauces.items"
@@ -42,12 +33,7 @@
                 ></v-autocomplete>
               </v-col>
 
-              <v-col
-                v-for="ingredient in ingredients"
-                :key="ingredient.label"
-                cols="12"
-                md="6"
-              >
+              <v-col v-for="ingredient in ingredients" :key="ingredient.label" cols="12" md="6">
                 <v-autocomplete
                   v-model="params.composition.viandes.items"
                   :items="ingredient.viandes.items"
@@ -59,12 +45,7 @@
                 ></v-autocomplete>
               </v-col>
 
-              <v-col
-                v-for="ingredient in ingredients"
-                :key="ingredient.label"
-                cols="12"
-                md="6"
-              >
+              <v-col v-for="ingredient in ingredients" :key="ingredient.label" cols="12" md="6">
                 <v-autocomplete
                   v-model="params.composition.legumes.items"
                   :items="ingredient.legumes.items"
@@ -76,12 +57,7 @@
                 ></v-autocomplete>
               </v-col>
 
-              <v-col
-                v-for="(ingredient, index) in ingredients"
-                :key="index"
-                cols="12"
-                md="6"
-              >
+              <v-col v-for="(ingredient, index) in ingredients" :key="index" cols="12" md="6">
                 <v-autocomplete
                   v-model="params.composition.fromages.items"
                   :items="ingredient.fromages.items"
@@ -93,12 +69,7 @@
                 ></v-autocomplete>
               </v-col>
 
-              <v-col
-                v-for="ingredient in ingredients"
-                :key="ingredient.label"
-                cols="12"
-                md="6"
-              >
+              <v-col v-for="ingredient in ingredients" :key="ingredient.label" cols="12" md="6">
                 <v-autocomplete
                   v-model="params.composition.epices.items"
                   :items="ingredient.epices.items"
@@ -143,12 +114,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" class="ma-2" text @click="dialog = false"
-            >Annuler</v-btn
-          >
-          <v-btn color="blue darken-1" class="ma-2" text @click="editPizza()"
-            >Sauvegarder</v-btn
-          >
+          <v-btn color="blue darken-1" class="ma-2" text @click="dialog = false">Annuler</v-btn>
+          <v-btn color="blue darken-1" class="ma-2" text @click="editPizza()">Sauvegarder</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -192,7 +159,7 @@ export default {
   methods: {
     getAllCategories() {
       return axios
-        .get("http://localhost:4000/api/v1/category")
+        .get("https://server-api-pizzago.herokuapp.com/api/v1/category")
         .then(res => {
           res.data.result.forEach(element => {
             this.allCategories = [...this.allCategories, element.name];
@@ -205,7 +172,7 @@ export default {
     editPizza() {
       this.params.categoryId = this.dataPizza.category.id; // changer le name par son id
       return this.$axios
-        .put(`http://localhost:4000/api/v1/admin/pizza/update`, this.params, {
+        .put(`https://server-api-pizzago.herokuapp.com/api/v1/admin/pizza/update`, this.params, {
           headers: {
             "x-access-token": localStorage.getItem("x-access-token")
           }

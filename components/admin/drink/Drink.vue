@@ -37,10 +37,10 @@
                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                 height="200px"
               >
-                <v-card-title
-                  >{{ drink.name }} {{ drink.oz | volumeSign }} -
-                  {{ drink.price | euroSign }}</v-card-title
-                >
+                <v-card-title>
+                  {{ drink.name }} {{ drink.oz | volumeSign }} -
+                  {{ drink.price | euroSign }}
+                </v-card-title>
               </v-img>
               <v-card-actions>
                 <v-spacer></v-spacer>
@@ -94,7 +94,7 @@ export default {
   methods: {
     async getDrink() {
       return await this.$axios
-        .get("http://localhost:4000/api/v1/drink")
+        .get("https://server-api-pizzago.herokuapp.com/api/v1/drink")
         .then(res => {
           this.drinks = res.data.result;
         })
@@ -104,7 +104,7 @@ export default {
     },
     deleteDrink(id) {
       return this.$axios
-        .delete(`http://localhost:4000/api/v1/admin/drink/delete/${id}`, {
+        .delete(`https://server-api-pizzago.herokuapp.com/api/v1/admin/drink/delete/${id}`, {
           headers: {
             "x-access-token": localStorage.getItem("x-access-token")
           }

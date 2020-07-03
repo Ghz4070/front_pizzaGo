@@ -17,25 +17,13 @@
     <v-snackbar v-model="fieldValide_toast.snackbar">
       {{ fieldValide_toast.text }}
       <template v-slot:action="{ attrs }">
-        <v-btn
-          color="pink"
-          text
-          v-bind="attrs"
-          @click="fieldValide_toast.snackbar = false"
-          >X</v-btn
-        >
+        <v-btn color="pink" text v-bind="attrs" @click="fieldValide_toast.snackbar = false">X</v-btn>
       </template>
     </v-snackbar>
     <v-snackbar v-model="field_toast.snackbar">
       {{ field_toast.text }}
       <template v-slot:action="{ attrs }">
-        <v-btn
-          color="pink"
-          text
-          v-bind="attrs"
-          @click="field_toast.snackbar = false"
-          >X</v-btn
-        >
+        <v-btn color="pink" text v-bind="attrs" @click="field_toast.snackbar = false">X</v-btn>
       </template>
     </v-snackbar>
   </v-card>
@@ -67,7 +55,7 @@ export default {
       this.display = true;
       const getToken = localStorage.getItem("x-access-token");
       const getUser = await axios.get(
-        "http://localhost:4000/api/v1/admin/user/currentUser",
+        "https://server-api-pizzago.herokuapp.com/api/v1/admin/user/currentUser",
         { headers: { "x-access-token": getToken } }
       );
       const getUserObject = getUser.data.result.users[0];
@@ -98,7 +86,7 @@ export default {
       if (!this.checkInputEmpty(userObject)) {
         userObject.zip = parseInt(userObject.zip, 10);
         const updateUser = await axios.put(
-          "http://localhost:4000/api/v1/admin/user/updateCurrentUser",
+          "https://server-api-pizzago.herokuapp.com/api/v1/admin/user/updateCurrentUser",
           userObject,
           headers
         );
