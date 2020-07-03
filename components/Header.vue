@@ -146,6 +146,9 @@ export default {
     this.getToken = await this.getTokenLocal()
     this.checkStorage();
     this.checkAdmin();
+    console.log(this.getToken);
+    console.log(this.admin),
+    console.log(img)
   },
   methods: {
     checkStorage() {
