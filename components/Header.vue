@@ -142,8 +142,8 @@ export default {
       this.checkStorage();
     });
   },
-  mounted() {
-    this.getToken = localStorage.getItem("x-access-token");
+  async mounted() {
+    this.getToken = await this.getTokenLocal()
     this.checkStorage();
     this.checkAdmin();
   },
@@ -198,6 +198,12 @@ export default {
           this.admin = true;
         }
       }
+    },
+    getTokenLocal() {
+      return new Promise(next => {
+        const getToken = localStorage.getItem("x-access-token");
+        next(getToken || null)
+      })
     }
   }
 };
