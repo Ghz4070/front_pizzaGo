@@ -4,10 +4,10 @@
       <div class="d-flex flex-wrap flex-row justify-space-between align-center">
         <img src="~/static/PizzaGo_final.png" height="150" width="150" />
         <nav class="navigation d-flex flex-row flex-wrap align-center">
-          <div v-if="img">
+          <div v-show="img">
             <nuxt-link to="/">Accueil</nuxt-link>
             <nuxt-link to="/order">Commander</nuxt-link>
-            <nuxt-link v-if="admin" to="/admin">Admin</nuxt-link>
+            <nuxt-link v-show="admin" to="/admin">Admin</nuxt-link>
             <nuxt-link to="/contact">Contact</nuxt-link>
             <div class="text-center">
               <v-menu offset-y>
@@ -74,10 +74,10 @@
                     <v-icon>mdi-close</v-icon>
                   </v-btn>
                   <v-list three-line subheader>
-                    <div v-if="img">
+                    <template v-show="img">
                       <div @click="dialog = false" class="mobile-menu">
                         <nuxt-link to="/">Accueil</nuxt-link>
-                        <nuxt-link v-if="admin" to="/admin">Admin</nuxt-link>
+                        <nuxt-link v-show="admin" to="/admin">Admin</nuxt-link>
                         <nuxt-link to="/order">Commander</nuxt-link>
                         <a @click.stop="profil">Profile</a>
                         <v-dialog v-model="display" max-width="600">
@@ -86,8 +86,8 @@
                         <nuxt-link to="/contact">Contact</nuxt-link>
                         <button @click="deconnection">Déconnexion</button>
                       </div>
-                    </div>
-                    <div v-if="!img">
+                    </template>
+                    <template v-else>
                       <div @click="dialog = false" class="mobile-menu">
                         <nuxt-link to="/">Accueil</nuxt-link>
                         <nuxt-link to="/order">Commander</nuxt-link>
@@ -95,7 +95,7 @@
                         <nuxt-link to="/inscription">Inscription</nuxt-link>
                         <nuxt-link to="/contact">Contact</nuxt-link>
                       </div>
-                    </div>
+                    </template>
                   </v-list>
                   <div class="center">
                     <img
@@ -159,7 +159,12 @@ export default {
       const secret = process.env.SECRET;
       const algo = { alg: [process.env.ALGO] };
       const checkToken = KJUR.jws.JWS.verifyJWT(this.getToken, secret, algo);
+      console.log("secret");
+      console.log(secret);
+      console.log("algo");
 
+      console.log(algo);
+      console.log(checkToken);
       if (checkToken) {
         bool = true;
       } else {
@@ -197,7 +202,7 @@ export default {
         );
         console.log(check);
         if (check.data.role.indexOf("ROLE_ADMIN") != -1) {
-          console.log("admin role");
+          console.log("admin");
           this.admin = true;
         }
       }
