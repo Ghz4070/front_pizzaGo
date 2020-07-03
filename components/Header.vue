@@ -4,10 +4,10 @@
       <div class="d-flex flex-wrap flex-row justify-space-between align-center">
         <img src="~/static/PizzaGo_final.png" height="150" width="150" />
         <nav class="navigation d-flex flex-row flex-wrap align-center">
-          <div v-show="img">
+          <template v-if="img">
             <nuxt-link to="/">Accueil</nuxt-link>
             <nuxt-link to="/order">Commander</nuxt-link>
-            <nuxt-link v-show="admin" to="/admin">Admin</nuxt-link>
+            <nuxt-link v-if="admin" to="/admin">Admin</nuxt-link>
             <nuxt-link to="/contact">Contact</nuxt-link>
             <div class="text-center">
               <v-menu offset-y>
@@ -33,14 +33,14 @@
                 </v-list>
               </v-menu>
             </div>
-          </div>
-          <div v-else>
+          </template>
+          <template v-else>
             <nuxt-link to="/">Accueil</nuxt-link>
             <nuxt-link to="/login">Se connecter</nuxt-link>
             <nuxt-link to="/inscription">Inscription</nuxt-link>
             <nuxt-link to="/order">Commander</nuxt-link>
             <nuxt-link to="/contact">Contact</nuxt-link>
-          </div>
+          </template>
         </nav>
       </div>
     </div>
@@ -74,10 +74,10 @@
                     <v-icon>mdi-close</v-icon>
                   </v-btn>
                   <v-list three-line subheader>
-                    <template v-show="img">
+                    <template v-if="img">
                       <div @click="dialog = false" class="mobile-menu">
                         <nuxt-link to="/">Accueil</nuxt-link>
-                        <nuxt-link v-show="admin" to="/admin">Admin</nuxt-link>
+                        <nuxt-link v-if="admin" to="/admin">Admin</nuxt-link>
                         <nuxt-link to="/order">Commander</nuxt-link>
                         <a @click.stop="profil">Profile</a>
                         <v-dialog v-model="display" max-width="600">
@@ -159,12 +159,9 @@ export default {
       const secret = process.env.SECRET;
       const algo = { alg: [process.env.ALGO] };
       const checkToken = KJUR.jws.JWS.verifyJWT(this.getToken, secret, algo);
-      console.log("secret");
       console.log(secret);
-      console.log("algo");
-
       console.log(algo);
-      console.log(checkToken);
+
       if (checkToken) {
         bool = true;
       } else {
@@ -200,9 +197,7 @@ export default {
           "https://server-api-pizzago.herokuapp.com/api/v1/user/checkuser",
           { headers: { "x-access-token": this.getToken } }
         );
-        console.log(check);
         if (check.data.role.indexOf("ROLE_ADMIN") != -1) {
-          console.log("admin");
           this.admin = true;
         }
       }
