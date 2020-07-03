@@ -111,6 +111,7 @@ export default {
   data() {
     return {
       img: "",
+      getToken: "",
       admin: false,
       dialogFullScreen: false,
       dialog: false,
@@ -127,6 +128,7 @@ export default {
   mounted() {
     this.checkStorage();
     this.checkAdmin();
+    this.getToken = localStorage.getItem("x-access-token");
   },
   methods: {
     checkStorage() {
@@ -171,14 +173,15 @@ export default {
     },
 
     async checkAdmin() {
-      const getToken = localStorage.getItem("x-access-token");
-      const check = await axios.get(
-        "https://server-api-pizzago.herokuapp.com/api/v1/user/checkuser",
-        { headers: { "x-access-token": getToken } }
-      );
-      check.data.role.forEach(el => {
-        el == "ROLE_ADMIN" ? (this.admin = true) : "";
-      });
+      if (this.getToken) {
+        const check = await axios.get(
+          "https://server-api-pizzago.herokuapp.com/api/v1/user/checkuser",
+          { headers: { "x-access-token": this.getToken } }
+        );
+        if (check.data.role.indexOf("ROLE_ADMIN") != -1) {
+          this.admin = true;
+        }
+      }
     }
   }
 };
