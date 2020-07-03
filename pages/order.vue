@@ -1,14 +1,14 @@
 <template>
-    <Container />
+    <Order />
 </template>
 
 <script>
 
-import Container from '~/components/Container.vue'
+import Order from '~/components/Order.vue'
 
 export default {
     components: {
-        Container
+        Order
     }
 }
 </script>

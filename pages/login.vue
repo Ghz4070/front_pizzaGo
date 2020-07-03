@@ -1,14 +1,14 @@
 <template>
-    <Container />
+    <Login />
 </template>
 
 <script>
 
-import Container from '~/components/Container.vue'
+import Login from '~/components/Login.vue'
 
 export default {
     components: {
-        Container
+        Login
     }
 }
 </script>

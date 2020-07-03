@@ -1,18 +1,23 @@
 {
-  "name": "PizzaFast",
+  "name": "PizzaGo",
   "version": "1.0.0",
-  "description": "My spectacular Nuxt.js project",
+  "description": "Interface client pizzaGo project year end",
   "author": "ilies ghezal",
   "private": true,
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "heroku-postbuild": "npm run build"
   },
   "dependencies": {
+    "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/dotenv": "^1.4.1",
+    "jsrsasign": "^8.0.20",
     "nuxt": "^2.0.0",
-    "@nuxtjs/axios": "^5.3.6"
+    "stripe": "^8.67.0",
+    "vue-stripe-checkout": "^3.3.2"
   },
   "devDependencies": {
     "@nuxtjs/vuetify": "^1.0.0"
