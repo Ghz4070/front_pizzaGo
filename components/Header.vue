@@ -4,10 +4,10 @@
       <div class="d-flex flex-wrap flex-row justify-space-between align-center">
         <img src="~/static/PizzaGo_final.png" height="150" width="150" />
         <nav class="navigation d-flex flex-row flex-wrap align-center">
-          <template v-if="img">
+          <template v-if="getToken">
             <nuxt-link to="/">Accueil</nuxt-link>
             <nuxt-link to="/order">Commander</nuxt-link>
-            <nuxt-link v-if="admin" to="/admin">Admin</nuxt-link>
+            <nuxt-link v-if="getToken" to="/admin">Admin</nuxt-link>
             <nuxt-link to="/contact">Contact</nuxt-link>
             <div class="text-center">
               <v-menu offset-y>
@@ -74,10 +74,10 @@
                     <v-icon>mdi-close</v-icon>
                   </v-btn>
                   <v-list three-line subheader>
-                    <template v-if="img">
+                    <template v-if="getToken">
                       <div @click="dialog = false" class="mobile-menu">
                         <nuxt-link to="/">Accueil</nuxt-link>
-                        <nuxt-link v-if="admin" to="/admin">Admin</nuxt-link>
+                        <nuxt-link v-if="getToken" to="/admin">Admin</nuxt-link>
                         <nuxt-link to="/order">Commander</nuxt-link>
                         <a @click.stop="profil">Profile</a>
                         <v-dialog v-model="display" max-width="600">
