@@ -4,10 +4,10 @@
       <div class="d-flex flex-wrap flex-row justify-space-between align-center">
         <img src="~/static/PizzaGo_final.png" height="150" width="150" />
         <nav class="navigation d-flex flex-row flex-wrap align-center">
-          <template v-if="getToken">
+          <template v-if="img">
             <nuxt-link to="/">Accueil</nuxt-link>
             <nuxt-link to="/order">Commander</nuxt-link>
-            <nuxt-link v-if="getToken" to="/admin">Admin</nuxt-link>
+            <nuxt-link v-if="admin" to="/admin">Admin</nuxt-link>
             <nuxt-link to="/contact">Contact</nuxt-link>
             <div class="text-center">
               <v-menu offset-y>
@@ -74,12 +74,14 @@
                     <v-icon>mdi-close</v-icon>
                   </v-btn>
                   <v-list three-line subheader>
-                    <template v-if="getToken">
+                    <template v-if="img">
                       <div @click="dialog = false" class="mobile-menu">
                         <nuxt-link to="/">Accueil</nuxt-link>
-                        <nuxt-link v-if="getToken" to="/admin">Admin</nuxt-link>
+                        <nuxt-link v-if="admin" to="/admin">Admin</nuxt-link>
                         <nuxt-link to="/order">Commander</nuxt-link>
-                        <a @click.stop="profil">Profile</a>
+                        <a @click.stop="profil">
+                          Profile
+                        </a>
                         <v-dialog v-model="display" max-width="600">
                           <User />
                         </v-dialog>
@@ -118,8 +120,7 @@
 import { EventBus } from "../bus.js";
 import KJUR from "jsrsasign";
 import axios from "axios";
-import User from "@/components/users/User.vue";
-
+import User from "~/components/user/User.vue";
 export default {
   components: {
     User
@@ -141,31 +142,29 @@ export default {
       this.checkStorage();
     });
   },
-  async mounted() {
-    this.getToken = await localStorage.getItem("x-access-token");
+  mounted() {
     this.checkStorage();
     this.checkAdmin();
+    this.getToken = localStorage.getItem("x-access-token");
   },
   methods: {
     checkStorage() {
-      if (this.getToken && this.checkTokenSession()) {
+      if (localStorage.getItem("x-access-token") && this.checkTokenSession()) {
         this.img = true;
       } else {
         this.img = false;
       }
     },
     checkTokenSession() {
-      let bool;
+      const getToken = localStorage.getItem("x-access-token");
       const secret = process.env.SECRET;
       const algo = { alg: [process.env.ALGO] };
-      const checkToken = KJUR.jws.JWS.verifyJWT(this.getToken, secret, algo);
-
+      const checkToken = KJUR.jws.JWS.verifyJWT(getToken, secret, algo);
       if (checkToken) {
-        bool = true;
+        return true;
       } else {
-        bool = false;
+        return false;
       }
-      return bool;
     },
     deconnection() {
       localStorage.removeItem("x-access-token");
@@ -188,29 +187,17 @@ export default {
       delete getUserObject.id;
       this.userInformation = getUserObject;
     },
-
     async checkAdmin() {
-
-      const getToken = localStorage.getItem("x-access-token");
-      const check = await axios.get(
-        "https://server-api-pizzago.herokuapp.com/api/v1/user/checkuser",
-        { headers: { "x-access-token": getToken } }
-      );
-      console.log(check);
-      check.data.role.forEach(el => {
-        el == "ROLE_ADMIN" ? (this.admin = true) : "";
-      });
-      /*
       if (this.getToken) {
         const check = await axios.get(
           "https://server-api-pizzago.herokuapp.com/api/v1/user/checkuser",
           { headers: { "x-access-token": this.getToken } }
         );
+        console.log(check)
         if (check.data.role.indexOf("ROLE_ADMIN") != -1) {
           this.admin = true;
         }
-      }*/
-
+      }
     }
   }
 };
@@ -226,12 +213,10 @@ export default {
   border-radius: 10px;
   background-color: white;
 }
-
 .navigation a:hover {
   background-color: #979797;
   color: white;
 }
-
 .hamburger-menu {
   text-align: right;
   margin-top: 28px;
@@ -239,21 +224,18 @@ export default {
 .hamburger-menu:hover {
   filter: invert(100%);
 }
-
 .desktop-menu {
   display: grid;
   text-align: center;
   font-size: 30px;
   margin: 30%;
 }
-
 .desktop-menu a,
 p button {
   padding: 20px 0 0 0;
   text-decoration: none;
   color: #8c5b38;
 }
-
 .mobile-menu {
   display: grid;
   text-align: center;
@@ -274,7 +256,6 @@ button {
 .v-btn__content {
   color: black;
 }
-
 .close-btn {
   display: block;
   margin-left: auto;
