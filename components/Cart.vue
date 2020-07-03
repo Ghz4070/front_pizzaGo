@@ -110,7 +110,9 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-      <a v-else>Veuillez-vous connectez pour procéder au paiement !</a>
+      <a v-if="!userLogged"
+        >Veuillez-vous connectez pour procéder au paiement !</a
+      >
     </div>
     <v-snackbar v-model="pay_toast.snackbar">
       {{ pay_toast.text }}
@@ -140,6 +142,7 @@ export default {
   },
   data() {
     return {
+      getToken: "",
       userLogged: false,
       checkPay: false,
       pay_toast: { snackbar: false, text: "" },
@@ -172,6 +175,7 @@ export default {
         promo: this.promo
       };
 
+      console.log(this.totalPrice);
       let countTotal = 0;
 
       for (let element of stringToJSON.contents.pizzas) {
@@ -198,7 +202,8 @@ export default {
       return (this.cart = stringToJSON);
     }
   },
-  mounted() {
+  async mounted() {
+    this.getToken = await localStorage.getItem("x-access-token");
     this.checkUserLogged();
   },
   methods: {
@@ -217,8 +222,10 @@ export default {
       this.card = this.elements.create("card");
       this.card.mount("#card-element");
       const checkPrice = this.promo
-        ? this.cart.total.total - this.cart.total.total * (this.promo / 100)
-        : this.cart.total.total;
+        ? Number(this.cart.total.total) -
+          Number(this.cart.total.total) * (this.promo / 100)
+        : Number(this.cart.total.total);
+      console.log(this.amount);
       this.amount = checkPrice;
     },
     includeStripe(URL, callback) {
@@ -242,14 +249,16 @@ export default {
     // END METHOD FOR STRIPE //
 
     async checkUserLogged() {
-      const getToken = localStorage.getItem("x-access-token");
-      const check = await axios.get(
-        "http://localhost:4000/api/v1/user/checkuser",
-        { headers: { "x-access-token": getToken } }
-      );
-      check.data.role.forEach(el => {
-        el == "ROLE_USER" ? (this.userLogged = true) : "";
-      });
+      if (this.getToken) {
+        console.log("dedans");
+        const check = await axios.get(
+          "https://server-api-pizzago.herokuapp.com/user/checkuser",
+          { headers: { "x-access-token": this.getToken } }
+        );
+        if (check.data.role.length > 0) {
+          this.userLogged = true;
+        }
+      }
     },
     async saveOrder() {
       this.checkPay = true;
@@ -266,7 +275,7 @@ export default {
       };
 
       return axios
-        .post(`http://localhost:4000/api/v1/order/add`, params)
+        .post(`https://server-api-pizzago.herokuapp.com/api/v1/order/add`, params)
         .then(res => {
           if (res.data.status == "success") {
             setTimeout(() => {
@@ -297,14 +306,15 @@ export default {
 
     async submitPromo(e) {
       e.preventDefault();
-      if (e.target[0].value.trim() === "") return;
+      if (e.target[0].value.trim() === "")
+        return console.log("Veuillez remplir le champs");
       await this.checkPromo(e.target[0].value);
     },
 
     async getIdUserCurrent() {
       const getToken = localStorage.getItem("x-access-token");
       const check = await axios.get(
-        "http://localhost:4000/api/v1/user/checkuser",
+        "https://server-api-pizzago.herokuapp.com/api/v1/user/checkuser",
         { headers: { "x-access-token": getToken } }
       );
       return check.data.id;
@@ -312,7 +322,7 @@ export default {
 
     async checkPromo(namePromo) {
       const getPromo = await axios.get(
-        `http://localhost:4000/api/v1/promo/name/${namePromo}`
+        `https://server-api-pizzago.herokuapp.com/api/v1/promo/name/${namePromo}`
       );
       const { result } = getPromo.data;
       if (result === "No Promo found for this Name") return;
@@ -332,23 +342,23 @@ export default {
       this.getIdUserCurrent();
     },
     totalIngrediant(e) {
-      this.totalPrice.ingrediant = e;
+      this.totalPrice.ingrediant = Number(e);
       this.totalPrice.total =
-        this.totalPrice.pizza +
-        this.totalPrice.drink +
-        this.totalPrice.dessert +
-        this.totalPrice.ingrediant;
+        Number(this.totalPrice.pizza) +
+        Number(this.totalPrice.drink) +
+        Number(this.totalPrice.dessert) +
+        Number(this.totalPrice.ingrediant);
     },
     totalPizza(e) {
-      this.totalPrice.pizza = e;
+      this.totalPrice.pizza = Number(e);
       this.totalPrice.total =
-        this.totalPrice.pizza +
-        this.totalPrice.drink +
+        Number(this.totalPrice.pizza) +
+        Number(this.totalPrice.drink) +
         this.totalPrice.dessert +
         this.totalPrice.ingrediant;
     },
     totalDrink(e) {
-      this.totalPrice.drink = e;
+      this.totalPrice.drink = Number(e);
       this.totalPrice.total =
         this.totalPrice.pizza +
         this.totalPrice.drink +
@@ -356,7 +366,7 @@ export default {
         this.totalPrice.ingrediant;
     },
     totalDessert(e) {
-      this.totalPrice.dessert = e;
+      this.totalPrice.dessert = Number(e);
       this.totalPrice.total =
         this.totalPrice.pizza +
         this.totalPrice.drink +
@@ -422,7 +432,7 @@ export default {
     getTotalPizza() {
       let pizzaTotal = 0;
       for (let element of this.cart.contents.pizzas) {
-        pizzaTotal = pizzaTotal + element.price;
+        pizzaTotal = Number(pizzaTotal) + Number(element.price);
       }
       this.totalPizza(pizzaTotal);
     },
