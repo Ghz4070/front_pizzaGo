@@ -4,12 +4,10 @@
       <div class="d-flex flex-wrap flex-row justify-space-between align-center">
         <img src="~/static/PizzaGo_final.png" height="150" width="150" />
         <nav class="navigation d-flex flex-row flex-wrap align-center">
-          <template v-bind:class="{ hidden: !img }">
+          <div v-show="img">
             <nuxt-link to="/">Accueil</nuxt-link>
             <nuxt-link to="/order">Commander</nuxt-link>
-            <nuxt-link v-bind:class="{ hidden: !admin }" to="/admin"
-              >Admin</nuxt-link
-            >
+            <nuxt-link v-show="admin" to="/admin">Admin</nuxt-link>
             <nuxt-link to="/contact">Contact</nuxt-link>
             <div class="text-center">
               <v-menu offset-y>
@@ -35,14 +33,14 @@
                 </v-list>
               </v-menu>
             </div>
-          </template>
-          <template v-else>
+          </div>
+          <div v-else>
             <nuxt-link to="/">Accueil</nuxt-link>
             <nuxt-link to="/login">Se connecter</nuxt-link>
             <nuxt-link to="/inscription">Inscription</nuxt-link>
             <nuxt-link to="/order">Commander</nuxt-link>
             <nuxt-link to="/contact">Contact</nuxt-link>
-          </template>
+          </div>
         </nav>
       </div>
     </div>
@@ -76,16 +74,12 @@
                     <v-icon>mdi-close</v-icon>
                   </v-btn>
                   <v-list three-line subheader>
-                    <template v-bind:class="{ hidden: !img }">
+                    <template v-show="img">
                       <div @click="dialog = false" class="mobile-menu">
                         <nuxt-link to="/">Accueil</nuxt-link>
-                        <nuxt-link v-bind:class="{ hidden: !admin }" to="/admin"
-                          >Admin</nuxt-link
-                        >
+                        <nuxt-link v-show="admin" to="/admin">Admin</nuxt-link>
                         <nuxt-link to="/order">Commander</nuxt-link>
-                        <a @click.stop="profil">
-                          Profile
-                        </a>
+                        <a @click.stop="profil">Profile</a>
                         <v-dialog v-model="display" max-width="600">
                           <User />
                         </v-dialog>
@@ -125,6 +119,7 @@ import { EventBus } from "../bus.js";
 import KJUR from "jsrsasign";
 import axios from "axios";
 import User from "@/components/users/User.vue";
+
 export default {
   components: {
     User
@@ -147,30 +142,30 @@ export default {
     });
   },
   async mounted() {
-    this.getToken = await this.getTokenLocal();
+    this.getToken = await localStorage.getItem("x-access-token");
     this.checkStorage();
     this.checkAdmin();
-    console.log(this.getToken);
-    console.log(this.admin), console.log(img);
   },
   methods: {
     checkStorage() {
-      if (localStorage.getItem("x-access-token") && this.checkTokenSession()) {
+      if (this.getToken && this.checkTokenSession()) {
         this.img = true;
       } else {
         this.img = false;
       }
     },
     checkTokenSession() {
-      const getToken = localStorage.getItem("x-access-token");
+      let bool;
       const secret = process.env.SECRET;
       const algo = { alg: [process.env.ALGO] };
-      const checkToken = KJUR.jws.JWS.verifyJWT(getToken, secret, algo);
+      const checkToken = KJUR.jws.JWS.verifyJWT(this.getToken, secret, algo);
+
       if (checkToken) {
-        return true;
+        bool = true;
       } else {
-        return false;
+        bool = false;
       }
+      return bool;
     },
     deconnection() {
       localStorage.removeItem("x-access-token");
@@ -193,6 +188,7 @@ export default {
       delete getUserObject.id;
       this.userInformation = getUserObject;
     },
+
     async checkAdmin() {
       if (this.getToken) {
         const check = await axios.get(
@@ -201,15 +197,10 @@ export default {
         );
         console.log(check);
         if (check.data.role.indexOf("ROLE_ADMIN") != -1) {
+          console.log("admin role");
           this.admin = true;
         }
       }
-    },
-    getTokenLocal() {
-      return new Promise(next => {
-        const getToken = localStorage.getItem("x-access-token");
-        next(getToken || null);
-      });
     }
   }
 };
@@ -225,10 +216,12 @@ export default {
   border-radius: 10px;
   background-color: white;
 }
+
 .navigation a:hover {
   background-color: #979797;
   color: white;
 }
+
 .hamburger-menu {
   text-align: right;
   margin-top: 28px;
@@ -236,18 +229,21 @@ export default {
 .hamburger-menu:hover {
   filter: invert(100%);
 }
+
 .desktop-menu {
   display: grid;
   text-align: center;
   font-size: 30px;
   margin: 30%;
 }
+
 .desktop-menu a,
 p button {
   padding: 20px 0 0 0;
   text-decoration: none;
   color: #8c5b38;
 }
+
 .mobile-menu {
   display: grid;
   text-align: center;
@@ -268,12 +264,10 @@ button {
 .v-btn__content {
   color: black;
 }
+
 .close-btn {
   display: block;
   margin-left: auto;
   padding: 10px 20px 0 0;
-}
-.hidden {
-  display: none;
 }
 </style>
