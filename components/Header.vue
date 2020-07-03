@@ -176,6 +176,7 @@ export default {
         "https://server-api-pizzago.herokuapp.com/api/v1/user/checkuser",
         { headers: { "x-access-token": getToken } }
       );
+      console.log(check);
       check.data.role.forEach(el => {
         el == "ROLE_ADMIN" ? (this.admin = true) : "";
       });
