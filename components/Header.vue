@@ -4,10 +4,12 @@
       <div class="d-flex flex-wrap flex-row justify-space-between align-center">
         <img src="~/static/PizzaGo_final.png" height="150" width="150" />
         <nav class="navigation d-flex flex-row flex-wrap align-center">
-          <template v-if="img">
+          <template v-bind:class="{ hidden: !img }">
             <nuxt-link to="/">Accueil</nuxt-link>
             <nuxt-link to="/order">Commander</nuxt-link>
-            <nuxt-link v-if="admin" to="/admin">Admin</nuxt-link>
+            <nuxt-link v-bind:class="{ hidden: !admin }" to="/admin"
+              >Admin</nuxt-link
+            >
             <nuxt-link to="/contact">Contact</nuxt-link>
             <div class="text-center">
               <v-menu offset-y>
@@ -74,10 +76,12 @@
                     <v-icon>mdi-close</v-icon>
                   </v-btn>
                   <v-list three-line subheader>
-                    <template v-if="img">
+                    <template v-bind:class="{ hidden: !img }">
                       <div @click="dialog = false" class="mobile-menu">
                         <nuxt-link to="/">Accueil</nuxt-link>
-                        <nuxt-link v-if="admin" to="/admin">Admin</nuxt-link>
+                        <nuxt-link v-bind:class="{ hidden: !admin }" to="/admin"
+                          >Admin</nuxt-link
+                        >
                         <nuxt-link to="/order">Commander</nuxt-link>
                         <a @click.stop="profil">
                           Profile
@@ -122,7 +126,7 @@ import KJUR from "jsrsasign";
 import axios from "axios";
 import User from "@/components/users/User.vue";
 export default {
-  components: { 
+  components: {
     User
   },
   data() {
@@ -143,12 +147,11 @@ export default {
     });
   },
   async mounted() {
-    this.getToken = await this.getTokenLocal()
+    this.getToken = await this.getTokenLocal();
     this.checkStorage();
     this.checkAdmin();
     console.log(this.getToken);
-    console.log(this.admin),
-    console.log(img)
+    console.log(this.admin), console.log(img);
   },
   methods: {
     checkStorage() {
@@ -196,7 +199,7 @@ export default {
           "https://server-api-pizzago.herokuapp.com/api/v1/user/checkuser",
           { headers: { "x-access-token": this.getToken } }
         );
-        console.log(check)
+        console.log(check);
         if (check.data.role.indexOf("ROLE_ADMIN") != -1) {
           this.admin = true;
         }
@@ -205,8 +208,8 @@ export default {
     getTokenLocal() {
       return new Promise(next => {
         const getToken = localStorage.getItem("x-access-token");
-        next(getToken || null)
-      })
+        next(getToken || null);
+      });
     }
   }
 };
@@ -269,5 +272,8 @@ button {
   display: block;
   margin-left: auto;
   padding: 10px 20px 0 0;
+}
+.hidden {
+  display: none;
 }
 </style>
