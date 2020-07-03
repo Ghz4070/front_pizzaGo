@@ -4,15 +4,21 @@
       <div class="d-flex flex-wrap flex-row justify-space-between align-center">
         <img src="~/static/PizzaGo_final.png" height="150" width="150" />
         <nav class="navigation d-flex flex-row flex-wrap align-center">
-          <template v-if="img">
+          <template v-if="getToken">
             <nuxt-link to="/">Accueil</nuxt-link>
             <nuxt-link to="/order">Commander</nuxt-link>
-            <nuxt-link v-if="admin" to="/admin">Admin</nuxt-link>
+            <nuxt-link v-if="getToken" to="/admin">Admin</nuxt-link>
             <nuxt-link to="/contact">Contact</nuxt-link>
             <div class="text-center">
               <v-menu offset-y>
                 <template v-slot:activator="{ on, attrs }">
-                  <img src="~/static/user.svg" height="30" width="30" v-bind="attrs" v-on="on" />
+                  <img
+                    src="~/static/user.svg"
+                    height="30"
+                    width="30"
+                    v-bind="attrs"
+                    v-on="on"
+                  />
                 </template>
                 <v-list>
                   <v-list-item @click.stop="profil">
@@ -55,17 +61,23 @@
                 transition="dialog-bottom-transition"
               >
                 <template v-slot:activator="{ on, attrs }">
-                  <img v-bind="attrs" v-on="on" src="~/static/menu.png" height="25" width="25" />
+                  <img
+                    v-bind="attrs"
+                    v-on="on"
+                    src="~/static/menu.png"
+                    height="25"
+                    width="25"
+                  />
                 </template>
                 <v-card>
                   <v-btn class="close-btn" icon dark @click="dialog = false">
                     <v-icon>mdi-close</v-icon>
                   </v-btn>
                   <v-list three-line subheader>
-                    <template v-if="img">
+                    <template v-if="getToken">
                       <div @click="dialog = false" class="mobile-menu">
                         <nuxt-link to="/">Accueil</nuxt-link>
-                        <nuxt-link v-if="admin" to="/admin">Admin</nuxt-link>
+                        <nuxt-link v-if="getToken" to="/admin">Admin</nuxt-link>
                         <nuxt-link to="/order">Commander</nuxt-link>
                         <a @click.stop="profil">Profile</a>
                         <v-dialog v-model="display" max-width="600">
@@ -86,7 +98,11 @@
                     </template>
                   </v-list>
                   <div class="center">
-                    <img src="~/static/PizzaGo_final.png" height="150" width="150" />
+                    <img
+                      src="~/static/PizzaGo_final.png"
+                      height="150"
+                      width="150"
+                    />
                   </div>
                 </v-card>
               </v-dialog>
@@ -111,6 +127,7 @@ export default {
   data() {
     return {
       img: "",
+      getToken: "",
       admin: false,
       dialogFullScreen: false,
       dialog: false,
@@ -124,29 +141,31 @@ export default {
       this.checkStorage();
     });
   },
-  mounted() {
+  async mounted() {
+    this.getToken = await localStorage.getItem("x-access-token");
     this.checkStorage();
     this.checkAdmin();
   },
   methods: {
     checkStorage() {
-      if (localStorage.getItem("x-access-token") && this.checkTokenSession()) {
+      if (this.getToken && this.checkTokenSession()) {
         this.img = true;
       } else {
         this.img = false;
       }
     },
     checkTokenSession() {
-      const getToken = localStorage.getItem("x-access-token");
+      let bool;
       const secret = process.env.SECRET;
       const algo = { alg: [process.env.ALGO] };
-      const checkToken = KJUR.jws.JWS.verifyJWT(getToken, secret, algo);
+      const checkToken = KJUR.jws.JWS.verifyJWT(this.getToken, secret, algo);
 
       if (checkToken) {
-        return true;
+        bool = true;
       } else {
-        return false;
+        bool = false;
       }
+      return bool;
     },
     deconnection() {
       localStorage.removeItem("x-access-token");
@@ -171,6 +190,7 @@ export default {
     },
 
     async checkAdmin() {
+
       const getToken = localStorage.getItem("x-access-token");
       const check = await axios.get(
         "https://server-api-pizzago.herokuapp.com/api/v1/user/checkuser",
@@ -180,6 +200,17 @@ export default {
       check.data.role.forEach(el => {
         el == "ROLE_ADMIN" ? (this.admin = true) : "";
       });
+      /*
+      if (this.getToken) {
+        const check = await axios.get(
+          "https://server-api-pizzago.herokuapp.com/api/v1/user/checkuser",
+          { headers: { "x-access-token": this.getToken } }
+        );
+        if (check.data.role.indexOf("ROLE_ADMIN") != -1) {
+          this.admin = true;
+        }
+      }*/
+
     }
   }
 };

@@ -96,7 +96,9 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-      <a v-else>Veuillez-vous connectez pour procéder au paiement !</a>
+      <a v-if="!userLogged"
+        >Veuillez-vous connectez pour procéder au paiement !</a
+      >
     </div>
     <v-snackbar v-model="pay_toast.snackbar">
       {{ pay_toast.text }}
@@ -120,6 +122,7 @@ export default {
   },
   data() {
     return {
+      getToken: "",
       userLogged: false,
       checkPay: false,
       pay_toast: { snackbar: false, text: "" },
@@ -144,7 +147,7 @@ export default {
   },
   watch: {
     boolStorage() {
-     
+
       const local = localStorage.getItem("datas");
       let stringToJSON = JSON.parse(local);
       stringToJSON = {
@@ -152,7 +155,7 @@ export default {
         total: this.totalPrice,
         promo: this.promo
       };
-      
+
       let countTotal = 0;
 
       for (let element of stringToJSON.contents.pizzas) {
@@ -179,7 +182,8 @@ export default {
       return (this.cart = stringToJSON);
     }
   },
-  mounted() {
+  async mounted() {
+    this.getToken = await localStorage.getItem("x-access-token");
     this.checkUserLogged();
   },
   methods: {
@@ -198,8 +202,10 @@ export default {
       this.card = this.elements.create("card");
       this.card.mount("#card-element");
       const checkPrice = this.promo
-        ? this.cart.total.total - this.cart.total.total * (this.promo / 100)
-        : this.cart.total.total;
+        ? Number(this.cart.total.total) -
+          Number(this.cart.total.total) * (this.promo / 100)
+        : Number(this.cart.total.total);
+      console.log(this.amount);
       this.amount = checkPrice;
     },
     includeStripe(URL, callback) {
@@ -223,14 +229,16 @@ export default {
     // END METHOD FOR STRIPE //
 
     async checkUserLogged() {
-      const getToken = localStorage.getItem("x-access-token");
-      const check = await axios.get(
-        "https://server-api-pizzago.herokuapp.com/api/v1/user/checkuser",
-        { headers: { "x-access-token": getToken } }
-      );
-      check.data.role.forEach(el => {
-        el == "ROLE_USER" ? (this.userLogged = true) : "";
-      });
+      if (this.getToken) {
+        console.log("dedans");
+        const check = await axios.get(
+          "https://server-api-pizzago.herokuapp.com/api/v1/user/checkuser",
+          { headers: { "x-access-token": this.getToken } }
+        );
+        if (check.data.role.length > 0) {
+          this.userLogged = true;
+        }
+      }
     },
     async saveOrder() {
       this.checkPay = true;
@@ -278,7 +286,8 @@ export default {
 
     async submitPromo(e) {
       e.preventDefault();
-      if (e.target[0].value.trim() === "") return;
+      if (e.target[0].value.trim() === "")
+        return console.log("Veuillez remplir le champs");
       await this.checkPromo(e.target[0].value);
     },
 
@@ -314,23 +323,23 @@ export default {
       this.getIdUserCurrent();
     },
     totalIngrediant(e) {
-      this.totalPrice.ingrediant = parseInt(e, 10);
+      this.totalPrice.ingrediant = Number(e);
       this.totalPrice.total =
-        this.totalPrice.pizza +
-        this.totalPrice.drink +
-        this.totalPrice.dessert +
-        this.totalPrice.ingrediant;
+        Number(this.totalPrice.pizza) +
+        Number(this.totalPrice.drink) +
+        Number(this.totalPrice.dessert) +
+        Number(this.totalPrice.ingrediant);
     },
     totalPizza(e) {
-      this.totalPrice.pizza = parseInt(e, 10);
+      this.totalPrice.pizza = Number(e);
       this.totalPrice.total =
-        this.totalPrice.pizza +
-        this.totalPrice.drink +
+        Number(this.totalPrice.pizza) +
+        Number(this.totalPrice.drink) +
         this.totalPrice.dessert +
         this.totalPrice.ingrediant;
     },
     totalDrink(e) {
-      this.totalPrice.drink = parseInt(e, 10);
+      this.totalPrice.drink = Number(e);
       this.totalPrice.total =
         this.totalPrice.pizza +
         this.totalPrice.drink +
@@ -338,7 +347,7 @@ export default {
         this.totalPrice.ingrediant;
     },
     totalDessert(e) {
-      this.totalPrice.dessert = parseInt(e, 10);
+      this.totalPrice.dessert = Number(e);
       this.totalPrice.total =
         this.totalPrice.pizza +
         this.totalPrice.drink +
@@ -404,7 +413,7 @@ export default {
     getTotalPizza() {
       let pizzaTotal = 0;
       for (let element of this.cart.contents.pizzas) {
-        pizzaTotal = pizzaTotal + element.price;
+        pizzaTotal = Number(pizzaTotal) + Number(element.price);
       }
       this.totalPizza(pizzaTotal);
     },

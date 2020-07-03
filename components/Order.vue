@@ -86,7 +86,7 @@ export default {
     },
     getPosition() {
       return axios
-        .get(`http://ipinfo.io?token=83a55ee23815fd`, {
+        .get(`https://ipinfo.io?token=83a55ee23815fd`, {
           headers: {
             "Content-Type": "jsonp"
           }
