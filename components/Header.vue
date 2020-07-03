@@ -156,11 +156,9 @@ export default {
     },
     checkTokenSession() {
       let bool;
-      const secret = process.env.SECRET;
-      const algo = { alg: [process.env.ALGO] };
+      const secret = "AlexLePlusBeauDeLaTerreMachallah";
+      const algo = { alg: ["HS256"] };
       const checkToken = KJUR.jws.JWS.verifyJWT(this.getToken, secret, algo);
-      console.log(secret);
-      console.log(algo);
 
       if (checkToken) {
         bool = true;
