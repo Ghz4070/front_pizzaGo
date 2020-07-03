@@ -120,9 +120,9 @@
 import { EventBus } from "../bus.js";
 import KJUR from "jsrsasign";
 import axios from "axios";
-import User from "~/components/user/User.vue";
+import User from "@/components/users/User.vue";
 export default {
-  components: {
+  components: { 
     User
   },
   data() {
@@ -142,10 +142,10 @@ export default {
       this.checkStorage();
     });
   },
-  mounted() {
+  async mounted() {
+    this.getToken = await this.getTokenLocal()
     this.checkStorage();
     this.checkAdmin();
-    this.getToken = localStorage.getItem("x-access-token");
   },
   methods: {
     checkStorage() {
@@ -198,6 +198,12 @@ export default {
           this.admin = true;
         }
       }
+    },
+    getTokenLocal() {
+      return new Promise(next => {
+        const getToken = localStorage.getItem("x-access-token");
+        next(getToken || null)
+      })
     }
   }
 };
