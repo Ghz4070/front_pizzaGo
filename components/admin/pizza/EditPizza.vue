@@ -132,7 +132,7 @@ export default {
   data: () => ({
     dialog: false,
     allCategories: [],
-    idCategories: undefined,
+    idCategories: null,
     params: {
       id: null,
       categoryId: null,

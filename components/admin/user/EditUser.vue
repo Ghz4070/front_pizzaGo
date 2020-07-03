@@ -74,18 +74,7 @@
                     label="Email"
                   ></v-text-field>
                 </v-col>
-                <v-col cols="12" xl="3" lg="4" md="6">
-                  <v-select
-                    clearable
-                    v-model="params.roles"
-                    :items="items"
-                    chips
-                    multiple
-                    dense
-                    prepend-icon="mdi-pencil"
-                    label="Roles"
-                  ></v-select>
-                </v-col>
+                
               </v-row>
             </v-container>
             <v-row align="end" justify="end">
