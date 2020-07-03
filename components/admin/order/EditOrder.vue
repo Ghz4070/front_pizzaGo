@@ -144,7 +144,7 @@ export default {
     saveOrder() {
       this.getDatas();
       this.$axios
-        .put(`http://localhost:4000/api/v1/admin/order/update`, this.params, {
+        .put(`https://server-api-pizzago.herokuapp.com/api/v1/admin/order/update`, this.params, {
           headers: {
             "x-access-token": localStorage.getItem("x-access-token")
           }

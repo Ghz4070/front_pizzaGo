@@ -12,7 +12,13 @@
             <div class="text-center">
               <v-menu offset-y>
                 <template v-slot:activator="{ on, attrs }">
-                  <img src="~/static/user.svg" height="30" width="30" v-bind="attrs" v-on="on" />
+                  <img
+                    src="~/static/user.svg"
+                    height="30"
+                    width="30"
+                    v-bind="attrs"
+                    v-on="on"
+                  />
                 </template>
                 <v-list>
                   <v-list-item @click.stop="profil">
@@ -55,7 +61,13 @@
                 transition="dialog-bottom-transition"
               >
                 <template v-slot:activator="{ on, attrs }">
-                  <img v-bind="attrs" v-on="on" src="~/static/menu.png" height="25" width="25" />
+                  <img
+                    v-bind="attrs"
+                    v-on="on"
+                    src="~/static/menu.png"
+                    height="25"
+                    width="25"
+                  />
                 </template>
                 <v-card>
                   <v-btn class="close-btn" icon dark @click="dialog = false">
@@ -86,7 +98,11 @@
                     </template>
                   </v-list>
                   <div class="center">
-                    <img src="~/static/PizzaGo_final.png" height="150" width="150" />
+                    <img
+                      src="~/static/PizzaGo_final.png"
+                      height="150"
+                      width="150"
+                    />
                   </div>
                 </v-card>
               </v-dialog>
@@ -125,30 +141,31 @@ export default {
       this.checkStorage();
     });
   },
-  mounted() {
+  async mounted() {
+    this.getToken = await localStorage.getItem("x-access-token");
     this.checkStorage();
     this.checkAdmin();
-    this.getToken = localStorage.getItem("x-access-token");
   },
   methods: {
     checkStorage() {
-      if (localStorage.getItem("x-access-token") && this.checkTokenSession()) {
+      if (this.getToken && this.checkTokenSession()) {
         this.img = true;
       } else {
         this.img = false;
       }
     },
     checkTokenSession() {
-      const getToken = localStorage.getItem("x-access-token");
-      const secret = process.env.SECRET;
-      const algo = { alg: [process.env.ALGO] };
-      const checkToken = KJUR.jws.JWS.verifyJWT(getToken, secret, algo);
+      let bool;
+      const secret = "AlexLePlusBeauDeLaTerreMachallah";
+      const algo = { alg: ["HS256"] };
+      const checkToken = KJUR.jws.JWS.verifyJWT(this.getToken, secret, algo);
 
       if (checkToken) {
-        return true;
+        bool = true;
       } else {
-        return false;
+        bool = false;
       }
+      return bool;
     },
     deconnection() {
       localStorage.removeItem("x-access-token");

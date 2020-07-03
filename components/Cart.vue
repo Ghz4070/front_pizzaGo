@@ -147,7 +147,7 @@ export default {
   },
   watch: {
     boolStorage() {
-     
+
       const local = localStorage.getItem("datas");
       let stringToJSON = JSON.parse(local);
       stringToJSON = {
@@ -232,7 +232,7 @@ export default {
       if (this.getToken) {
         console.log("dedans");
         const check = await axios.get(
-          "https://server-api-pizzago.herokuapp.com/user/checkuser",
+          "https://server-api-pizzago.herokuapp.com/api/v1/user/checkuser",
           { headers: { "x-access-token": this.getToken } }
         );
         if (check.data.role.length > 0) {
