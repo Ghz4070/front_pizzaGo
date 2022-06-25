@@ -14,7 +14,7 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/dotenv": "^1.4.1",
-    "jsrsasign": "^8.0.20",
+    "jsrsasign": "^10.5.25",
     "nuxt": "^2.0.0",
     "stripe": "^8.67.0",
     "vue-stripe-checkout": "^3.3.2"
